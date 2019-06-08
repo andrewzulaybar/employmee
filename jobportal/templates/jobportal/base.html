@@ -43,44 +43,6 @@
 
         <main role="main" class="container">
             {% block main %}
-            <h1>Hello, world!</h1>
-            {% for job in jobs %}
-
-        <div class="card">
-
-            <div class="card-body">
-                {% block savebutton %}{% endblock savebutton %}
-
-                <h4 class="card-title">{{ job.job1.title }}</h4>
-                <h6 class="card-subtitle mb-2 text-muted">Company: {{ job.job1.company }}</h6>
-                <p class="card-text">
-
-                <div class="row align-items-start">
-                <div class="col">
-                    Sector: {{ job.job1.sector }}
-                </div>
-                <div class="col">
-                    Location: {{ job.job1.city }}, {{ job.job1.prov_state }}
-                </div>
-                <div class="col">
-                    Deadline: in {{ job.job1.deadline }} days
-                </div>
-                {% block columns %}{% endblock columns %}
-            </div>
-                <hr>
-                <br><p>
-                We are looking for Amazon interns to join us for Fall 2019! Amazon interns have the opportunity to
-                work alongside the industry’s brightest engineers who innovate everyday on behalf of our customers.
-                Our interns and co-ops write real software and partner with a select group of experienced software
-                development engineers, who both help and challenge them as they work on projects that matter...
-            </p>
-                <div class="text-right">
-                    <a href="#!" class="btn btn-primary">See details >></a>
-                </div>
-            </div>
-        </div>
-
-            {% endfor %}
             {% endblock main %}
         </main>
 

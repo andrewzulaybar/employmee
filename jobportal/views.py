@@ -22,4 +22,4 @@ def home(request):
         }],
         'job_list': ['Amazon', 'Apple', 'Google']
     }
-    return render(request, 'jobportal/base.html', context)
+    return render(request, 'jobportal/home.html', context)
