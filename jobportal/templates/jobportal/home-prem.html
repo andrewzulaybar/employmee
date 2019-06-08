@@ -1,0 +1,22 @@
+{% extends "jobportal/home.html" %}
+
+{% block navbar %}
+<li class="nav-item px-2">
+    <a class="nav-link" href="#">Saved Jobs</a>
+</li>
+{% endblock navbar %}
+
+{% block savebutton %}
+<div class="text-right">
+    <a href="#!" class="btn btn-primary">+</a>
+</div>
+{% endblock savebutton %}
+
+{% block columns %}
+<div class="col">
+    Applications: {{ job.job1.applications }}
+</div>
+<div class="col">
+    Salary: {{ job.job1.salary }}
+</div>
+{% endblock columns %}
