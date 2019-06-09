@@ -12,3 +12,11 @@ html, body {
   width: 100%; /* Full width */
   z-index:1;
 }
+
+#reset {
+    border-radius: 0px 0px 0px 3px;
+}
+
+#apply {
+    border-radius: 0px 0px 3px 0px;
+}
