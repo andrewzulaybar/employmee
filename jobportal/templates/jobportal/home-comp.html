@@ -1,0 +1,31 @@
+{% extends "jobportal/home.html" %}
+
+{% block navbar %}
+<li class="nav-item px-2">
+    <a class="nav-link" href="#">Reports</a>
+</li>
+<li class="nav-item px-2">
+    <a class="nav-link" href="#">Create Posting</a>
+</li>
+{% endblock navbar %}
+
+{% block search %}
+<input class="form-control mr-sm-2" type="text" placeholder="Enter a job title"
+       style="width: 400px;">
+{% endblock search %}
+
+{% block columns %}
+<div class="col">
+    Applications: {{ job.job1.applications }}
+</div>
+<div class="col">
+    Salary: {{ job.job1.salary }}
+</div>
+{% endblock columns %}
+
+{% block detailsbutton %}
+<div class="text-right">
+    <button type="button" class="btn btn-success">Edit</button>
+    <a href="#!" class="btn btn-primary">See details >></a>
+</div>
+{% endblock detailsbutton %}
