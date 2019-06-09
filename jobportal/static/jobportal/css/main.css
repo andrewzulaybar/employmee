@@ -1,5 +1,5 @@
 html, body {
-    margin: 5px;
+    margin: 0px;
     padding: 0px;
     padding-top: 40px;
 }
@@ -12,6 +12,7 @@ html, body {
   width: 100%; /* Full width */
   z-index:1;
 }
+
 .table {
   border-collapse: separate;
   border-style: hidden;

@@ -1,7 +1,7 @@
 {% extends "jobportal/home.html" %}
 
 {% block navbar %}
-    {{ block.super }}
+{{ block.super }}
 <li class="nav-item px-2">
     <a class="nav-link" href="#">Saved Jobs</a>
 </li>
@@ -21,3 +21,29 @@
     Salary: {{ job.job1.salary }}
 </div>
 {% endblock columns %}
+
+{% block extrasort %}
+<form action="#" method="get">
+    <input type="submit" class="btn btn-primary btn-block m-1" value="Salary">
+</form>
+<form action="#" method="get">
+    <input type="submit" class="btn btn-primary btn-block m-1" value="Applications">
+</form>
+{% endblock extrasort %}
+
+{% block applicationsfilter %}
+<label for="applications">Applications</label>
+<form class="form-inline">
+    <input type="number" min="0" id="applications" class="form-control col-6 mx-2 mb-2">
+    <small id="applicationNum" class="text-muted">Applied</small>
+</form>
+{% endblock applicationsfilter %}
+
+
+{% block salaryfilter %}
+<label for="salary">Salary</label>
+<form class="form-inline">
+    <input type="number" min="0" step="5000" id="salary" class="form-control col-6 mx-2 mb-2">
+    <small id="salaryAmt" class="text-muted">Dollars</small>
+</form>
+{% endblock salaryfilter %}

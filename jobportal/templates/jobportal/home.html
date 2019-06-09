@@ -3,7 +3,7 @@
 {% block main %}
 <div class="row">
     <h1 class="col-8 col-sm-9 col-md-7 offset-md-1 col-lg-7 offset-lg-1">
-        Hello, world!
+        Hello, User!
     </h1>
 </div>
 <div class="row">
@@ -51,9 +51,11 @@
         <div class="card">
             <div class="card-header text-center" id="sort-by">Sort by...</div>
             <div class="card-body p-3">
+                {% block company %}
                 <form action="#" method="get">
                     <input type="submit" class="btn btn-primary btn-block m-1" value="Company">
                 </form>
+                {% endblock company %}
                 <form action="#" method="get">
                     <input type="submit" class="btn btn-primary btn-block m-1" value="Title">
                 </form>
@@ -66,6 +68,7 @@
                 <form action="#" method="get">
                     <input type="submit" class="btn btn-primary btn-block m-1" value="Location">
                 </form>
+                {% block extrasort %}{% endblock extrasort %}
             </div>
         </div>
         <!-- Filter By -->
@@ -239,11 +242,17 @@
                     </form>
 
                     <!-- Recent -->
-                    <label for="deadline">Recently Posted</label>
+                    <label for="recent">Recently Posted</label>
                     <form class="form-inline">
                         <input type="number" min="0" id="recent" class="form-control col-6 mx-2 mb-2">
                         <small id="recentDays" class="text-muted">Days</small>
                     </form>
+                    <!-- Applications -->
+                    {% block applicationsfilter %}
+                    {% endblock applicationsfilter %}
+                    <!-- Salary -->
+                    {% block salaryfilter %}
+                    {% endblock salaryfilter %}
                 </div>
             </div>
             <!-- Reset or Apply -->
