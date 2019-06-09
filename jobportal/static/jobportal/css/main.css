@@ -1,0 +1,37 @@
+html, body {
+    margin: 5px;
+    padding: 0px;
+    padding-top: 40px;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
+  z-index:1;
+}
+.table {
+  border-collapse: collapse;
+  border-style: hidden;
+}
+.table.td {
+  border: 5px solid black;
+}
+
+#apply{
+    border-radius: 0px 0px 3px 3px;
+}
+
+.scrollable{
+  overflow-y: auto;
+  max-height: 240px;
+}
+#reset {
+    border-radius: 0px 0px 0px 3px;
+}
+
+#applyFilter {
+    border-radius: 0px 0px 3px 0px;
+}
