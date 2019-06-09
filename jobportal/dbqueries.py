@@ -16,9 +16,9 @@ from django.db import connection
 # Location -> city, postalzip (join with job_location) todo
 class JobQuery:
     def __init__(self, sector_list, edu_list, type_list, skill_list, city_list, deadline, recent_post):
-        self.sector_list = ["sector = '{}'".format(x) for x in sector_list]
-        self.edu_list = ["min_education = '{}'".format(x) for x in edu_list]
-        self.type_list = ["employment_type = '{}'".format(x) for x in type_list]
+        self.sector_list = ["sector = {}".format(x) for x in sector_list]
+        self.edu_list = ["min_education = {}".format(x) for x in edu_list]
+        self.type_list = ["employment_type = {}".format(x) for x in type_list]
 
         self.skill_list = skill_list
         self.city_list = city_list
@@ -56,5 +56,5 @@ class JobQuery:
 
 
 if __name__ == '__main__':
-    myQuery = JobQuery(["sector = 'Technology'"], [], [], [], [], '', '')
+    myQuery = JobQuery(["Technology"], [], [], [], [], '', '')
     myQuery.mysql_query()
