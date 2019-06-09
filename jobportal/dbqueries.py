@@ -8,34 +8,53 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE',
 from django.db import connection
 
 
+# "SELECT * FROM Job WHERE sector = %s;", [self.sector])
+
+# job -> sector, deadline, education, type,
+# requires -> skill todo
+# job_location -> zip todo
+# Location -> city, postalzip (join with job_location) todo
 class JobQuery:
-    def __init__(self, sector):
-        self.sector = sector
+    def __init__(self, sector_list, edu_list, type_list, skill_list, city_list, deadline, recent_post):
+        self.sector_list = ["sector = '{}'".format(x) for x in sector_list]
+        self.edu_list = ["min_education = '{}'".format(x) for x in edu_list]
+        self.type_list = ["employment_type = '{}'".format(x) for x in type_list]
 
+        self.skill_list = skill_list
+        self.city_list = city_list
+        self.deadline = "deadline = {}".format(deadline) if deadline else ""
+        self.recent_post = "date = {}".format(recent_post) if recent_post else ""
 
-    def my_custom_sql2(self):
+    def mysql_query(self):
         with connection.cursor() as cursor:
             cursor.execute(
-                "SELECT * FROM Job WHERE sector = %s;", [self.sector])
+                "SELECT * FROM Job %s", [self.build_where_content()])
 
             records = cursor.fetchall()
 
-        print('my_custom_sql2:')
         print(records)
+        # print("SELECT * FROM Job {}".format(self.build_where_content()))
 
 
+    def build_where_content(self):
+        non_empty_lists = filter(None, [self.sector_list, self.edu_list,
+                                        self.type_list, self.deadline, self.recent_post])
+        processed_list = []
 
-def my_custom_sql1(sector):
-    with connection.cursor() as mysql_cursor:
-        mysql_cursor.callproc("getJobPostingsFromSector", [sector])
-        results = mysql_cursor.fetchall()
+        for list in non_empty_lists:
+            if len(list) > 1:
+                processed_list.append("(" + " OR ".join(list) + ")")
+            else:
+                processed_list.append(list[0])
 
-    print('my_custom_sql1:\n')
-    print(results)
+        where_filters = "WHERE " + " AND ".join(processed_list)
+
+        if not where_filters:
+            return ""
+        else:
+            return where_filters
 
 
 if __name__ == '__main__':
-    sector_input = 'Technology'
-    my_custom_sql1(sector_input)
-    myQuery = JobQuery('Technology')
-    myQuery.my_custom_sql2()
+    myQuery = JobQuery(["sector = 'Technology'"], [], [], [], [], '', '')
+    myQuery.mysql_query()
