@@ -20,11 +20,18 @@ html, body {
   border: 5px solid black;
 }
 
-#apply {
+#apply{
     border-radius: 0px 0px 3px 3px;
 }
 
 .scrollable{
   overflow-y: auto;
   max-height: 240px;
+}
+#reset {
+    border-radius: 0px 0px 0px 3px;
+}
+
+#applyFilter {
+    border-radius: 0px 0px 3px 0px;
 }
