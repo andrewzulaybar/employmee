@@ -1,0 +1,66 @@
+{% extends "jobportal/details.html" %}
+
+{% block navbar %}
+<li class="nav-item px-2">
+    <a class="nav-link" href="#">Reports</a>
+</li>
+<li class="nav-item px-2">
+    <a class="nav-link" href="#">Create Posting</a>
+</li>
+{% endblock navbar %}
+
+{% block table %}
+<div class="col-10 offset-1">
+    <table class="table table-bordered table-striped">
+        {% block tablebody %}
+        {{ block.super }}
+        {% endblock tablebody %}
+    </table>
+</div>
+{% endblock table %}
+
+{% block tableheader %}
+<div class="text-right">
+    <a href="#!" class="btn btn-success">Edit</a>
+</div>
+{% endblock tableheader %}
+
+{% block details %}
+{{ block.super }}
+<tr>
+    <th scope="row">Salary</th>
+    <td id="td8">{{ job.job1.salary }}</td>
+</tr>
+<tr>
+    <th scope="row">Number of Applications</th>
+    <td id="td9">
+        <div class="text pt-3">
+            {{ job.job1.applications }}
+        </div>
+    </td>
+</tr>
+{% endblock details %}
+
+{% block applycard %}
+<div class="col-10 offset-1">
+    <div class="card">
+        <div class="card-header">
+            Applications Received: {{ job.job1.applications }}
+        </div>
+        <div class="card-body">
+            <div class="row align-items-start">
+                <div class="col">
+                    1
+                </div>
+                <div class="col">
+                    2
+                </div>
+                <div class="col">
+                    3
+                </div>
+                {% block columns %}{% endblock columns %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock applycard %}

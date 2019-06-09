@@ -1,0 +1,31 @@
+{% extends "jobportal/details.html" %}
+
+{% block navbar %}
+{{ block.super }}
+<li class="nav-item px-2">
+    <a class="nav-link" href="#">Saved Jobs</a>
+</li>
+{% endblock navbar %}
+
+
+{% block tableheader %}
+<div class="text-right">
+    <a href="#!" class="btn btn-primary">+</a>
+</div>
+{% endblock tableheader %}
+
+{% block details %}
+{{ block.super }}
+<tr>
+    <th scope="row">Salary</th>
+    <td id="td8">{{ job.job1.salary }}</td>
+</tr>
+<tr>
+    <th scope="row">Number of Applications</th>
+    <td id="td9">
+        <div class="text pt-3">
+            {{ job.job1.applications }}
+        </div>
+    </td>
+</tr>
+{% endblock details %}

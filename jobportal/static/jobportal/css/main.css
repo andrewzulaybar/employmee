@@ -13,11 +13,32 @@ html, body {
   z-index:1;
 }
 .table {
-  border-collapse: collapse;
+  border-collapse: separate;
   border-style: hidden;
+  border-radius: 3px;
+  border-spacing: 0px;
 }
-.table.td {
-  border: 5px solid black;
+
+#tableheader{
+    border-radius: 3px 3px 0px 0px;
+}
+
+#tablehlast{
+    border-radius: 0px 0px 0px 3px;
+}
+
+#tabledlast{
+    border-top: 0px;
+    border-radius: 0px 0px 3px 0px;
+}
+
+.table th {
+    border-top: 0px;
+    border-right: 0px;
+}
+
+#td1, #td2, #td3, #td4, #td5, #td6, #td7, #td8, #td9, #tdsl {
+    border-top: 0px;
 }
 
 #apply{
@@ -34,4 +55,8 @@ html, body {
 
 #applyFilter {
     border-radius: 0px 0px 3px 0px;
+}
+
+.top-buffer {
+    margin-top: 16px;
 }
