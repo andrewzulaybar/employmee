@@ -13,7 +13,7 @@
 
         <title> {{ title }} </title>
     </head>
-    <body>
+    <body id="override">
         <nav class="navbar navbar-fixed-top navbar-expand-lg navbar-light bg-light">
             <div class="container">
                 <a class="navbar-brand" href="#">Job Portal</a>
@@ -23,25 +23,24 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active px-2">
-
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                        </li>
+                        {% block navbar %}
                         <li class="nav-item px-2">
                             <a class="nav-link" href="#">Settings</a>
                         </li>
-                        {% block navbar %}{% endblock navbar %}
+                        {% endblock navbar %}
                     </ul>
                     <form class="form-inline my-2 my-lg-0">
+                        {% block search %}
                         <input class="form-control mr-sm-2" type="text" placeholder="Enter a job title or company name"
                                style="width: 400px;">
+                        {% endblock search %}
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                     </form>
                 </div>
             </div>
         </nav>
 
-        <main role="main" class="container">
+        <main role="main">
             {% block main %}
             {% endblock main %}
         </main>

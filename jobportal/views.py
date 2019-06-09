@@ -6,6 +6,7 @@ def home(request):
         'title': 'Home Page',
         'jobs': [{
             'job1': {
+                'id': '1',
                 'title': 'Software Developer Co-Op',
                 'company': 'Amazon',
                 'deadline': '5',
@@ -13,7 +14,10 @@ def home(request):
                 'salary': '30,000',
                 'sector': 'Tech',
                 'city': 'Seattle',
-                'prov_state': 'WA'
+                'prov_state': 'WA',
+                'type': 'Internship',
+                'education': 'High school',
+                'skills': ['java', 'c++'],
             },
             'job2': {
                 'title': 'Data Analyst',
@@ -22,4 +26,4 @@ def home(request):
         }],
         'job_list': ['Amazon', 'Apple', 'Google']
     }
-    return render(request, 'jobportal/home.html', context)
+    return render(request, 'jobportal/details.html', context)
