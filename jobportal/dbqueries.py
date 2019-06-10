@@ -42,22 +42,23 @@ class JobQuery:
             return records
 
     def build_where_content(self):
-        non_empty_lists = filter(None, [self.sector_list, self.edu_list,
-                                        self.type_list, self.deadline, self.recent_post])
-        processed_list = []
+        non_empty_attrs = filter(lambda x: bool(x),
+                                 [self.sector_list, self.edu_list, self.type_list, self.deadline, self.recent_post])
+        processed_lst = []
 
-        for lst in non_empty_lists:
-            if len(lst) > 1:
-                processed_list.append("(" + " OR ".join(lst) + ")")
+        for attr in non_empty_attrs:
+            if isinstance(attr, list):
+                if len(attr) > 1:
+                    processed_lst.append("(" + " OR ".join(attr) + ")")
+                else:
+                    processed_lst.append(attr[0])
             else:
-                processed_list.append(lst[0])
+                processed_lst.append(attr)
 
-        where_filters = "WHERE " + " AND ".join(processed_list)
-
-        if not where_filters:
+        if not processed_lst:
             return ""
         else:
-            return where_filters
+            return "WHERE " + " AND ".join(processed_lst)
 
 
 if __name__ == '__main__':
