@@ -14,16 +14,16 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE',
 # Location -> city, postalzip (join with job_location) todo
 class JobQuery:
     def __init__(self, sector_list, edu_list, type_list, skill_list, city_list, deadline, recent_post, sort_by):
-        self.sector_list = ["sector='{}'".format(x) for x in sector_list]
+        self.sector_list = ["sector = '{}'".format(x) for x in sector_list]
         self.edu_list = ["min_education = '{}'".format(x) for x in edu_list]
         self.type_list = ["employment_type = '{}'".format(x) for x in type_list]
 
         self.skill_list = skill_list
         self.city_list = city_list
 
-        #todo
-        self.deadline = "deadline = {}".format(date.today() + timedelta(days=deadline)) if deadline else ""
-        self.recent_post = "date = {}".format(date.today() + timedelta(days=recent_post)) if recent_post else ""
+        #todo: confirm
+        self.deadline = "deadline <= {}".format(date.today() + timedelta(days=deadline)) if deadline else ""
+        self.recent_post = "date >= {}".format(date.today() - timedelta(days=recent_post)) if recent_post else ""
 
         self.sort_by = sort_by
 
