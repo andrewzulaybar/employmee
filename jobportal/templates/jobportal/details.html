@@ -15,43 +15,43 @@
                         <h6>{{ job.job1.company }}</h6></div></td></tr>
             {% block details %}
             <tr>
-                <th scope="row">ID</th>
+                <th scope="row" class="details">ID</th>
                 <td id="td1">{{ job.job1.id }}</td>
             </tr>
             <tr>
-                <th scope="row">Job Title</th>
+                <th scope="row" class="details">Job Title</th>
                 <td id="td2">{{ job.job1.title }}</td>
             </tr>
             <tr>
-                <th scope="row">Company</th>
+                <th scope="row" class="details">Company</th>
                 <td id="td3">{{ job.job1.company }}</td>
             </tr>
             <tr>
-                <th scope="row">Employment Type</th>
+                <th scope="row" class="details">Employment Type</th>
                 <td  id="td4">{{ job.job1.type }}</td>
             </tr>
             <tr>
-                <th scope="row">Sector</th>
+                <th scope="row" class="details">Sector</th>
                 <td id="td5">{{ job.job1.sector }}</td>
             </tr>
             <tr>
-                <th scope="row">Education</th>
+                <th scope="row" class="details">Education</th>
                 <td id="td6">{{ job.job1.education }}</td>
             </tr>
             <tr>
-                <th scope="row">Deadline</th>
+                <th scope="row" class="details">Deadline</th>
                 <td id="td7">In {{ job.job1.deadline }} days</td>
             </tr>
             {% endblock details %}
             <tr>
-                <th scope="row">Skills Required</th>
+                <th scope="row" class="details">Skills Required</th>
                 <ul>
                     <td id="tdsl">{% for skill in job.job1.skills %}
                         <li>{{skill}}</li>
                         {% endfor %}</ul></td>
             </tr>
             <tr>
-                <th scope="row" id="tablehlast">Description</th>
+                <th scope="row" class="details" id="tablehlast">Description</th>
                 <td id="tabledlast">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Elementum nisi quis eleifend quam adipiscing vitae proin sagittis. Tellus molestie nunc non blandit. Sit amet aliquam id diam maecenas ultricies. Vitae aliquet nec ullamcorper sit amet risus. Faucibus vitae aliquet nec ullamcorper sit amet risus nullam eget. Rutrum quisque non tellus orci ac auctor. Malesuada fames ac turpis egestas integer eget. Diam sollicitudin tempor id eu. Nisi quis eleifend quam adipiscing. Magna eget est lorem ipsum dolor sit amet. Diam vulputate ut pharetra sit amet aliquam id. Ultricies lacus sed turpis tincidunt id. Egestas purus viverra accumsan in.
                     <br><br>Semper risus in hendrerit gravida rutrum. Id porta nibh venenatis cras. Nibh nisl condimentum id venenatis a condimentum vitae. Urna molestie at elementum eu facilisis sed odio. Ut tristique et egestas quis ipsum suspendisse ultrices. Feugiat in fermentum posuere urna nec tincidunt praesent. Velit ut tortor pretium viverra suspendisse. Amet purus gravida quis blandit. Proin libero nunc consequat interdum varius sit. Tellus molestie nunc non blandit massa enim. Eu lobortis elementum nibh tellus molestie nunc non blandit massa. Nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit. Ac felis donec et odio pellentesque diam. Massa tempor nec feugiat nisl pretium. Sed nisi lacus sed viverra tellus in hac habitasse platea. Sed euismod nisi porta lorem. Risus ultricies tristique nulla aliquet enim tortor at auctor. Blandit turpis cursus in hac habitasse platea dictumst quisque.</td>
             </tr>

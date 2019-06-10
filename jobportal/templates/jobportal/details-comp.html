@@ -28,11 +28,11 @@
 {% block details %}
 {{ block.super }}
 <tr>
-    <th scope="row">Salary</th>
+    <th scope="row" class="details">Salary</th>
     <td id="td8">{{ job.job1.salary }}</td>
 </tr>
 <tr>
-    <th scope="row">Number of Applications</th>
+    <th scope="row" class="details">Number of Applications</th>
     <td id="td9">
         <div class="text pt-3">
             {{ job.job1.applications }}
@@ -42,6 +42,42 @@
 {% endblock details %}
 
 {% block applycard %}
+<div class="col-10 offset-1">
+    <table class="table table-bordered table-striped">
+        <tbody>
+        <tr>
+            <td colspan="3" id="tableheader" class="applicationsheader">
+                <div class="text-md-left mt-2" id="apheader"><h4>Applications</h4></div>
+                <div class="float-right">
+                    <div class="input-group mb-2 mt-2">
+                        <input type="text" class="form-control" placeholder="Enter an applicant ID">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row" class="applicationsth" id="apth1">Application ID</th>
+            <th scope="row" class="applicationsth" id="apth2">Contact Information</th>
+            <th scope="row" class="applicationsth">Resume</th>
+        </tr>
+        <!-- Would loop over all applicants that have applied and make a row for each -->
+        <tr>
+            <td scope="row" class="applicationstd" id="aptd1">12345</td>
+            <td scope="row" class="applicationstd" id="aptd2">602-123-4567</td>
+            <td scope="row" class="applicationstd">
+                <button type="button" class="btn btn-primary btn-block">View Resume</button>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+{% endblock applycard %}
+
+<!-- Card
 <div class="col-10 offset-1">
     <div class="card">
         <div class="card-header">
@@ -62,5 +98,4 @@
             </div>
         </div>
     </div>
-</div>
-{% endblock applycard %}
+</div> -->
