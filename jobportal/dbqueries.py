@@ -16,7 +16,7 @@ from django.db import connection
 # Location -> city, postalzip (join with job_location) todo
 class JobQuery:
     def __init__(self, sector_list, edu_list, type_list, skill_list, city_list, deadline, recent_post):
-        self.sector_list = ["sector = {}".format(x) for x in sector_list]
+        self.sector_list = ["sector='{}'".format(x) for x in sector_list]
         self.edu_list = ["min_education = {}".format(x) for x in edu_list]
         self.type_list = ["employment_type = {}".format(x) for x in type_list]
 
@@ -27,14 +27,12 @@ class JobQuery:
 
     def mysql_query(self):
         with connection.cursor() as cursor:
-            cursor.execute(
-                "SELECT * FROM Job %s", [self.build_where_content()])
+            sql = "SELECT * FROM Job %s" % self.build_where_content()
+            sql.replace("'", "\\'")
+            cursor.execute(sql)
 
             records = cursor.fetchall()
-
-        print(records)
-        # print("SELECT * FROM Job {}".format(self.build_where_content()))
-
+            return records
 
     def build_where_content(self):
         non_empty_lists = filter(None, [self.sector_list, self.edu_list,
@@ -47,7 +45,7 @@ class JobQuery:
             else:
                 processed_list.append(list[0])
 
-        where_filters = "WHERE " + " AND ".join(processed_list)
+        where_filters = "WHERE " + " AND ".join(processed_list) + ";"
 
         if not where_filters:
             return ""
@@ -56,5 +54,7 @@ class JobQuery:
 
 
 if __name__ == '__main__':
-    myQuery = JobQuery(["Technology"], [], [], [], [], '', '')
-    myQuery.mysql_query()
+    myQuery = JobQuery(["Technology", "Medical"], [], [], [], [], '', '')
+    example = myQuery.mysql_query()
+    print(example)
+
