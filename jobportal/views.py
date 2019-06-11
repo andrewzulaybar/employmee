@@ -32,11 +32,11 @@ def get_context():
                 'company': 'SAP'
             }
         }],
-        'sectors': ['Technology', 'Medical', 'Marketing'],
-        'skills': ['Java', 'C++', 'Python'],
+        'sectors': sidebar.sectors(),
+        'skills': sidebar.skills(),
         'cities': sidebar.cities(),
-        'education': ['No Minimum', 'High School', 'Bachelors', 'Masters', 'PhD'],
-        'types': ['Part-Time', 'Full-Time', 'Contract', 'Internship']
+        'education': sidebar.education(),
+        'types': sidebar.job_types()
     }
     return context
 
