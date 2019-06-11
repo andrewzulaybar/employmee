@@ -55,3 +55,7 @@ def company_home(request):
 
 def details(request):
     return render(request, 'jobportal/details.html', get_context())
+
+
+def settings(request):
+    return render(request, 'jobportal/settings.html', get_context())
