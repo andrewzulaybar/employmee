@@ -1,0 +1,30 @@
+{% extends "jobportal/base.html" %}
+
+{% block main %}
+{% block resumes %}{% endblock resumes %}
+<div class="col-10 offset-1">
+    <div class="card mt-4">
+        <div class="card-header">
+            Your Branches
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Branch ID</th>
+                        <th>Location</th>
+                        <th>Contact Email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>Use street address, city, state/prov, country</td>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+    </div>
+</div>
+{% endblock main %}
