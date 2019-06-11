@@ -1,0 +1,59 @@
+{% extends "jobportal/base.html" %}
+
+{% block main %}
+<div class="row">
+    <div class="col-10 offset-1">
+        <div class="card-group">
+            <div class="card">
+                <div class="card-header">
+                    Upload Resume
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <a href="#!" class="btn btn-primary btn-block">Upload</a>
+                            <label>Username</label>
+                            <input type="text" class="form-control" placeholder="User Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" class="form-control" placeholder="Password">
+                            <a href="#!" class="btn btn-primary btn-block">Upload</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    Resumes You've Uploaded
+                </div>
+                <div class="card-body">
+                    <p><ul>
+                    <li>ResumeID 1</li>
+                    <li>ResumeID 2</li>
+                </ul></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    {% block premium %}
+    <div class="col-10 offset-1">
+        <div class="card mt-4">
+            <div class="card-header">
+                Upgrade to Premium
+            </div>
+            <div class="card-body">
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Enter credit card information"
+                           style="width: 400px;">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Upgrade</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endblock premium %}
+</div>
+
+{% endblock main %}
