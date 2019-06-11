@@ -17,6 +17,7 @@
         <title> {{ title }} </title>
     </head>
     <body id="override">
+    {% block whole-navbar %}
         <nav class="navbar navbar-fixed-top navbar-expand-lg navbar-light bg-light">
                 <a class="navbar-brand" href="#">Employmee</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
@@ -40,6 +41,7 @@
                     </form>
                 </div>
         </nav>
+    {% endblock whole-navbar %}
 
         <main role="main">
             {% block main %}

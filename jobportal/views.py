@@ -45,3 +45,6 @@ def premium_details(request):
 
 def company_details(request):
     return render(request, 'jobportal/details-comp.html', CONTEXT)
+
+def login(request):
+    return render(request, 'jobportal/login.html', CONTEXT)
