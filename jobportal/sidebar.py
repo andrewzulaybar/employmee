@@ -52,3 +52,28 @@ class Sidebar:
 
             job_types = [job_type[0] for job_type in records]
             return job_types
+
+
+class SortBy:
+    def get_jobs(self, schema):
+        with connection.cursor() as cursor:
+            query = "SELECT *  \
+                     FROM Job j \
+                     INNER JOIN Job_Location jl \
+                         ON j.job_ID = jl.job_ID \
+                     INNER JOIN Location l \
+                         ON jl.postal_zip = l.postal_zip \
+                     INNER JOIN Company c \
+                         ON j.company_login_ID = c.company_login_ID"
+            cursor.execute(query)
+            jobs = cursor.fetchall()
+
+            list_jobs = []
+
+            for info in jobs:
+                job = {}
+                for key, value in zip(schema, info):
+                    job[key] = value
+                list_jobs.append(job)
+
+            return list_jobs

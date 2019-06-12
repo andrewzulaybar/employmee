@@ -1,37 +1,15 @@
 from django.shortcuts import render
 
-from jobportal.sidebar import Sidebar
+from jobportal.sidebar import Sidebar, SortBy
 
 
 def get_context():
     sidebar = Sidebar()
+    sort_by = SortBy()
+    schema = ['title', 'company_name', 'sector', 'city', 'state_prov', 'deadline', 'description']
     context = {
         'title': 'Home Page',
-        'jobs': [{
-            'job1': {
-                'id': '1',
-                'title': 'Software Developer Co-Op',
-                'company': 'Amazon',
-                'deadline': '5',
-                'applications': '65',
-                'salary': '30,000',
-                'sector': 'Tech',
-                'city': 'Seattle',
-                'prov_state': 'WA',
-                'type': 'Internship',
-                'education': 'High school',
-                'skills': ['java', 'c++'],
-                'description': """We are looking for Amazon interns to join us for Fall 2019! Amazon interns have the 
-                                opportunity to work alongside the industry’s brightest engineers who innovate everyday on 
-                                behalf of our customers. Our interns and co-ops write real software and partner with a 
-                                select group of experienced software development engineers, who both help and challenge 
-                                them as they work on projects that matter..."""
-            },
-            'job2': {
-                'title': 'Data Analyst',
-                'company': 'SAP'
-            }
-        }],
+        'jobs': sort_by.get_jobs(schema),
         'sectors': sidebar.sectors(),
         'skills': sidebar.skills(),
         'cities': sidebar.cities(),
