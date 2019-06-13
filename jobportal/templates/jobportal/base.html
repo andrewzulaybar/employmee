@@ -17,7 +17,7 @@
     <body id="override">
         <nav class="navbar navbar-fixed-top navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand" href="#">Job Portal</a>
+                <a class="navbar-brand" href="{% url 'home' %}">Job Portal</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -26,7 +26,7 @@
                     <ul class="navbar-nav mr-auto">
                         {% block navbar %}
                         <li class="nav-item px-2">
-                            <a class="nav-link" href="#">Settings</a>
+                            <a class="nav-link" href="{% url 'settings' %}">Settings</a>
                         </li>
                         {% endblock navbar %}
                     </ul>
