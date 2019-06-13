@@ -21,10 +21,10 @@ def get_context():
                 'type': 'Internship',
                 'education': 'High school',
                 'skills': ['java', 'c++'],
-                'description': """We are looking for Amazon interns to join us for Fall 2019! Amazon interns have the 
-                                opportunity to work alongside the industry’s brightest engineers who innovate everyday on 
-                                behalf of our customers. Our interns and co-ops write real software and partner with a 
-                                select group of experienced software development engineers, who both help and challenge 
+                'description': """We are looking for Amazon interns to join us for Fall 2019! Amazon interns have the
+                                opportunity to work alongside the industry’s brightest engineers who innovate everyday on
+                                behalf of our customers. Our interns and co-ops write real software and partner with a
+                                select group of experienced software development engineers, who both help and challenge
                                 them as they work on projects that matter..."""
             },
             'job2': {
@@ -54,8 +54,16 @@ def company_home(request):
 
 
 def details(request):
-    return render(request, 'jobportal/details.html', get_context())
+    return render(request, 'jobportal/details.html', CONTEXT)
 
+def premium_details(request):
+    return render(request, 'jobportal/details-prem.html', CONTEXT)
+
+def company_details(request):
+    return render(request, 'jobportal/details-comp.html', CONTEXT)
+
+def login(request):
+    return render(request, 'jobportal/login.html', CONTEXT)
 
 def settings(request):
     return render(request, 'jobportal/settings.html', get_context())

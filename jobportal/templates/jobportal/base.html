@@ -12,12 +12,16 @@
         <link rel="stylesheet" type="text/css" href="{% static 'jobportal/css/main.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'jobportal/css/details.css' %}">
 
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
         <title> {{ title }} </title>
     </head>
     <body id="override">
+    {% block whole-navbar %}
         <nav class="navbar navbar-fixed-top navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand" href="{% url 'home' %}">Job Portal</a>
+                <a class="navbar-brand" href="{% url 'home' %}">Employmee</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -38,8 +42,8 @@
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                     </form>
                 </div>
-            </div>
         </nav>
+    {% endblock whole-navbar %}
 
         <main role="main">
             {% block main %}
