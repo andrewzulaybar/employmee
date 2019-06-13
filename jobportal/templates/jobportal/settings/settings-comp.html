@@ -1,12 +1,15 @@
 {% extends "jobportal/base.html" %}
 
+{% block employmee %}
+<a class="navbar-brand" href="{% url 'company-home' %}">Employmee</a>
+{% endblock employmee %}
 
 {% block navbar %}
 <li class="nav-item px-2">
-    <a class="nav-link" href="#">Reports</a>
+    <a class="nav-link" href="{% url 'settings-comp' %}">Settings</a>
 </li>
 <li class="nav-item px-2">
-    <a class="nav-link" href="#">Create Posting</a>
+    <a class="nav-link" href="{% url 'create-posting' %}">Create Posting</a>
 </li>
 {% endblock navbar %}
 

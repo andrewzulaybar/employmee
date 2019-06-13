@@ -1,0 +1,14 @@
+{% extends "jobportal/settings/settings.html" %}
+
+{% block employmee %}
+<a class="navbar-brand" href="{% url 'premium-home' %}">Employmee</a>
+{% endblock employmee %}
+
+{% block navbar %}
+<li class="nav-item px-2">
+    <a class="nav-link" href="{% url 'settings-prem' %}">Settings</a>
+</li>
+<li class="nav-item px-2">
+    <a class="nav-link" href="{% url 'saved-jobs' %}">Saved Jobs</a>
+</li>
+{% endblock navbar %}

@@ -1,0 +1,42 @@
+/* login */
+.top-buffer {
+    margin-top: 16px;
+}
+
+.loginmsg {
+    color: white;
+    text-align: center;
+}
+
+.loginmsgheart {
+    color: #F4D29A;
+    text-align: center;
+}
+
+.regbutton {
+    background: #999E7B;
+    text-color: white;
+}
+
+.loginbutton {
+    background: #d1d3a5;
+    text-color: white;
+}
+
+.loginbar {
+    background-color: #a3ced2;
+    height: 100vh;
+    margin-top: -80px !important;
+}
+
+.loginrow {
+    height:100%;
+}
+
+.login-header {
+    background-color: #F4D29A;
+}
+
+.login-header-text {
+    color: white;
+}

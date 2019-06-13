@@ -1,18 +1,25 @@
-{% extends "jobportal/home.html" %}
+{% extends "jobportal/home/home.html" %}
+
+{% block employmee %}
+<a class="navbar-brand" href="{% url 'premium-home' %}">Employmee</a>
+{% endblock employmee %}
 
 {% block navbar %}
 <li class="nav-item px-2">
-    <a class="nav-link" href="#">Reports</a>
+    <a class="nav-link" href="{% url 'settings-prem' %}">Settings</a>
 </li>
 <li class="nav-item px-2">
-    <a class="nav-link" href="#">Create Posting</a>
+    <a class="nav-link" href="{% url 'saved-jobs' %}">Saved Jobs</a>
 </li>
 {% endblock navbar %}
 
-{% block search %}
-<input class="form-control mr-sm-2" type="text" placeholder="Enter a job title"
-       style="width: 400px;">
-{% endblock search %}
+{% block savebutton %}
+<div class="text-right">
+    <a href="#!" class="btn btn-primary">
+        <i class="fa fa-heart-o"></i>
+    </a>
+</div>
+{% endblock savebutton %}
 
 {% block columns %}
 <div class="col">
@@ -32,15 +39,6 @@
 </form>
 {% endblock extrasort %}
 
-{% block detailsbutton %}
-<div class="text-right">
-    <button type="button" class="btn btn-success">Edit</button>
-    <a href="#!" class="btn btn-primary">See details >></a>
-</div>
-{% endblock detailsbutton %}
-
-{% block company %}{% endblock company %}
-
 {% block applicationsfilter %}
 <label for="applications">Applications</label>
 <form class="form-inline">
@@ -48,6 +46,7 @@
     <small id="applicationNum" class="text-muted">Applied</small>
 </form>
 {% endblock applicationsfilter %}
+
 
 {% block salaryfilter %}
 <label for="salary">Salary</label>

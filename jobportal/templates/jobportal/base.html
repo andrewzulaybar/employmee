@@ -11,9 +11,12 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" type="text/css" href="{% static 'jobportal/css/main.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'jobportal/css/details.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'jobportal/css/login.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'jobportal/css/home.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'jobportal/css/sort-filter.css' %}">
 
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
         <title> {{ title }} </title>
     </head>
@@ -21,7 +24,9 @@
     {% block whole-navbar %}
         <nav class="navbar navbar-fixed-top navbar-expand-lg navbar-light bg-light">
             <div class="container">
+                {% block employmee %}
                 <a class="navbar-brand" href="{% url 'home' %}">Employmee</a>
+                {% endblock employmee %}
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                     <span class="navbar-toggler-icon"></span>
                 </button>

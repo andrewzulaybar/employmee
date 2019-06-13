@@ -42,28 +42,43 @@ def get_context():
 
 
 def home(request):
-    return render(request, 'jobportal/home.html', get_context())
+    return render(request, 'jobportal/home/home.html', get_context())
 
 
 def premium_home(request):
-    return render(request, 'jobportal/home-prem.html', get_context())
+    return render(request, 'jobportal/home/home-prem.html', get_context())
 
 
 def company_home(request):
-    return render(request, 'jobportal/home-comp.html', get_context())
+    return render(request, 'jobportal/home/home-comp.html', get_context())
 
 
 def details(request):
-    return render(request, 'jobportal/details.html', CONTEXT)
+    return render(request, 'jobportal/details/details.html', get_context())
+
 
 def premium_details(request):
-    return render(request, 'jobportal/details-prem.html', CONTEXT)
+    return render(request, 'jobportal/details/details-prem.html', get_context())
+
 
 def company_details(request):
-    return render(request, 'jobportal/details-comp.html', CONTEXT)
+    return render(request, 'jobportal/details/details-comp.html', get_context())
 
-def login(request):
-    return render(request, 'jobportal/login.html', CONTEXT)
 
 def settings(request):
-    return render(request, 'jobportal/settings.html', get_context())
+    return render(request, 'jobportal/settings/settings.html', get_context())
+
+def settings_prem(request):
+    return render(request, 'jobportal/settings/settings-prem.html', get_context())
+
+def settings_comp(request):
+    return render(request, 'jobportal/settings/settings-comp.html', get_context())
+
+def create_posting(request):
+    return render(request, 'jobportal/create-posting.html', get_context())
+
+def saved_jobs(request):
+    return render(request, 'jobportal/saved-jobs.html', get_context())
+
+def login(request):
+    return render(request, 'jobportal/login.html', get_context())
