@@ -3,13 +3,46 @@
 {% block main %}
 <div class="row">
     <h1 class="col-8 col-sm-9 col-md-7 offset-md-1 col-lg-7 offset-lg-1">
+        {% block hello %}
         Hello, world!
+        {% endblock hello %}
     </h1>
 </div>
 <div class="row">
     <div class="col-12 col-sm-8 col-md-7 offset-md-1 col-lg-7 offset-lg-1 col-xl-8 offset-xl-1">
         {% for job in jobs %}
-            {% include "jobportal/job-card.html" %}
+        <div class="card">
+            <div class="card-body">
+                {% block savebutton %}{% endblock savebutton %}
+
+                <h4 class="card-title">{{ job.job1.title }}</h4>
+                <h6 class="card-subtitle mb-2 text-muted">Company: {{ job.job1.company }}</h6>
+                <p class="card-text">
+
+                <div class="row align-items-start">
+                    <div class="col">
+                        Sector: {{ job.job1.sector }}
+                    </div>
+                    <div class="col">
+                        Location: {{ job.job1.city }}, {{ job.job1.prov_state }}
+                    </div>
+                    <div class="col">
+                        Deadline: in {{ job.job1.deadline }} days
+                    </div>
+                    {% block columns %}{% endblock columns %}
+                </div>
+
+                <hr>
+                <br><p>
+                {{ job.job1.description }}
+            </p>
+                {% block detailsbutton %}
+                <div class="text-right">
+                    <a href="#!" class="btn btn-primary">See details >></a>
+                </div>
+                {% endblock detailsbutton %}
+            </div>
+        </div>
         {% endfor %}
     </div>
     <div class="col-sm-4 col-md-3 col-lg-3 col-xl-2">
