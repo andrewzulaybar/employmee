@@ -9,4 +9,7 @@ urlpatterns = [
     path('details/1', views.details, name='details'),
     path('sort', views.HomeView.as_view(), name='sort-by-company'),
     path('sort', views.HomeView.as_view(), name='sort-by-title'),
+    path('sort', views.HomeView.as_view(), name='sort-by-sector'),
+    path('sort', views.HomeView.as_view(), name='sort-by-deadline'),
+    path('sort', views.HomeView.as_view(), name='sort-by-location'),
 ]

@@ -34,6 +34,12 @@ class HomeView(ListView):
                 form.sort_by = 'c.name'
             elif form.cleaned_data['sort_by'] == 'Title':
                 form.sort_by = 'j.title'
+            elif form.cleaned_data['sort_by'] == 'Sector':
+                form.sort_by = 'j.sector, j.title'
+            elif form.cleaned_data['sort_by'] == 'Deadline':
+                form.sort_by = 'j.deadline'
+            elif form.cleaned_data['sort_by'] == 'Location':
+                form.sort_by = 'l.city'
             else:
                 form.sort_by = 'date DESC'
         else:
