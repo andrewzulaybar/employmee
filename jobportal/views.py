@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
+from jobportal import details
 from jobportal.forms import SortByForm
 from jobportal.sidebar import Sidebar, SortBy
 
@@ -10,7 +11,7 @@ DEFAULT = 'date DESC'
 def get_context(sort_order):
     sidebar = Sidebar()
     sort_by = SortBy()
-    schema = ['title', 'company_name', 'sector', 'city', 'state_prov', 'deadline', 'description']
+    schema = ['job_id', 'title', 'company_name', 'sector', 'city', 'state_prov', 'deadline', 'description']
     context = {
         'title': 'Home Page',
         'jobs': sort_by.get_jobs(schema, sort_order),
@@ -59,8 +60,15 @@ def company_home(request):
     return render(request, 'jobportal/home/home-comp.html', get_context(DEFAULT))
 
 
-def details(request):
-    return render(request, 'jobportal/details/details.html', get_context(DEFAULT))
+class Detail(DetailView):
+    template_name = 'jobportal/details/details.html'
+    context_object_name = 'job'
+
+    def get_object(self, queryset=None):
+        schema = ['job_id', 'title', 'company_name', 'sector', 'min_education', 'employment_type',
+                  'city', 'state_prov', 'deadline', 'description', 'skills']
+        obj = details.get_job(schema, self.kwargs['pk'])
+        return obj
 
 
 def premium_details(request):

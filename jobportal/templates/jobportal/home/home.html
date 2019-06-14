@@ -38,7 +38,7 @@
             </p>
                 {% block detailsbutton %}
                 <div class="text-right">
-                    <a href="#!" class="btn btn-primary">See details >></a>
+                    <a href="{% url 'details' job.job_id %}" class="btn btn-primary">See details >></a>
                 </div>
                 {% endblock detailsbutton %}
             </div>

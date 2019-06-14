@@ -57,7 +57,7 @@ class Sidebar:
 class SortBy:
     def get_jobs(self, schema, sort_by):
         with connection.cursor() as cursor:
-            query = "SELECT j.title, c.name, j.sector, l.city, l.state_prov, j.deadline, j.description  \
+            query = "SELECT j.job_ID, j.title, c.name, j.sector, l.city, l.state_prov, j.deadline, j.description  \
                      FROM Job j \
                      INNER JOIN Job_Location jl \
                          ON j.job_ID = jl.job_ID \
