@@ -11,8 +11,8 @@
             <tr>
                 <td colspan="2" id="tableheader">
                     {% block tableheader %}{% endblock tableheader %}
-                    <div class="text-md-left"><h4>{{ job.job1.title }}</h4>
-                        <h6>{{ job.job1.company }}</h6></div></td></tr>
+                    <div class="text header-text"><div class="text-md-left"><h3>{{ job.job1.title }}</h3>
+                        <h6>{{ job.job1.company }}</h6></div></div></td></tr>
             {% block details %}
             <tr>
                 <th scope="row" class="details">ID</th>
@@ -65,12 +65,12 @@
     <div class="col-sm-6 col-md-3">
         <div class="card mt-3">
             <div class="card-header">
-                Interested?
+                <div class="text header-text">Interested?</div>
             </div>
             <div class="card-body p-2 text-center">
                 <div class="dropdown">
                     <div class="btn-group align-middle">
-                        <button class="btn btn-m btn-secondary dropdown-toggle"
+                        <button class="btn btn-m btn-primary dropdown-toggle"
                                 type="button" id="dropdownMenu1" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                             Select Resume
@@ -80,13 +80,13 @@
                             <a class="dropdown-item" href="#!">Resume2</a>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-m btn-secondary">Upload Resume</button>
+                    <button type="button" class="btn btn-m btn-success">Upload Resume</button>
                 </div>
                 <p class="card-text"><br>show name of file selected</p>
                 <p class="card-text"><br>Applications due in {{ job.job1.deadline }} days.</p>
             </div>
             <div class="card-footer p-0">
-                <button type="button" class="btn btn-lg btn-primary btn-block" id="apply">Apply now!</button>
+                <button type="button" class="btn btn-lg btn-success btn-block" id="apply">Apply now!</button>
             </div>
         </div>
     </div>

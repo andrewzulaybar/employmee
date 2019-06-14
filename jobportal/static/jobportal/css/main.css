@@ -5,16 +5,35 @@ html, body {
     padding-top: 40px;
 }
 
-.navbar {
-  overflow: hidden;
-  background-color: #333;
-  position: fixed; /* Set the navbar to fixed position */
-  top: 0; /* Position the navbar at the top of the page */
-  width: 100%; /* Full width */
-  z-index:1;
-}
-
 .scrollable{
     overflow-y: auto;
     max-height: 240px;
+}
+
+.btn:hover, .btn:focus, .btn:active, .btn.active, .open>.dropdown-toggle.btn {
+    color: #fff;
+    background-color: #edcb95;
+    border-color: #edcb95;
+}
+
+.btn-primary {
+    background: #c4c69b;
+    border-color: #c4c69b;
+    text-color: white;
+
+}
+
+.btn-success {
+    background: #999e7b;
+    border-color: #999e7b;
+    text-color: white;
+
+}
+
+.card-header {
+    background-color: #a3ced2;
+}
+
+.header-text {
+    color: white;
 }
