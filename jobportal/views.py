@@ -47,8 +47,7 @@ class HomeView(ListView):
         else:
             form.sort_by = DEFAULT
 
-        context = super(HomeView, self).get_context_data(**kwargs)
-        context['jobs'] = get_context(form.sort_by)['jobs']
+        context = get_context(form.sort_by)
         return context
 
 
