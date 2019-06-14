@@ -55,16 +55,17 @@ class Sidebar:
 
 
 class SortBy:
-    def get_jobs(self, schema):
+    def get_jobs(self, schema, sort_by):
         with connection.cursor() as cursor:
-            query = "SELECT *  \
+            query = "SELECT j.title, c.name, j.sector, l.city, l.state_prov, j.deadline, j.description  \
                      FROM Job j \
                      INNER JOIN Job_Location jl \
                          ON j.job_ID = jl.job_ID \
                      INNER JOIN Location l \
                          ON jl.postal_zip = l.postal_zip \
                      INNER JOIN Company c \
-                         ON j.company_login_ID = c.company_login_ID"
+                         ON j.company_login_ID = c.company_login_ID \
+                     ORDER BY %s;" % sort_by
             cursor.execute(query)
             jobs = cursor.fetchall()
 
