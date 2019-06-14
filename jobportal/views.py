@@ -24,7 +24,7 @@ def get_context(sort_order):
 
 
 class HomeView(ListView):
-    template_name = 'jobportal/home.html'
+    template_name = 'jobportal/home/home.html'
     context_object_name = 'jobs'
     queryset = context_object_name
 
