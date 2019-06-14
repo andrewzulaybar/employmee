@@ -1,0 +1,32 @@
+<div class="card">
+    <div class="card-body">
+        {% block savebutton %}{% endblock savebutton %}
+
+        <h4 class="card-title">{{ job.title }}</h4>
+        <h6 class="card-subtitle mb-2 text-muted">Company: {{ job.company_name }}</h6>
+        <p class="card-text">
+
+        <div class="row align-items-start">
+            <div class="col">
+                Sector: {{ job.sector }}
+            </div>
+            <div class="col">
+                Location: {{ job.city }}, {{ job.state_prov }}
+            </div>
+            <div class="col">
+                Deadline: {{ job.deadline }}
+            </div>
+            {% block columns %}{% endblock columns %}
+        </div>
+
+        <hr>
+        <br><p>
+        {{ job.description }}
+    </p>
+        {% block detailsbutton %}
+        <div class="text-right">
+            <a href="#!" class="btn btn-primary">See details >></a>
+        </div>
+        {% endblock detailsbutton %}
+    </div>
+</div>
