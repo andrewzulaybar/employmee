@@ -10,23 +10,23 @@ html, body {
     max-height: 240px;
 }
 
-.btn:hover, .btn:focus, .btn:active, .btn.active, .open>.dropdown-toggle.btn {
+.btn:hover, .btn:focus, .btn:active, .btn.active, .open>.dropdown-toggle.btn, .btn.disabled {
     color: #fff;
     background-color: #edcb95;
     border-color: #edcb95;
 }
 
-.btn-primary {
-    background: #c4c69b;
-    border-color: #c4c69b;
-    text-color: white;
+.btn-primary, .btn-primary:active:focus {
+    background: #c4c69b !important;
+    border-color: #c4c69b !important;
+    text-color: white !important;
 
 }
 
-.btn-success {
-    background: #999e7b;
-    border-color: #999e7b;
-    text-color: white;
+.btn-success, .btn-success:active:focus {
+    background: #999e7b !important;
+    border-color: #999e7b !important;
+    text-color: white !important;
 
 }
 
