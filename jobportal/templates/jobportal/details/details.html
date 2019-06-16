@@ -2,7 +2,6 @@
 
 {% block main %}
 <div class="row">
-    {% for job in jobs %}
     {% block table %}
     <div class="col-sm-6 col-md-7 offset-md-1">
         <table class="table table-bordered table-striped">
@@ -11,49 +10,51 @@
             <tr>
                 <td colspan="2" id="tableheader">
                     {% block tableheader %}{% endblock tableheader %}
-                    <div class="text header-text"><div class="text-md-left"><h3>{{ job.job1.title }}</h3>
-                        <h6>{{ job.job1.company }}</h6></div></div></td></tr>
+                    <div class="text header-text"><div class="text-md-left"><h3>{{ job.title }}</h3>
+                        <h6>{{ job.company_name }}</h6></div></div></td></tr>
             {% block details %}
             <tr>
                 <th scope="row" class="details">ID</th>
-                <td id="td1">{{ job.job1.id }}</td>
+                <td id="td1">{{ job.job_id }}</td>
             </tr>
             <tr>
                 <th scope="row" class="details">Job Title</th>
-                <td id="td2">{{ job.job1.title }}</td>
+                <td id="td2">{{ job.title }}</td>
             </tr>
             <tr>
                 <th scope="row" class="details">Company</th>
-                <td id="td3">{{ job.job1.company }}</td>
+                <td id="td3">{{ job.company_name }}</td>
             </tr>
             <tr>
                 <th scope="row" class="details">Employment Type</th>
-                <td  id="td4">{{ job.job1.type }}</td>
+                <td  id="td4">{{ job.employment_type }}</td>
             </tr>
             <tr>
                 <th scope="row" class="details">Sector</th>
-                <td id="td5">{{ job.job1.sector }}</td>
+                <td id="td5">{{ job.sector }}</td>
             </tr>
             <tr>
                 <th scope="row" class="details">Education</th>
-                <td id="td6">{{ job.job1.education }}</td>
+                <td id="td6">{{ job.min_education }}</td>
             </tr>
             <tr>
                 <th scope="row" class="details">Deadline</th>
-                <td id="td7">In {{ job.job1.deadline }} days</td>
+                <td id="td7">{{ job.deadline }}</td>
             </tr>
             {% endblock details %}
             <tr>
                 <th scope="row" class="details">Skills Required</th>
-                <ul>
-                    <td id="tdsl">{% for skill in job.job1.skills %}
+                <td id="tdsl">
+                    {% for skill in job.skills %}
+                    <ul>
                         <li>{{skill}}</li>
-                        {% endfor %}</ul></td>
+                    </ul>
+                    {% endfor %}
+                </td>
             </tr>
             <tr>
                 <th scope="row" class="details" id="tablehlast">Description</th>
-                <td id="tabledlast">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Elementum nisi quis eleifend quam adipiscing vitae proin sagittis. Tellus molestie nunc non blandit. Sit amet aliquam id diam maecenas ultricies. Vitae aliquet nec ullamcorper sit amet risus. Faucibus vitae aliquet nec ullamcorper sit amet risus nullam eget. Rutrum quisque non tellus orci ac auctor. Malesuada fames ac turpis egestas integer eget. Diam sollicitudin tempor id eu. Nisi quis eleifend quam adipiscing. Magna eget est lorem ipsum dolor sit amet. Diam vulputate ut pharetra sit amet aliquam id. Ultricies lacus sed turpis tincidunt id. Egestas purus viverra accumsan in.
-                    <br><br>Semper risus in hendrerit gravida rutrum. Id porta nibh venenatis cras. Nibh nisl condimentum id venenatis a condimentum vitae. Urna molestie at elementum eu facilisis sed odio. Ut tristique et egestas quis ipsum suspendisse ultrices. Feugiat in fermentum posuere urna nec tincidunt praesent. Velit ut tortor pretium viverra suspendisse. Amet purus gravida quis blandit. Proin libero nunc consequat interdum varius sit. Tellus molestie nunc non blandit massa enim. Eu lobortis elementum nibh tellus molestie nunc non blandit massa. Nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit. Ac felis donec et odio pellentesque diam. Massa tempor nec feugiat nisl pretium. Sed nisi lacus sed viverra tellus in hac habitasse platea. Sed euismod nisi porta lorem. Risus ultricies tristique nulla aliquet enim tortor at auctor. Blandit turpis cursus in hac habitasse platea dictumst quisque.</td>
+                <td id="tabledlast">{{ job.description }}</td>
             </tr>
             </tbody>
             {% endblock tablebody %}
@@ -91,6 +92,5 @@
         </div>
     </div>
     {% endblock applycard %}
-    {% endfor %}
 </div>
 {% endblock main %}
