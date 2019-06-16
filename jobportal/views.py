@@ -94,6 +94,8 @@ def settings_comp(request):
 def create_posting(request):
     return render(request, 'jobportal/create-posting.html', get_context(DEFAULT))
 
+def edit_posting(request):
+    return render(request, 'jobportal/edit-posting.html', get_context(DEFAULT))
 
 def saved_jobs(request):
     return render(request, 'jobportal/saved-jobs.html', get_context(DEFAULT))
@@ -101,3 +103,6 @@ def saved_jobs(request):
 
 def login(request):
     return render(request, 'jobportal/login.html', get_context(DEFAULT))
+
+def top_fans(request):
+    return render(request, 'jobportal/top-fans.html', get_context(DEFAULT))

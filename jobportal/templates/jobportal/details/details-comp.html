@@ -25,7 +25,8 @@
 
 {% block tableheader %}
 <div class="text-right">
-    <a href="#!" class="btn btn-success">Edit</a>
+    <a href="{% url 'edit-posting' %}" class="btn btn-success">Edit</a>
+    <a href="{% url 'edit-posting' %}" class="btn btn-danger">Delete</a>
 </div>
 {% endblock tableheader %}
 
@@ -51,7 +52,7 @@
         <tbody>
         <tr>
             <td colspan="3" id="tableheader" class="applicationsheader">
-                <div class="text-md-left mt-2" id="apheader"><h4>Applications</h4></div>
+                <div class="text-md-left mt-2 header-text" id="apheader"><h4>Applications</h4></div>
                 <div class="float-right">
                     <div class="input-group mb-2 mt-2">
                         <input type="text" class="form-control" placeholder="Enter an applicant ID">
@@ -80,26 +81,3 @@
     </table>
 </div>
 {% endblock applycard %}
-
-<!-- Card
-<div class="col-10 offset-1">
-    <div class="card">
-        <div class="card-header">
-            Applications Received: {{ job.job1.applications }}
-        </div>
-        <div class="card-body">
-            <div class="row align-items-start">
-                <div class="col">
-                    1
-                </div>
-                <div class="col">
-                    2
-                </div>
-                <div class="col">
-                    3
-                </div>
-                {% block columns %}{% endblock columns %}
-            </div>
-        </div>
-    </div>
-</div> -->
