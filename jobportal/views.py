@@ -10,11 +10,12 @@ from jobportal.sidebar import Sidebar, SortBy
 DEFAULT = 'date DESC'
 
 
-def get_context(sort_order):
+def get_context(sort_order=DEFAULT, username=None):
     sidebar = Sidebar()
     sort_by = SortBy()
     schema = ['job_id', 'title', 'company_name', 'sector', 'city', 'state_prov', 'deadline', 'description']
     context = {
+        'username': username,
         'title': 'Home Page',
         'jobs': sort_by.get_jobs(schema, sort_order),
         'sectors': sidebar.sectors(),
@@ -24,6 +25,23 @@ def get_context(sort_order):
         'types': sidebar.job_types()
     }
     return context
+
+
+def login(request):
+    return render(request, 'jobportal/login.html', get_context())
+
+
+class Login(View):
+    def get(self, request):
+        credentials = {'username': request.GET.get('username')}
+        url = "/login"
+        if request.GET.get('user_type') == 'regular':
+            url = '{}?{}'.format('/', urlencode(credentials))
+        if request.GET.get('user_type') == 'premium':
+            url = '{}?{}'.format('/premium', urlencode(credentials))
+        if request.GET.get('user_type') == 'company':
+            url = '{}?{}'.format('/company', urlencode(credentials))
+        return redirect(url)
 
 
 class HomeView(ListView):
@@ -50,35 +68,18 @@ class HomeView(ListView):
         else:
             form.sort_by = DEFAULT
 
-        context = get_context(form.sort_by)
-        context['user_name'] = self.request.GET.get('username')
+        context = get_context(form.sort_by, self.request.GET.get('username'))
         return context
 
 
-def logging_in(request):
-    form = LoginForm(request.GET or None)
-    form.is_valid()
-    form2 = {'username': form.cleaned_data.get('username')}
-    url = "/login"
-    if form.cleaned_data.get('premium') == 'on':
-        url = '{}?{}'.format('/premium', urlencode(form2))
-    if form.cleaned_data.get('regular') == 'on':
-        url = '{}?{}'.format('/', urlencode(form2))
-    if form.cleaned_data.get('company') == 'on':
-        url = '{}?{}'.format('/company', urlencode(form2))
-    return redirect(url)
-
-
 def premium_home(request):
-    context = get_context(DEFAULT)
-    context['user_name'] = request.GET.get('username')
+    context = get_context(DEFAULT, request.GET.get('username'))
     return render(request, 'jobportal/home/home-prem.html', context)
 
 
 def company_home(request):
-    context = get_context(DEFAULT)
-    context['user_name'] = request.GET.get('username')
-    return render(request, 'jobportal/home/home-comp.html', get_context(DEFAULT))
+    context = get_context(DEFAULT, request.GET.get('username'))
+    return render(request, 'jobportal/home/home-comp.html', context)
 
 
 class Detail(DetailView):
@@ -93,32 +94,28 @@ class Detail(DetailView):
 
 
 def premium_details(request):
-    return render(request, 'jobportal/details/details-prem.html', get_context(DEFAULT))
+    return render(request, 'jobportal/details/details-prem.html', get_context())
 
 
 def company_details(request):
-    return render(request, 'jobportal/details/details-comp.html', get_context(DEFAULT))
+    return render(request, 'jobportal/details/details-comp.html', get_context())
 
 
 def settings(request):
-    return render(request, 'jobportal/settings/settings.html', get_context(DEFAULT))
+    return render(request, 'jobportal/settings/settings.html', get_context())
 
 
 def settings_prem(request):
-    return render(request, 'jobportal/settings/settings-prem.html', get_context(DEFAULT))
+    return render(request, 'jobportal/settings/settings-prem.html', get_context())
 
 
 def settings_comp(request):
-    return render(request, 'jobportal/settings/settings-comp.html', get_context(DEFAULT))
+    return render(request, 'jobportal/settings/settings-comp.html', get_context())
 
 
 def create_posting(request):
-    return render(request, 'jobportal/create-posting.html', get_context(DEFAULT))
+    return render(request, 'jobportal/create-posting.html', get_context())
 
 
 def saved_jobs(request):
-    return render(request, 'jobportal/saved-jobs.html', get_context(DEFAULT))
-
-
-def login(request):
-    return render(request, 'jobportal/login.html', get_context(DEFAULT))
+    return render(request, 'jobportal/saved-jobs.html', get_context())
