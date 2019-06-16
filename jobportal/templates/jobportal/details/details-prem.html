@@ -1,15 +1,24 @@
 {% extends "jobportal/details/details.html" %}
 
 {% block employmee %}
-<a class="navbar-brand" href="{% url 'premium-home' %}">Employmee</a>
+<form action="{% url 'home' %}" method="get">
+    <input type="hidden" name="username" value="{{ job.username }}">
+    <input class="navbar-brand" type="submit" value="Employmee">
+</form>
 {% endblock employmee %}
 
 {% block navbar %}
 <li class="nav-item px-2">
-    <a class="nav-link" href="{% url 'settings-prem' %}">Settings</a>
+    <form action="{% url 'settings' %}" method="get">
+        <input type="hidden" name="username" value="{{ job.username }}">
+        <input class="nav-link" type="submit" value="Settings">
+    </form>
 </li>
 <li class="nav-item px-2">
-    <a class="nav-link" href="{% url 'saved-jobs' %}">Saved Jobs</a>
+    <form action="{% url 'saved-jobs' %}" method="get">
+        <input type="hidden" name="username" value="{{ job.username }}">
+        <input class="nav-link" type="submit" value="Saved Jobs">
+    </form>
 </li>
 {% endblock navbar %}
 
