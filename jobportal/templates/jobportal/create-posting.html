@@ -1,0 +1,73 @@
+{% extends "jobportal/base.html" %}
+
+{% block employmee %}
+<a class="navbar-brand" href="{% url 'company-home' %}">Employmee</a>
+{% endblock employmee %}
+
+{% block navbar %}
+<li class="nav-item px-2">
+    <a class="nav-link" href="{% url 'settings-comp' %}">Settings</a>
+</li>
+<li class="nav-item px-2">
+    <a class="nav-link" href="{% url 'create-posting' %}">Create Posting</a>
+</li>
+{% endblock navbar %}
+
+{% block search %}
+<input class="form-control mr-sm-2" type="text" placeholder="Enter a job title"
+       style="width: 400px;">
+{% endblock search %}
+
+{% block main %}
+<div class="col-10 offset-1">
+    <div class="card p-0">
+        <div class="card-header">
+            <div class="text header-text">Create Posting</div>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="form-group">
+                    <label>Job ID</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Employment Type</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Sector</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Minimum Education</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Deadline</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Salary</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="form-group mt-4">
+                    <span style="float:left;" class="text mt-2"><label>Skill&nbsp;&nbsp;&nbsp;&nbsp;</label></span>
+                    <span style="float:left;"><input type="text" class="form-control"></span>
+                    <span style="float:left;" class="text ml-2 mr-2"><input type="text" class="form-control"></span>
+                    <span style="float:left;" class="text mt-2"><label>years of experience</label></span>
+                    <button type="submit" class="btn btn-link btn-sm mt ml-3" id="add-skill">+ Add another skill</button>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-success">Post Job</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock main %}

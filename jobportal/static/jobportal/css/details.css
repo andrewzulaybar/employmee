@@ -1,0 +1,54 @@
+/* details */
+.table {
+  border-collapse: separate;
+  border-style: hidden;
+  border-radius: 3px;
+  border-spacing: 0px;
+}
+
+#tableheader{
+    border-radius: 3px 3px 0px 0px;
+    background-color: #a3ced2;
+}
+
+#tablehlast{
+    border-radius: 0px 0px 0px 3px;
+}
+
+#tabledlast{
+    border-top: 0px;
+    border-radius: 0px 0px 3px 0px;
+}
+
+.table .details {
+    border-top: 0px;
+    border-right: 0px;
+}
+
+.table tbody {
+    border-radius: 3px;
+}
+
+#td1, #td2, #td3, #td4, #td5, #td6, #td7, #td8, #td9, #tdsl {
+    border-top: 0px;
+}
+
+.table .applicationstd {
+    border-top: 0px;
+}
+
+.table .applicationsth {
+    border-top: 0px;
+}
+
+#apth1, #apth2, #aptd1, #aptd2 {
+    border-right: 0px;
+}
+
+#apheader, #apsearch {
+    display:inline-block;
+}
+
+#apply{
+    border-radius: 0px 0px 3px 3px;
+}

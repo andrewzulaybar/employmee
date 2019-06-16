@@ -1,0 +1,88 @@
+{% extends "jobportal/base.html" %}
+
+{% block main %}
+<div class="row">
+    {% block resumes %}
+    <div class="col-10 offset-1">
+        <div class="card-group">
+            <div class="card">
+                <div class="card-header">
+                    <div class="text header-text">Upload Resume</div>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <label>Position Title</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Duration</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Role Description</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="text-center">
+                            <a href="#!" class="btn btn-primary">Browse</a>
+                            <a href="#!" class="btn btn-success">Upload</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="text header-text">Your Resumes</div>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>ResumeID 1</li>
+                        <li>ResumeID 2</li></ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% endblock resumes %}
+
+    <div class="col-10 offset-1">
+        <div class="card mt-4">
+            <div class="card-header">
+                <div class="text header-text">Your Applications</div>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Application #</th>
+                        <th>Cover Letter</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="exampleFormControlInput1"
+                                       placeholder="">
+                                <div class="text-right">
+                                    <button type="button" class="btn btn-primary btn-sm mt-2">Update</button>
+                                </div>
+                            </div>
+                        </td>
+                        <td>Otto</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main %}

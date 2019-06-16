@@ -1,0 +1,62 @@
+{% extends "jobportal/home/home.html" %}
+
+{% block employmee %}
+<a class="navbar-brand" href="{% url 'company-home' %}">Employmee</a>
+{% endblock employmee %}
+
+{% block navbar %}
+<li class="nav-item px-2">
+    <a class="nav-link" href="{% url 'settings-comp' %}">Settings</a>
+</li>
+<li class="nav-item px-2">
+    <a class="nav-link" href="{% url 'create-posting' %}">Create Posting</a>
+</li>
+{% endblock navbar %}
+
+{% block search %}
+<input class="form-control mr-sm-2" type="text" placeholder="Enter a job title"
+       style="width: 400px;">
+{% endblock search %}
+
+{% block columns %}
+<div class="col">
+    Applications: {{ job.job1.applications }}
+</div>
+<div class="col">
+    Salary: {{ job.job1.salary }}
+</div>
+{% endblock columns %}
+
+{% block extrasort %}
+<form action="#" method="get">
+    <input type="submit" class="btn btn-primary btn-block m-1" value="Salary">
+</form>
+<form action="#" method="get">
+    <input type="submit" class="btn btn-primary btn-block m-1" value="Applications">
+</form>
+{% endblock extrasort %}
+
+{% block detailsbutton %}
+<div class="text-right">
+    <button type="button" class="btn btn-success">Edit</button>
+    <a href="#!" class="btn btn-primary">See details >></a>
+</div>
+{% endblock detailsbutton %}
+
+{% block company %}{% endblock company %}
+
+{% block applicationsfilter %}
+<label for="applications">Applications</label>
+<form class="form-inline">
+    <input type="number" min="0" id="applications" class="form-control col-6 mx-2 mb-2">
+    <small id="applicationNum" class="text-muted">Applied</small>
+</form>
+{% endblock applicationsfilter %}
+
+{% block salaryfilter %}
+<label for="salary">Salary</label>
+<form class="form-inline">
+    <input type="number" min="0" step="5000" id="salary" class="form-control col-6 mx-2 mb-2">
+    <small id="salaryAmt" class="text-muted">Dollars</small>
+</form>
+{% endblock salaryfilter %}

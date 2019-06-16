@@ -10,13 +10,24 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <!-- Custom CSS -->
         <link rel="stylesheet" type="text/css" href="{% static 'jobportal/css/main.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'jobportal/css/details.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'jobportal/css/login.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'jobportal/css/home.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'jobportal/css/sort-filter.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'jobportal/css/navbar.css' %}">
+
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
         <title> {{ title }} </title>
     </head>
     <body id="override">
-        <nav class="navbar navbar-fixed-top navbar-expand-lg navbar-light bg-light">
+    {% block whole-navbar %}
+        <nav class="navbar navbar-fixed-top navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand" href="#">Job Portal</a>
+                {% block employmee %}
+                <a class="navbar-brand" href="{% url 'home' %}">Employmee</a>
+                {% endblock employmee %}
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -25,7 +36,7 @@
                     <ul class="navbar-nav mr-auto">
                         {% block navbar %}
                         <li class="nav-item px-2">
-                            <a class="nav-link" href="#">Settings</a>
+                            <a class="nav-link" href="{% url 'settings' %}">Settings</a>
                         </li>
                         {% endblock navbar %}
                     </ul>
@@ -34,11 +45,12 @@
                         <input class="form-control mr-sm-2" type="text" placeholder="Enter a job title or company name"
                                style="width: 400px;">
                         {% endblock search %}
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
                     </form>
                 </div>
             </div>
         </nav>
+    {% endblock whole-navbar %}
 
         <main role="main">
             {% block main %}

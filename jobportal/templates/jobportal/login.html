@@ -1,0 +1,74 @@
+{% extends "jobportal/base.html" %}
+
+{% block whole-navbar %}
+{% endblock whole-navbar %}
+
+{% block main %}
+<div class="row loginrow">
+    <div class="col-sm-3 ht-100 mr-5 loginbar offset-r-1">
+        <h1 class="loginmsg"><br><br><br><br><br>Welcome to Employmee! </h1>
+        <h3 class="loginmsg ml-2">Login or register for full access.</h3>
+        <h1 class="loginmsg loginmsgheart"><i class="fa fa-heart-o"></i></h1>
+    </div>
+
+    <div class="col-sm-4 mt-5 pt-5">
+        <div class="card">
+            <div class="card-header card-header">
+                <div class="text-md-center header-text">Welcome back to Employmee!</div>
+            </div>
+            <div class="card-body">
+                <div class="login-form">
+                    <form>
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" class="form-control" placeholder="User Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" class="form-control" placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-sm-4">
+        <div class="card mt-3">
+            <div class="card-header card-header">
+                <div class="text-md-center header-text">New user? Register here!</div>
+            </div>
+            <div class="card-body">
+                <div class="login-form">
+                    <form>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="text" class="form-control" placeholder="Email Address">
+                        </div>
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" class="form-control" placeholder="Username">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" class="form-control" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" class="form-control" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label>Credit Card</label>
+                            <input type="password" class="form-control" placeholder="Credit Card Number">
+                        </div>
+                        <button type="submit" class="btn btn-success">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main %}

@@ -1,20 +1,20 @@
 <div class="card">
-    <div class="card-header text-center" id="sort-by">Sort by...</div>
+    <div class="card-header text-center" id="sort-by"><div class="text header-text">Sort by...</div></div>
     <div class="card-body p-3">
-        <form action="#" method="get">
-            <input type="submit" class="btn btn-primary btn-block m-1" value="Company">
+        <form action="{% url 'sort-by-company' %}" method="get">
+            <input type="submit" class="btn btn-primary btn-block m-1" value="Company" name="sort_by">
         </form>
-        <form action="#" method="get">
-            <input type="submit" class="btn btn-primary btn-block m-1" value="Title">
+        <form action="{% url 'sort-by-title' %}" method="get">
+            <input type="submit" class="btn btn-primary btn-block m-1" value="Title" name="sort_by">
         </form>
-        <form action="#" method="get">
-            <input type="submit" class="btn btn-primary btn-block m-1" value="Sector">
+        <form action="{% url 'sort-by-sector' %}" method="get">
+            <input type="submit" class="btn btn-primary btn-block m-1" value="Sector" name="sort_by">
         </form>
-        <form action="#" method="get">
-            <input type="submit" class="btn btn-primary btn-block m-1" value="Deadline">
+        <form action="{% url 'sort-by-deadline' %}" method="get">
+            <input type="submit" class="btn btn-primary btn-block m-1" value="Deadline" name="sort_by">
         </form>
-        <form action="#" method="get">
-            <input type="submit" class="btn btn-primary btn-block m-1" value="Location">
+        <form action="{% url 'sort-by-location' %}" method="get">
+            <input type="submit" class="btn btn-primary btn-block m-1" value="Location" name="sort_by">
         </form>
     </div>
 </div>

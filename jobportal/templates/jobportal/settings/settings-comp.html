@@ -1,0 +1,49 @@
+{% extends "jobportal/base.html" %}
+
+{% block employmee %}
+<a class="navbar-brand" href="{% url 'company-home' %}">Employmee</a>
+{% endblock employmee %}
+
+{% block navbar %}
+<li class="nav-item px-2">
+    <a class="nav-link" href="{% url 'settings-comp' %}">Settings</a>
+</li>
+<li class="nav-item px-2">
+    <a class="nav-link" href="{% url 'create-posting' %}">Create Posting</a>
+</li>
+{% endblock navbar %}
+
+{% block search %}
+<input class="form-control mr-sm-2" type="text" placeholder="Enter a job title"
+       style="width: 400px;">
+{% endblock search %}
+
+{% block main %}
+
+{% block resumes %}{% endblock resumes %}
+<div class="col-10 offset-1">
+    <div class="card mt-4">
+        <div class="card-header">
+            <div class="text header-text">Your Branches</div>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Branch ID</th>
+                        <th>Location</th>
+                        <th>Contact Email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>Use street address, city, state/prov, country</td>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+    </div>
+</div>
+{% endblock main %}

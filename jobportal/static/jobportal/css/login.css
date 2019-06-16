@@ -1,0 +1,24 @@
+/* login */
+.top-buffer {
+    margin-top: 16px;
+}
+
+.loginmsg {
+    color: white;
+    text-align: center;
+}
+
+.loginmsgheart {
+    color: #edcb95;
+    text-align: center;
+}
+
+.loginbar {
+    background-color: #a3ced2;
+    height: 100vh;
+    margin-top: -80px !important;
+}
+
+.loginrow {
+    height:100%;
+}
