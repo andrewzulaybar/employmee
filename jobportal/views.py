@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.urls import reverse, resolve
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, View
-from django.shortcuts import redirect
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlparse
 
 from jobportal import details
 from jobportal.forms import SortByForm, LoginForm
@@ -34,15 +34,16 @@ def login(request):
 
 class Login(View):
     def get(self, request):
-        credentials = {'username': request.GET.get('username'),
-                       'user_type': request.GET.get('user_type')}
+        credentials = {'username': request.GET.get('username')}
+        form = LoginForm(self.request.GET or None)
         url = "/login"
-        if request.GET.get('user_type') == 'regular':
-            url = '{}?{}'.format('/', urlencode(credentials))
-        if request.GET.get('user_type') == 'premium':
-            url = '{}?{}'.format('/', urlencode(credentials))
-        if request.GET.get('user_type') == 'company':
-            url = '{}?{}'.format('/company', urlencode(credentials))
+        if form.is_valid():
+            if form.cleaned_data.get('user_type') == 'regular':
+                url = '{}?{}'.format('/regular', urlencode(credentials))
+            if form.cleaned_data.get('user_type') == 'premium':
+                url = '{}?{}'.format('/premium', urlencode(credentials))
+            if form.cleaned_data.get('user_type') == 'company':
+                url = '{}?{}'.format('/company', urlencode(credentials))
         return redirect(url)
 
 
@@ -52,8 +53,13 @@ class HomeView(ListView):
     queryset = context_object_name
 
     def get(self, request, *args, **kwargs):
-        if self.request.GET.get('user_type') == 'regular':
+        url = request.get_full_path().split("?")
+        if url[0] == reverse("home"):
             self.template_name = 'jobportal/home/home.html'
+        if url[0] == reverse("premium-home"):
+            self.template_name = 'jobportal/home/home-prem.html'
+        if url[0] == reverse("company-home"):
+            self.template_name = 'jobportal/home/home-comp.html'
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -75,15 +81,11 @@ class HomeView(ListView):
         else:
             form.sort_by = DEFAULT
 
+        url = self.request.get_full_path().split("?")
         context = get_context(form.sort_by,
                               self.request.GET.get('username'),
-                              self.request.GET.get('user_type'))
+                              url[0])
         return context
-
-
-def company_home(request):
-    context = get_context(DEFAULT, request.GET.get('username'))
-    return render(request, 'jobportal/home/home-comp.html', context)
 
 
 class Detail(DetailView):
@@ -91,42 +93,49 @@ class Detail(DetailView):
     context_object_name = 'job'
 
     def get(self, request, *args, **kwargs):
-        if self.request.GET.get('user_type') == 'regular':
+        url = request.get_full_path().split("/")
+        if url[1] == 'regular':
             self.template_name = 'jobportal/details/details.html'
+        if url[1] == 'premium':
+            self.template_name = 'jobportal/details/details-prem.html'
+        if url[1] == 'company':
+            self.template_name = 'jobportal/details/details-comp.html'
         return super().get(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
+        url = self.request.get_full_path().split("/")
         schema = ['job_id', 'title', 'company_name', 'sector', 'min_education', 'employment_type',
                   'city', 'state_prov', 'deadline', 'description', 'skills']
-        obj = details.get_job(schema, self.kwargs['pk'], self.request.GET.get('username'))
+        obj = details.get_job(schema, self.kwargs['pk'], self.request.GET.get('username'), url[1])
         return obj
-
-
-def company_details(request):
-    return render(request, 'jobportal/details/details-comp.html', get_context())
 
 
 class Settings(DetailView):
-    template_name = 'jobportal/settings/settings-prem.html'
     context_object_name = 'job'
 
     def get(self, request, *args, **kwargs):
-        if self.request.GET.get('user_type') == 'regular':
+        url = request.get_full_path().split("?")
+        if url[0] == reverse("home"):
             self.template_name = 'jobportal/settings/settings.html'
+        if url[0] == reverse("premium-settings"):
+            self.template_name = 'jobportal/settings/settings-prem.html'
+        if url[0] == reverse("company-settings"):
+            self.template_name = 'jobportal/settings/settings-comp.html'
         return super().get(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
-        obj = get_context(username=self.request.GET.get('username'),
-                          user_type=self.request.GET.get('user_type'))
+        url = self.request.get_full_path().split("/")
+        obj = get_context(username=self.request.GET.get('username'), user_type=url[0])
         return obj
 
 
-def settings_comp(request):
-    return render(request, 'jobportal/settings/settings-comp.html', get_context())
+class CreatePosting(DetailView):
+    template_name = 'jobportal/create-posting.html'
+    context_object_name = 'job'
 
-
-def create_posting(request):
-    return render(request, 'jobportal/create-posting.html', get_context())
+    def get_object(self, queryset=None):
+        obj = get_context(username=self.request.GET.get('username'))
+        return obj
 
 
 class SavedJobs(ListView):
