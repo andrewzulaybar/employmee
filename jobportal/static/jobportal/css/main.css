@@ -37,3 +37,7 @@ html, body {
 .header-text {
     color: white;
 }
+
+#logo {
+max-width: 250px;
+}

@@ -1,0 +1,71 @@
+{% extends "jobportal/base.html" %}
+
+{% block main %}
+<div class="row">
+    <div class="col-5 offset-1">
+        <div class="card">
+            <div class="card-header header-text">✨🔥 Your Top Fans 🔥✨</div>
+            <div class="card-body pb-0">
+                <p>Applicants have applied to every job posting at your company.</p>
+                <table class="table table-striped mt-4">
+                    <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Contact Email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>1@gmail.com</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p style="font-size:300%;" align="center">🔥🔥🔥</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-5">
+        <div class="card">
+            <div class="card-header header-text">Top Fans For Selected Sector</div>
+            <div class="card-body">
+                <p align="center">Select a sector and see all applicants who have applied for all jobs you have
+                    posted in that sector.</p><hr>
+                <div class="text-center">
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown">
+                            Pick a Sector
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">JobID1</a>
+                            <a class="dropdown-item" href="#">JobID2</a>
+                            <a class="dropdown-item" href="#">JobID3</a>
+                        </div>
+                        <a class="btn btn-success" href="#" role="button">See Applicants</a>
+                    </div><br>
+                </div>
+                <p>Applicants who have applied to every job posting in the ___ sector at your company.</p>
+                <table class="table table-striped mt-4">
+                    <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Contact Email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>1@gmail.com</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main %}
