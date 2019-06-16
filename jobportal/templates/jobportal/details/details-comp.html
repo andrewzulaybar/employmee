@@ -45,9 +45,15 @@
 {% endblock table %}
 
 {% block tableheader %}
-<div class="text-right">
-    <a href="{% url 'edit-posting' %}" class="btn btn-success">Edit</a>
-    <a href="{% url 'edit-posting' %}" class="btn btn-danger">Delete</a>
+<div class="float-right row">
+    <form action="{% url 'edit-posting' %}" method="get">
+        <input type="hidden" name="username" value="{{ job.username }}">
+        <input class="btn btn-success" type="submit" value="Edit">
+    </form>
+    <form action="" method="post" class="px-3">
+        {% csrf_token %}
+        <input class="btn btn-danger" type="submit" value="Delete">
+    </form>
 </div>
 {% endblock tableheader %}
 
