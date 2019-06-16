@@ -43,37 +43,41 @@
 <div class="col-10 offset-1">
     <div class="card p-0">
         <div class="card-header">
+            {% block create-header %}
             <div class="text header-text">Create Posting</div>
+            {% endblock create-header %}
         </div>
         <div class="card-body">
             <form>
+                {% block update-jobID %}
                 <div class="form-group">
                     <label>Job ID</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" value="">
                 </div>
+                {% endblock update-jobID %}
                 <div class="form-group">
                     <label>Title</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" maxlength="100">
                 </div>
                 <div class="form-group">
                     <label>Employment Type</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" maxlength="100">
                 </div>
                 <div class="form-group">
                     <label>Sector</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" maxlength="20">
                 </div>
                 <div class="form-group">
                     <label>Minimum Education</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" maxlength="50">
                 </div>
                 <div class="form-group">
                     <label>Deadline</label>
-                    <input type="text" class="form-control">
+                    <input type="date" class="form-control">
                 </div>
                 <div class="form-group">
                     <label>Salary</label>
-                    <input type="text" class="form-control">
+                    <input type="number" class="form-control" step="500">
                 </div>
                 <div class="form-group mt-4">
                     <span style="float:left;" class="text mt-2"><label>Skill&nbsp;&nbsp;&nbsp;&nbsp;</label></span>
@@ -84,9 +88,13 @@
                 </div>
                 <div class="form-group">
                     <label>Description</label>
-                    <input type="text" class="form-control">
+                    <div class="form-group">
+                        <textarea class="form-control" rows="5" maxlength="2500"></textarea>
+                    </div>
                 </div>
+                {% block post-button %}
                 <button type="submit" class="btn btn-success">Post Job</button>
+                {% endblock post-button %}
             </form>
         </div>
     </div>

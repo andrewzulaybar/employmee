@@ -166,3 +166,23 @@ class SavedJobs(ListView):
                               self.request.GET.get('username'),
                               url[1])
         return context
+
+
+class EditPosting(DetailView):
+    template_name = 'jobportal/edit-posting.html'
+    context_object_name = 'job'
+
+    def get_object(self, queryset=None):
+        url = self.request.get_full_path().split("/")
+        obj = get_context(username=self.request.GET.get('username'), user_type=url[1])
+        return obj
+
+
+class TopFans(DetailView):
+    template_name = 'jobportal/top-fans.html'
+    context_object_name = 'job'
+
+    def get_object(self, queryset=None):
+        url = self.request.get_full_path().split("/")
+        obj = get_context(username=self.request.GET.get('username'), user_type=url[1])
+        return obj

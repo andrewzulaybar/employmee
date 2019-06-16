@@ -77,3 +77,31 @@
 {% block sort-by %}
     {% include "jobportal/sidebar/sort-by-premium.html" %}
 {% endblock sort-by %}
+
+{% block salary-stats %}
+<div class="col-10 offset-1">
+    <div class="card">
+        <div class="card-header header-text">Salary Statistics</div>
+    </div>
+    <div class="card-group mb-4">
+        <div class="card stats-card">
+            <div class="card-body pt-0 pb-0">
+                <h6 class="card-title" align="center">Min. Salary</h6>
+                <p style="font-size:200%;" align="center">20000</p>
+            </div>
+        </div>
+        <div class="card stats-card">
+            <div class="card-body pt-0 pb-0">
+                <h6 class="card-title" align="center">Average Salary</h6>
+                <p style="font-size:200%;" align="center">60000</p>
+            </div>
+        </div>
+        <div class="card stats-card">
+            <div class="card-body pt-0 pb-0">
+                <h6 class="card-title" align="center">Max. Salary</h6>
+                <p style="font-size:200%;" align="center">120000</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock salary-stats %}

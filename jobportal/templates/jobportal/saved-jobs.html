@@ -6,10 +6,14 @@ Saved Jobs
 
 {% block savebutton %}
 <div class="text-right">
-    <a href="#!" class="btn btn-primary">X</a>
+    <a href="#!" class="btn btn-primary">
+        <i class="fa fa-heart"></i>
+    </a>
 </div>
 {% endblock savebutton %}
 
 {% block sort-by %}
     {% include "jobportal/sidebar/sort-by-saved-jobs.html" %}
 {% endblock sort-by %}
+
+{% block salary-stats %}{% endblock salary-stats %}
