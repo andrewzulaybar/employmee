@@ -38,7 +38,10 @@
             </p>
                 {% block detailsbutton %}
                 <div class="text-right">
-                    <a href="{% url 'details' job.job_id %}" class="btn btn-primary">See details >></a>
+                    <form action="{% url 'details' job.job_id %}" method="get">
+                        <input type="hidden" name="username" value="{{ username }}">
+                        <button type="submit" class="btn btn-primary">See details >></button>
+                    </form>
                 </div>
                 {% endblock detailsbutton %}
             </div>

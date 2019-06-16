@@ -26,7 +26,10 @@
         <nav class="navbar navbar-fixed-top navbar-expand-lg">
             <div class="container">
                 {% block employmee %}
-                <a class="navbar-brand" href="{% url 'home' %}">Employmee</a>
+                <form action="{% url 'home' %}" method="get">
+                    <input type="hidden" name="username" value="{{ username }}">
+                    <input class="navbar-brand" type="submit" value="Employmee">
+                </form>
                 {% endblock employmee %}
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                     <span class="navbar-toggler-icon"></span>
@@ -36,7 +39,10 @@
                     <ul class="navbar-nav mr-auto">
                         {% block navbar %}
                         <li class="nav-item px-2">
-                            <a class="nav-link" href="{% url 'settings' %}">Settings</a>
+                            <form action="{% url 'settings' %}" method="get">
+                                <input type="hidden" name="username" value="{{ username }}">
+                                <input class="nav-link" type="submit" value="Settings">
+                            </form>
                         </li>
                         {% endblock navbar %}
                     </ul>
