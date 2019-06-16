@@ -27,22 +27,35 @@
             <div class="text header-text">Your Branches</div>
         </div>
         <div class="card-body">
-            <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>Branch ID</th>
-                        <th>Location</th>
-                        <th>Contact Email</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>Use street address, city, state/prov, country</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <form>
+                <div class="form-group">
+                    <label>Enter a BranchID:</label>
+                    <input type="number" class="form-control">
+                </div>
+                <label>Select detail(s) to display:&nbsp;&nbsp;&nbsp;</label>
+                <label class="checkbox-inline"><input type="checkbox" value=""> Address&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;</label>
+                <label class="checkbox-inline"><input type="checkbox" value=""> Contact Email&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;</label>
+                <button class="btn btn-primary" type="submit">View Branches</button>
+            </form>
+            <!-- will show the branch info in this table depending on details selected -->
+            <table class="table table-striped mt-4">
+                <thead>
+                <tr>
+                    <th>Branch ID</th>
+                    <th>Location</th>
+                    <th>Contact Email</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>Use street address, city, state/prov, country</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

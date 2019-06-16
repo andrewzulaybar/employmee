@@ -27,36 +27,93 @@
 </div>
 {% endblock columns %}
 
-{% block extrasort %}
-<form action="#" method="get">
-    <input type="submit" class="btn btn-primary btn-block m-1" value="Salary">
-</form>
-<form action="#" method="get">
-    <input type="submit" class="btn btn-primary btn-block m-1" value="Applications">
-</form>
-{% endblock extrasort %}
-
 {% block detailsbutton %}
 <div class="text-right">
-    <button type="button" class="btn btn-success">Edit</button>
-    <a href="#!" class="btn btn-primary">See details >></a>
+    <button type="button" class="btn btn-primary">Edit</button>
+    <a href="#!" class="btn btn-success">See details >></a>
 </div>
 {% endblock detailsbutton %}
 
-{% block company %}{% endblock company %}
 
-{% block applicationsfilter %}
-<label for="applications">Applications</label>
-<form class="form-inline">
-    <input type="number" min="0" id="applications" class="form-control col-6 mx-2 mb-2">
-    <small id="applicationNum" class="text-muted">Applied</small>
-</form>
-{% endblock applicationsfilter %}
 
-{% block salaryfilter %}
-<label for="salary">Salary</label>
-<form class="form-inline">
-    <input type="number" min="0" step="5000" id="salary" class="form-control col-6 mx-2 mb-2">
-    <small id="salaryAmt" class="text-muted">Dollars</small>
-</form>
-{% endblock salaryfilter %}
+{% block job-card %}
+<div class="col-6 offset-1">
+    {% block job-card-content %}
+    {{ block.super }}
+    {% endblock job-card-content %}
+</div>
+{% endblock job-card %}
+
+{% block salary-stats %}
+<div class="col-6 offset-1">
+    <div class="card">
+        <div class="card-header header-text">Salary Statistics</div>
+    </div>
+    <div class="card-group mb-4">
+        <div class="card stats-card">
+            <div class="card-body pt-0 pb-0">
+                <h6 class="card-title" align="center">Min. Salary</h6>
+                <p style="font-size:200%;" align="center">20000</p>
+            </div>
+        </div>
+        <div class="card stats-card">
+            <div class="card-body pt-0 pb-0">
+                <h6 class="card-title" align="center">Average Salary</h6>
+                <p style="font-size:200%;" align="center">60000</p>
+            </div>
+        </div>
+        <div class="card stats-card">
+            <div class="card-body pt-0 pb-0">
+                <h6 class="card-title" align="center">Max. Salary</h6>
+                <p style="font-size:200%;" align="center">120000</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock salary-stats %}
+
+{% block top-fans %}
+<div class="col-4">
+    <div class="card">
+        <div class="card-body mb-2 pb-1">
+            <p style="font-size:100%;" align="center"><br>Want to see which applicant has applied to the most
+                postings in your company?</p>
+        </div>
+        <div class="card-body pb-0 pl-0 pr-0 mt-0 pt-0">
+            <a class="btn btn-success btn-block" href="#" role="button">✨🔥View Top Fans🔥✨</a>
+        </div>
+    </div>
+</div>
+{% endblock top-fans %}
+
+{% block sort-filter %}
+<div class="col-4">
+    <div class="card">
+        <div class="card-header header-text">Applicant Information</div>
+        <div class="card-body">
+            <p style="font-size:200%;" align="center">12</p>
+            <p align="center">Total Number of Distinct Applicants</p>
+            <hr>
+            <p>See the number of distinct applicants for a particular posting:</p>
+            <div class="text-center">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown">
+                        Pick a JobID
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">JobID1</a>
+                        <a class="dropdown-item" href="#">JobID2</a>
+                        <a class="dropdown-item" href="#">JobID3</a>
+                    </div>
+                    <a class="btn btn-success" href="#" role="button">See applicants</a>
+                </div> <br>
+                <p>For JobID _____:</p>
+                <p style="font-size:200%;" align="center">7</p>
+                <p>Distinct Applicants</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock sort-filter %}

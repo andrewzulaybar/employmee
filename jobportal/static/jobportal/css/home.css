@@ -6,3 +6,7 @@
 #applyFilter {
     border-radius: 0px 0px 3px 0px;
 }
+
+.stats-card {
+    border-top: 0px;
+}
