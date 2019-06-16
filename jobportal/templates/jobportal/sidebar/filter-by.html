@@ -2,116 +2,116 @@
     <div class="card-header text-center" id="filter-by"><div class="text header-text">Filter by...</div></div>
     <div class="card-body p-3">
         <div id="accordion">
-            <!-- Sector -->
-            <form action="#" method="get">
-                <input type="button" class="btn btn-success btn-block m-1" value=" Sector &#9662;"
-                       data-toggle="collapse" data-target="#sector">
-            </form>
-            <div id="sector" class="collapse" data-parent="#accordion">
-                <div class="p-2">
-                    {% for sector in sectors %}
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="{{ sector }}">
-                        <label class="form-check-label" for="{{ sector }}">
-                            {{ sector }}
-                        </label>
+            <form action="{% url 'filter-by-params' %}" method="get">
+                <!-- Sector -->
+                <div class="form-group">
+                    <input type="button" class="btn btn-success btn-block m-1" value=" Sector &#9662;"
+                           data-toggle="collapse" data-target="#sector">
+                    <div id="sector" class="collapse" data-parent="#accordion">
+                        <div class="p-2">
+                            {% for sector in sectors %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="{{ sector }}">
+                                <label class="form-check-label" for="{{ sector }}">
+                                    {{ sector }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
-                    {% endfor %}
                 </div>
-            </div>
-
-            <!-- Education -->
-            <form action="#" method="get">
-                <input type="button" class="btn btn-success btn-block m-1" value=" Education &#9662;"
-                       data-toggle="collapse" data-target="#education">
-            </form>
-            <div id="education" class="collapse" data-parent="#accordion">
-                <div class="p-2">
-                    {% for ed in education %}
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="{{ ed }}">
-                        <label class="form-check-label" for="{{ ed }}">
-                            {{ ed }}
-                        </label>
+                <!-- Education -->
+                <div class="form-group">
+                    <input type="button" class="btn btn-success btn-block m-1" value=" Education &#9662;"
+                           data-toggle="collapse" data-target="#education">
+                    <div id="education" class="collapse" data-parent="#accordion">
+                        <div class="p-2">
+                            {% for ed in education %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="{{ ed }}">
+                                    <label class="form-check-label" for="{{ ed }}">
+                                        {{ ed }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
-                    {% endfor %}
                 </div>
-            </div>
-
-            <!-- Type -->
-            <form action="#" method="get">
-                <input type="button" class="btn btn-success btn-block m-1" value=" Type &#9662;"
-                       data-toggle="collapse" data-target="#employmentType">
-            </form>
-            <div id="employmentType" class="collapse" data-parent="#accordion">
-                <div class="p-2">
-                    {% for type in types %}
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="{{ type }}">
-                        <label class="form-check-label" for="{{ type }}">
-                            {{ type }}
-                        </label>
+                <!-- Type -->
+                <div class="form-group">
+                    <input type="button" class="btn btn-success btn-block m-1" value=" Type &#9662;"
+                           data-toggle="collapse" data-target="#employmentType">
+                    <div id="employmentType" class="collapse" data-parent="#accordion">
+                        <div class="p-2">
+                            {% for type in types %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="{{ type }}">
+                                <label class="form-check-label" for="{{ type }}">
+                                    {{ type }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
-                    {% endfor %}
                 </div>
-            </div>
-
-            <!-- Skills -->
-            <form action="#" method="get">
-                <input type="button" class="btn btn-success btn-block m-1" value=" Skills &#9662;"
-                       data-toggle="collapse" data-target="#skills">
-            </form>
-            <div id="skills" class="collapse" data-parent="#accordion">
-                <div class="p-2">
-                    {% for skill in skills %}
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="{{ skill }}">
-                        <label class="form-check-label" for="{{ skill }}">
-                            {{ skill }}
-                        </label>
+                <!-- Skills -->
+                <div class="form-group">
+                    <input type="button" class="btn btn-success btn-block m-1" value=" Skills &#9662;"
+                           data-toggle="collapse" data-target="#skills">
+                    <div id="skills" class="collapse" data-parent="#accordion">
+                        <div class="p-2">
+                            {% for skill in skills %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="{{ skill }}">
+                                <label class="form-check-label" for="{{ skill }}">
+                                    {{ skill }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
-                    {% endfor %}
                 </div>
-            </div>
-
-            <!-- City -->
-            <form action="#" method="get">
-                <input type="button" class="btn btn-success btn-block m-1" value=" City &#9662;"
-                       data-toggle="collapse" data-target="#city">
-            </form>
-            <div id="city" class="collapse" data-parent="#accordion">
-                <div class="p-2">
-                    {% for city in cities %}
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="{{ city }}">
-                        <label class="form-check-label" for="{{ city }}">
-                            {{ city }}
-                        </label>
+                <!-- City -->
+                <div class="form-group">
+                    <input type="button" class="btn btn-success btn-block m-1" value=" City &#9662;"
+                               data-toggle="collapse" data-target="#city">
+                    <div id="city" class="collapse" data-parent="#accordion">
+                        <div class="p-2">
+                            {% for city in cities %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="{{ city }}">
+                                <label class="form-check-label" for="{{ city }}">
+                                    {{ city }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
-                    {% endfor %}
                 </div>
-            </div>
-
-            <!-- Deadline -->
-            <label for="deadline">Deadline</label>
-            <form class="form-inline">
-                <input type="number" min="0" id="deadline" class="form-control col-6 mx-2 mb-2">
-                <small id="deadlineDays" class="text-muted">Days</small>
+                <!-- Deadline -->
+                <div class="form-group">
+                    <label for="deadline">Deadline</label>
+                    <div class="form-inline">
+                        <input type="number" min="0" id="deadline" class="form-control col-6 mx-2 mb-2">
+                        <small id="deadlineDays" class="text-muted">Days</small>
+                    </div>
+                </div>
+                <!-- Recent -->
+                <div class="form-group">
+                    <label for="recent">Recently Posted</label>
+                    <div class="form-inline">
+                        <input type="number" min="0" id="recent" class="form-control col-6 mx-2 mb-2">
+                        <small id="recentDays" class="text-muted">Days</small>
+                    </div>
+                </div>
+                <!-- Reset or Apply -->
+                <div class="card-footer p-0">
+                    <div class="btn-group btn-block">
+                        <input type="reset" class="btn btn-primary" id="reset" value="Reset">
+                        <input type="submit" class="btn btn-success" id="applyFilter" value="Apply">
+                    </div>
+                </div>
             </form>
-
-            <!-- Recent -->
-            <label for="deadline">Recently Posted</label>
-            <form class="form-inline">
-                <input type="number" min="0" id="recent" class="form-control col-6 mx-2 mb-2">
-                <small id="recentDays" class="text-muted">Days</small>
-            </form>
-        </div>
-    </div>
-    <!-- Reset or Apply -->
-    <div class="card-footer p-0">
-        <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-            <input type="submit" class="btn btn-primary" id="reset" value="Reset">
-            <input type="submit" class="btn btn-success" id="applyFilter" value="Apply">
         </div>
     </div>
 </div>
