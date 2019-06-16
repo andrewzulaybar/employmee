@@ -22,14 +22,18 @@
 <div class="col-10 offset-1">
     <div class="card p-0">
         <div class="card-header">
+            {% block create-header %}
             <div class="text header-text">Create Posting</div>
+            {% endblock create-header %}
         </div>
         <div class="card-body">
             <form>
+                {% block update-jobID %}
                 <div class="form-group">
                     <label>Job ID</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" value="">
                 </div>
+                {% endblock update-jobID %}
                 <div class="form-group">
                     <label>Title</label>
                     <input type="text" class="form-control" maxlength="100">
@@ -67,7 +71,9 @@
                         <textarea class="form-control" rows="5" maxlength="2500"></textarea>
                     </div>
                 </div>
+                {% block post-button %}
                 <button type="submit" class="btn btn-success">Post Job</button>
+                {% endblock post-button %}
             </form>
         </div>
     </div>
