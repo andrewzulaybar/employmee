@@ -20,4 +20,5 @@ urlpatterns = [
     path('sort', views.HomeView.as_view(), name='sort-by-sector'),
     path('sort', views.HomeView.as_view(), name='sort-by-deadline'),
     path('sort', views.HomeView.as_view(), name='sort-by-location'),
+    path('logging-in', views.logging_in, name='logging-in')
 ]

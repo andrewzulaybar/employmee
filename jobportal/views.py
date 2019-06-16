@@ -1,8 +1,10 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, View
+from django.shortcuts import redirect
+from urllib.parse import urlencode
 
 from jobportal import details
-from jobportal.forms import SortByForm
+from jobportal.forms import SortByForm, LoginForm
 from jobportal.sidebar import Sidebar, SortBy
 
 DEFAULT = 'date DESC'
@@ -49,14 +51,33 @@ class HomeView(ListView):
             form.sort_by = DEFAULT
 
         context = get_context(form.sort_by)
+        context['user_name'] = self.request.GET.get('username')
         return context
 
 
+def logging_in(request):
+    form = LoginForm(request.GET or None)
+    form.is_valid()
+    form2 = {'username': form.cleaned_data.get('username')}
+    url = "/login"
+    if form.cleaned_data.get('premium') == 'on':
+        url = '{}?{}'.format('/premium', urlencode(form2))
+    if form.cleaned_data.get('regular') == 'on':
+        url = '{}?{}'.format('/', urlencode(form2))
+    if form.cleaned_data.get('company') == 'on':
+        url = '{}?{}'.format('/company', urlencode(form2))
+    return redirect(url)
+
+
 def premium_home(request):
-    return render(request, 'jobportal/home/home-prem.html', get_context(DEFAULT))
+    context = get_context(DEFAULT)
+    context['user_name'] = request.GET.get('username')
+    return render(request, 'jobportal/home/home-prem.html', context)
 
 
 def company_home(request):
+    context = get_context(DEFAULT)
+    context['user_name'] = request.GET.get('username')
     return render(request, 'jobportal/home/home-comp.html', get_context(DEFAULT))
 
 
