@@ -89,7 +89,7 @@ class Detail(DetailView):
     def get_object(self, queryset=None):
         schema = ['job_id', 'title', 'company_name', 'sector', 'min_education', 'employment_type',
                   'city', 'state_prov', 'deadline', 'description', 'skills']
-        obj = details.get_job(schema, self.kwargs['pk'])
+        obj = details.get_job(schema, self.kwargs['pk'], self.request.GET.get('username'))
         return obj
 
 
@@ -101,8 +101,13 @@ def company_details(request):
     return render(request, 'jobportal/details/details-comp.html', get_context())
 
 
-def settings(request):
-    return render(request, 'jobportal/settings/settings.html', get_context())
+class Settings(DetailView):
+    template_name = 'jobportal/settings/settings.html'
+    context_object_name = 'username'
+
+    def get_object(self, queryset=None):
+        obj = get_context(username=self.request.GET.get('username'))['username']
+        return obj
 
 
 def settings_prem(request):

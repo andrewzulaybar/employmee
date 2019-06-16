@@ -27,7 +27,11 @@
             <div class="container">
                 {% block employmee %}
                 <form action="{% url 'home' %}" method="get">
-                    <input type="hidden" name="username" value="{{ username }}">
+                    {% if job.username is not None %}
+                        <input type="hidden" name="username" value="{{ job.username }}">
+                    {% else %}
+                        <input type="hidden" name="username" value="{{ username }}">
+                    {% endif %}
                     <input class="navbar-brand" type="submit" value="Employmee">
                 </form>
                 {% endblock employmee %}
