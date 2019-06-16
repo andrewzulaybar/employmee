@@ -1,7 +1,7 @@
 {% extends "jobportal/details/details.html" %}
 
 {% block employmee %}
-<form action="{% url 'home' %}" method="get">
+<form action="{% url 'premium-home' %}" method="get">
     <input type="hidden" name="username" value="{{ job.username }}">
     <input class="navbar-brand" type="submit" value="Employmee">
 </form>
@@ -9,7 +9,7 @@
 
 {% block navbar %}
 <li class="nav-item px-2">
-    <form action="{% url 'settings' %}" method="get">
+    <form action="{% url 'premium-settings' %}" method="get">
         <input type="hidden" name="username" value="{{ job.username }}">
         <input class="nav-link" type="submit" value="Settings">
     </form>
