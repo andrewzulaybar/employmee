@@ -48,17 +48,16 @@ class Login(View):
 
 
 class HomeView(ListView):
-    template_name = 'jobportal/home/home-prem.html'
     context_object_name = 'jobs'
     queryset = context_object_name
 
     def get(self, request, *args, **kwargs):
         url = request.get_full_path().split("?")
-        if url[0] == reverse("home"):
+        if '/regular' in url[0]:
             self.template_name = 'jobportal/home/home.html'
-        if url[0] == reverse("premium-home"):
+        if '/premium' in url[0]:
             self.template_name = 'jobportal/home/home-prem.html'
-        if url[0] == reverse("company-home"):
+        if '/company' in url[0]:
             self.template_name = 'jobportal/home/home-comp.html'
         return super().get(request, *args, **kwargs)
 
@@ -94,11 +93,11 @@ class Detail(DetailView):
 
     def get(self, request, *args, **kwargs):
         url = request.get_full_path().split("/")
-        if url[1] == 'regular':
+        if 'regular' in url[1]:
             self.template_name = 'jobportal/details/details.html'
-        if url[1] == 'premium':
+        if 'premium' in url[1]:
             self.template_name = 'jobportal/details/details-prem.html'
-        if url[1] == 'company':
+        if 'company' in url[1]:
             self.template_name = 'jobportal/details/details-comp.html'
         return super().get(request, *args, **kwargs)
 
@@ -114,18 +113,18 @@ class Settings(DetailView):
     context_object_name = 'job'
 
     def get(self, request, *args, **kwargs):
-        url = request.get_full_path().split("?")
-        if url[0] == reverse("home"):
+        url = request.get_full_path().split("/")
+        if 'regular' in url[1]:
             self.template_name = 'jobportal/settings/settings.html'
-        if url[0] == reverse("premium-settings"):
+        if 'premium' in url[1]:
             self.template_name = 'jobportal/settings/settings-prem.html'
-        if url[0] == reverse("company-settings"):
+        if 'company' in url[1]:
             self.template_name = 'jobportal/settings/settings-comp.html'
         return super().get(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
         url = self.request.get_full_path().split("/")
-        obj = get_context(username=self.request.GET.get('username'), user_type=url[0])
+        obj = get_context(username=self.request.GET.get('username'), user_type=url[1])
         return obj
 
 
@@ -162,7 +161,8 @@ class SavedJobs(ListView):
         else:
             form.sort_by = DEFAULT
 
+        url = self.request.get_full_path().split("/")
         context = get_context(form.sort_by,
                               self.request.GET.get('username'),
-                              self.request.GET.get('user_type'))
+                              url[1])
         return context
