@@ -22,3 +22,9 @@ class FilterByForm(forms.Form):
     deadline = forms.IntegerField(required=False)
     recent = forms.IntegerField(required=False)
 
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=20)
+    password = forms.CharField(max_length=20)
+    user_type = forms.CharField(max_length=20)
+

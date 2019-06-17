@@ -7,7 +7,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE',
                       'cpsc304.settings')
 
 
-def get_job(schema, job_id):
+def get_job(schema, job_id, username, user_type):
     with connection.cursor() as cursor:
         query = """SELECT j.job_ID, j.title, c.name, j.sector, j.min_education, j.employment_type, \
                         l.city, l.state_prov, j.deadline, j.description
@@ -28,6 +28,8 @@ def get_job(schema, job_id):
             job[key] = value
 
         get_skills(job_id, job)
+        job['username'] = username
+        job['user_type'] = user_type
 
         return job
 
