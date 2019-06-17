@@ -24,4 +24,5 @@ urlpatterns = [
     path('regular/filter', views.HomeView.as_view(), name='filter-by'),
     path('premium/filter', views.HomeView.as_view(), name='filter-by-premium'),
     path('save-job', views.SaveJob.as_view(), name='save-job'),
+    path('unsave-job', views.UnSaveJob.as_view(), name='unsave-job'),
 ]

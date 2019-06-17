@@ -82,6 +82,14 @@ class SaveJob(View):
         url = '{}?{}'.format('/premium', urlencode(credentials))
         return redirect(url)
 
+class UnSaveJob(View):
+    def get(self, request):
+        print('in unsaveJob redirect')
+        credentials = {'username': request.GET.get('username')}
+        savejob.un_save_prem_job(request.GET.get('username'), request.GET.get('job_id'))
+        url = '{}?{}'.format('/premium/saved-jobs', urlencode(credentials))
+        return redirect(url)
+
 
 class HomeView(ListView):
     context_object_name = 'jobs'
