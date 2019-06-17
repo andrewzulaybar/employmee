@@ -7,6 +7,7 @@ from jobportal import details
 from jobportal.forms import SortByForm, LoginForm, FilterByForm
 from jobportal.sidebar import Sidebar, SortBy
 from jobportal.filterquery import JobQuery
+from jobportal import savejob
 
 DEFAULT = 'date DESC'
 
@@ -71,6 +72,14 @@ class Login(View):
                 url = '{}?{}'.format('/premium', urlencode(credentials))
             if form.cleaned_data.get('user_type') == 'company':
                 url = '{}?{}'.format('/company', urlencode(credentials))
+        return redirect(url)
+
+class SaveJob(View):
+    def get(self, request):
+        print('in saveJob redirect')
+        credentials = {'username': request.GET.get('username')}
+        savejob.save_prem_job(request.GET.get('username'), request.GET.get('job_id'))
+        url = '{}?{}'.format('/premium', urlencode(credentials))
         return redirect(url)
 
 
