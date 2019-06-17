@@ -18,43 +18,47 @@
     {% block job-card %}
     <div class="col-12 col-sm-8 col-md-7 offset-md-1 col-lg-7 offset-lg-1 col-xl-8 offset-xl-1">
         {% block job-card-content %}
-        {% for job in jobs %}
-        <div class="card">
-            <div class="card-body">
-                {% block savebutton %}{% endblock savebutton %}
+            {% if jobs %}
+                {% for job in jobs %}
+                    <div class="card">
+                        <div class="card-body">
+                            {% block savebutton %}{% endblock savebutton %}
 
-                <h4 class="card-title">{{ job.title }}</h4>
-                <h6 class="card-subtitle mb-2 text-muted">Company: {{ job.company_name }}</h6>
-                <p class="card-text">
+                            <h4 class="card-title">{{ job.title }}</h4>
+                            <h6 class="card-subtitle mb-2 text-muted">Company: {{ job.company_name }}</h6>
+                            <p class="card-text">
 
-                <div class="row align-items-start">
-                    <div class="col">
-                        Sector: {{ job.sector }}
-                    </div>
-                    <div class="col">
-                        Location: {{ job.city }}, {{ job.state_prov }}
-                    </div>
-                    <div class="col">
-                        Deadline: {{ job.deadline }}
-                    </div>
-                    {% block columns %}{% endblock columns %}
-                </div>
+                            <div class="row align-items-start">
+                                <div class="col">
+                                    Sector: {{ job.sector }}
+                                </div>
+                                <div class="col">
+                                    Location: {{ job.city }}, {{ job.state_prov }}
+                                </div>
+                                <div class="col">
+                                    Deadline: {{ job.deadline }}
+                                </div>
+                                {% block columns %}{% endblock columns %}
+                            </div>
 
-                <hr>
-                <br><p>
-                {{ job.description }}
-            </p>
-                {% block detailsbutton %}
-                <div class="text-right">
-                    <form action="{% url 'details' job.job_id %}" method="get">
-                        <input type="hidden" name="username" value="{{ username }}">
-                        <button type="submit" class="btn btn-success">See details >></button>
-                    </form>
-                </div>
-                {% endblock detailsbutton %}
-            </div>
-        </div>
-        {% endfor %}
+                            <hr>
+                            <br><p>
+                            {{ job.description }}
+                        </p>
+                            {% block detailsbutton %}
+                                <div class="text-right">
+                                    <form action="{% url 'details' job.job_id %}" method="get">
+                                        <input type="hidden" name="username" value="{{ username }}">
+                                        <button type="submit" class="btn btn-success">See details >></button>
+                                    </form>
+                                </div>
+                            {% endblock detailsbutton %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h4>No jobs matching your search criteria were found! :(</h4>
+            {% endif %}
         {% endblock job-card-content %}
     </div>
     {% endblock job-card %}
