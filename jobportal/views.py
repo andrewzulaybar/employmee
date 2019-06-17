@@ -4,8 +4,9 @@ from django.views.generic import ListView, DetailView, View
 from urllib.parse import urlencode, urlparse
 
 from jobportal import details
-from jobportal.forms import SortByForm, LoginForm
+from jobportal.forms import SortByForm, LoginForm, FilterByForm
 from jobportal.sidebar import Sidebar, SortBy
+from jobportal.filterquery import JobQuery
 
 DEFAULT = 'date DESC'
 
@@ -19,6 +20,30 @@ def get_context(sort_order=DEFAULT, username=None, user_type=None):
         'user_type': user_type,
         'title': 'Home Page',
         'jobs': sort_by.get_jobs(schema, sort_order),
+        'sectors': sidebar.sectors(),
+        'skills': sidebar.skills(),
+        'cities': sidebar.cities(),
+        'education': sidebar.education(),
+        'types': sidebar.job_types()
+    }
+    return context
+
+
+def get_filter_context(filter_form):
+    sidebar = Sidebar()
+    filter_by = JobQuery(
+        filter_form.cleaned_data['sector_choices'],
+        filter_form.cleaned_data['edu_choices'],
+        filter_form.cleaned_data['type_choices'],
+        filter_form.cleaned_data['skill_choices'],
+        filter_form.cleaned_data['city_choices'],
+        filter_form.cleaned_data['deadline'],
+        filter_form.cleaned_data['recent']
+    )
+    schema = ['job_id', 'title', 'company_name', 'sector', 'city', 'state_prov', 'deadline', 'description']
+    context = {
+        'title': 'Home Page',
+        'jobs': filter_by.get_jobs(schema),
         'sectors': sidebar.sectors(),
         'skills': sidebar.skills(),
         'cities': sidebar.cities(),
@@ -62,28 +87,33 @@ class HomeView(ListView):
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        form = SortByForm(self.request.GET or None)
+        sort_form = SortByForm(self.request.GET or None)
+        filter_form = FilterByForm(self.request.GET or None)
 
-        if form.is_valid():
-            if form.cleaned_data['sort_by'] == 'Company':
-                form.sort_by = 'c.name'
-            elif form.cleaned_data['sort_by'] == 'Title':
-                form.sort_by = 'j.title'
-            elif form.cleaned_data['sort_by'] == 'Sector':
-                form.sort_by = 'j.sector, j.title'
-            elif form.cleaned_data['sort_by'] == 'Deadline':
-                form.sort_by = 'j.deadline'
-            elif form.cleaned_data['sort_by'] == 'Location':
-                form.sort_by = 'l.city'
+        if sort_form.is_valid():
+            if sort_form.cleaned_data['sort_by'] == 'Company':
+                sort_form.sort_by = 'c.name'
+            elif sort_form.cleaned_data['sort_by'] == 'Title':
+                sort_form.sort_by = 'j.title'
+            elif sort_form.cleaned_data['sort_by'] == 'Sector':
+                sort_form.sort_by = 'j.sector, j.title'
+            elif sort_form.cleaned_data['sort_by'] == 'Deadline':
+                sort_form.sort_by = 'j.deadline'
+            elif sort_form.cleaned_data['sort_by'] == 'Location':
+                sort_form.sort_by = 'l.city'
             else:
-                form.sort_by = DEFAULT
+                sort_form.sort_by = DEFAULT
         else:
-            form.sort_by = DEFAULT
+            sort_form.sort_by = DEFAULT
+
+        if filter_form.is_valid():
+            return get_filter_context(filter_form)
 
         url = self.request.get_full_path().split("?")
-        context = get_context(form.sort_by,
+        context = get_context(sort_form.sort_by,
                               self.request.GET.get('username'),
                               url[0])
+
         return context
 
 
