@@ -11,7 +11,7 @@
                         <div class="p-2">
                             {% for sector in sectors %}
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="{{ sector }}">
+                                <input name="sector_choices" class="form-check-input" type="checkbox" value="{{ sector }}" id="{{ sector }}">
                                 <label class="form-check-label" for="{{ sector }}">
                                     {{ sector }}
                                 </label>
@@ -28,7 +28,7 @@
                         <div class="p-2">
                             {% for ed in education %}
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="{{ ed }}">
+                                    <input name="edu_choices" class="form-check-input" type="checkbox" value="{{ ed }}" id="{{ ed }}">
                                     <label class="form-check-label" for="{{ ed }}">
                                         {{ ed }}
                                     </label>
@@ -45,7 +45,7 @@
                         <div class="p-2">
                             {% for type in types %}
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="{{ type }}">
+                                <input name="type_choices" class="form-check-input" type="checkbox" value="{{ type }}" id="{{ type }}">
                                 <label class="form-check-label" for="{{ type }}">
                                     {{ type }}
                                 </label>
@@ -62,7 +62,7 @@
                         <div class="p-2">
                             {% for skill in skills %}
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="{{ skill }}">
+                                <input name="skill_choices" class="form-check-input" type="checkbox" value="{{ skill }}" id="{{ skill }}">
                                 <label class="form-check-label" for="{{ skill }}">
                                     {{ skill }}
                                 </label>
@@ -79,7 +79,7 @@
                         <div class="p-2">
                             {% for city in cities %}
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="{{ city }}">
+                                <input name="city_choices" class="form-check-input" type="checkbox" value="{{ city }}" id="{{ city }}">
                                 <label class="form-check-label" for="{{ city }}">
                                     {{ city }}
                                 </label>
@@ -92,7 +92,7 @@
                 <div class="form-group">
                     <label for="deadline">Deadline</label>
                     <div class="form-inline">
-                        <input type="number" min="0" id="deadline" class="form-control col-6 mx-2 mb-2">
+                        <input name="deadline" type="number" min="0" id="deadline" class="form-control col-6 mx-2 mb-2">
                         <small id="deadlineDays" class="text-muted">Days</small>
                     </div>
                 </div>
@@ -100,7 +100,7 @@
                 <div class="form-group">
                     <label for="recent">Recently Posted</label>
                     <div class="form-inline">
-                        <input type="number" min="0" id="recent" class="form-control col-6 mx-2 mb-2">
+                        <input name="recent" type="number" min="0" id="recent" class="form-control col-6 mx-2 mb-2">
                         <small id="recentDays" class="text-muted">Days</small>
                     </div>
                 </div>
