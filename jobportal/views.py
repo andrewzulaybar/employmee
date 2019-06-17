@@ -29,7 +29,7 @@ def get_context(sort_order=DEFAULT, username=None, user_type=None):
     return context
 
 
-def get_filter_context(filter_form):
+def get_filter_context(filter_form, username=None, user_type=None):
     sidebar = Sidebar()
     filter_by = JobQuery(
         filter_form.cleaned_data['sector_choices'],
@@ -42,6 +42,8 @@ def get_filter_context(filter_form):
     )
     schema = ['job_id', 'title', 'company_name', 'sector', 'city', 'state_prov', 'deadline', 'description']
     context = {
+        'username': username,
+        'user_type': user_type,
         'title': 'Home Page',
         'jobs': filter_by.get_jobs(schema),
         'sectors': sidebar.sectors(),
@@ -106,10 +108,13 @@ class HomeView(ListView):
         else:
             sort_form.sort_by = DEFAULT
 
-        if filter_form.is_valid():
-            return get_filter_context(filter_form)
-
         url = self.request.get_full_path().split("?")
+
+        if filter_form.is_valid():
+            return get_filter_context(filter_form,
+                                      self.request.GET.get('username'),
+                                      url[0])
+
         context = get_context(sort_form.sort_by,
                               self.request.GET.get('username'),
                               url[0])
