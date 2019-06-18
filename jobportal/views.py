@@ -41,11 +41,9 @@ def get_context(sort_order=DEFAULT, filter_form=None, job_id_form=None, username
         )
         context['jobs'] = filter_by.get_jobs(schema)
     elif job_id_form is not None and job_id_form.is_valid():
-        print('inside elif case')
         schema = ['first_name', 'last_name', 'contact_info', 'position', 'company', 'duration', 'description']
-        context['applicants'] = company_sidebar.get_applicants(schema, job_id_form.cleaned_data['job_id'])
+        context['applicants'] = company_sidebar.get_applicants(schema, job_id_form.cleaned_data['job_id'], username)
     else:
-        print('inside else case')
         context['jobs'] = sort_by.get_jobs(schema, sort_order)
     return context
 

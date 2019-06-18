@@ -109,17 +109,21 @@ class SortBy:
 
 
 class CompanySidebar:
-    def get_applicants(self, schema, job_id):
-        print('inside get applicants!!')
+    def get_applicants(self, schema, job_id, company_username):
+        username_str = "'{}'".format(company_username)
+
         with connection.cursor() as cursor:
             query = "SELECT a.first_name, a.last_name, a.contact_email\
                     FROM Sends_Application s \
                     INNER JOIN Creates_Resume c \
-                      ON s.resume_ID = c.resume_ID \
+                        ON s.resume_ID = c.resume_ID \
                     INNER JOIN Applicant a \
                         ON c.applicant_login_ID = a.applicant_login_ID \
-                    WHERE job_ID = %s;" % job_id
+                    INNER JOIN Job j\
+                        ON s.job_ID = j.job_ID \
+                    WHERE s.job_ID = %s AND j.company_login_ID = %s;" % (job_id, username_str)
 
+            query.replace("'", "\\'")
             cursor.execute(query)
             applicants = cursor.fetchall()
 
