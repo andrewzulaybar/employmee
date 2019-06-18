@@ -1,9 +1,9 @@
-from django.urls import reverse, resolve
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, View
-from urllib.parse import urlencode, urlparse
+from urllib.parse import urlencode
 
 from jobportal import details
+from jobportal.applicants import Applicants
 from jobportal.forms import SortByForm, LoginForm, FilterByForm
 from jobportal.sidebar import Sidebar, SortBy
 from jobportal.filterquery import JobQuery
@@ -11,47 +11,35 @@ from jobportal.filterquery import JobQuery
 DEFAULT = 'date DESC'
 
 
-def get_context(sort_order=DEFAULT, username=None, user_type=None):
+def get_context(sort_order=DEFAULT, filter_form=None, username=None, user_type=None):
     sidebar = Sidebar()
     sort_by = SortBy()
+    applicants = Applicants()
     schema = ['job_id', 'title', 'company_name', 'sector', 'city', 'state_prov', 'deadline', 'description']
     context = {
         'username': username,
         'user_type': user_type,
         'title': 'Home Page',
-        'jobs': sort_by.get_jobs(schema, sort_order),
         'sectors': sidebar.sectors(),
         'skills': sidebar.skills(),
         'cities': sidebar.cities(),
         'education': sidebar.education(),
-        'types': sidebar.job_types()
+        'types': sidebar.job_types(),
+        'distinct_applicants': applicants.get_distinct_applicants(username)
     }
-    return context
-
-
-def get_filter_context(filter_form, username=None, user_type=None):
-    sidebar = Sidebar()
-    filter_by = JobQuery(
-        filter_form.cleaned_data['sector_choices'],
-        filter_form.cleaned_data['edu_choices'],
-        filter_form.cleaned_data['type_choices'],
-        filter_form.cleaned_data['skill_choices'],
-        filter_form.cleaned_data['city_choices'],
-        filter_form.cleaned_data['deadline'],
-        filter_form.cleaned_data['recent']
-    )
-    schema = ['job_id', 'title', 'company_name', 'sector', 'city', 'state_prov', 'deadline', 'description']
-    context = {
-        'username': username,
-        'user_type': user_type,
-        'title': 'Home Page',
-        'jobs': filter_by.get_jobs(schema),
-        'sectors': sidebar.sectors(),
-        'skills': sidebar.skills(),
-        'cities': sidebar.cities(),
-        'education': sidebar.education(),
-        'types': sidebar.job_types()
-    }
+    if filter_form is not None and filter_form.is_valid():
+        filter_by = JobQuery(
+            filter_form.cleaned_data['sector_choices'],
+            filter_form.cleaned_data['edu_choices'],
+            filter_form.cleaned_data['type_choices'],
+            filter_form.cleaned_data['skill_choices'],
+            filter_form.cleaned_data['city_choices'],
+            filter_form.cleaned_data['deadline'],
+            filter_form.cleaned_data['recent']
+        )
+        context['jobs'] = filter_by.get_jobs(schema)
+    else:
+        context['jobs'] = sort_by.get_jobs(schema, sort_order)
     return context
 
 
@@ -110,15 +98,10 @@ class HomeView(ListView):
 
         url = self.request.get_full_path().split("?")
 
-        if filter_form.is_valid():
-            return get_filter_context(filter_form,
-                                      self.request.GET.get('username'),
-                                      url[0])
-
         context = get_context(sort_form.sort_by,
+                              filter_form,
                               self.request.GET.get('username'),
                               url[0])
-
         return context
 
 
