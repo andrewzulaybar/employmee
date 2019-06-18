@@ -56,8 +56,6 @@
 </div>
 {% endblock detailsbutton %}
 
-
-
 {% block job-card %}
 <div class="col-6 offset-1">
     {% block job-card-content %}
@@ -111,49 +109,60 @@
 </div>
 {% endblock top-fans %}
 
-{% block sort-filter %}
+{% block sidebar %}
 <div class="col-4">
     <div class="card">
-        <div class="card-header header-text">Applicant Information</div>
+        <div class="card-header header-text">
+            Applicant Information
+        </div>
         <div class="card-body">
             <p style="font-size:200%;" align="center">{{ distinct_applicants }}</p>
             <p align="center">Total Number of Distinct Applicants</p>
             <hr>
-            <p>See the number of distinct applicants for a particular posting:</p>
             <div class="text-center">
                 <div class="form-inline">
-                    <input type="text" class="form-control col-6 ml-4">
                     <div class="float-right">
-                    <a class="btn btn-success ml-2" href="#" role="button">See Applicants</a>
+                        <p>Search applicants for a particular job posting:</p>
+                        <form action="{% url 'search-for-applicants' %}" method="get">
+                            <input type="hidden" name="username" value="{{ username }}">
+                            <div class="form-group">
+                                <label>Enter JobID:</label>
+                                <input name="job_id" type="number" min="0" class="form-control">
+                            </div>
+                            <input type="submit" class="btn btn-success" id="see-applicants" value="See Applicants">
+                        </form>
                     </div>
-                </div><br>
-                <p>For JobID _____:</p>
+                    <div>
+                        {% if applicants %}
+                            {% if applicants == 'empty' %}
+                            {% else %}
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <td colspan="3" class="applicationsheader">
+                                            <div class="text-md-left mt-2"><h4>Applicants</h4></div>
+                                        </td>
+                                    </tr>
+                                    {% for applicant in applicants %}
+                                        <tr>
+                                            <th scope="row" class="applicationsth">Applicant Name</th>
+                                            <th scope="row" class="applicationsth">Contact Information</th>
+                                        </tr>
+                                        <tr>
+                                            <td scope="row" class="applicationstd">{{ applicant.first_name }} {{ applicant.last_name }}</td>
+                                            <td scope="row" class="applicationstd">{{ applicant.contact_info }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endif %}
+                        {% else %}
+                            <h4>No applicants matching your search criteria were found! :(</h4>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-            <table class="table table-striped">
-        <tbody>
-        <tr>
-            <td colspan="3" class="applicationsheader">
-                <div class="text-md-left mt-2"><h4>Applications</h4></div>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row" class="applicationsth">Application ID</th>
-            <th scope="row" class="applicationsth">Contact Information</th>
-            <th scope="row" class="applicationsth">Resume</th>
-        </tr>
-        <!-- Would loop over all applicants that have applied and make a row for each -->
-        <tr>
-            <td scope="row" class="applicationstd">12345</td>
-            <td scope="row" class="applicationstd">602-123-4567</td>
-            <td scope="row" class="applicationstd">
-                <button type="button" class="btn btn-primary btn-block">View Resume</button>
-            </td>
-        </tr>
-
-        </tbody>
-    </table>
         </div>
     </div>
 </div>
-
-{% endblock sort-filter %}
+{% endblock sidebar %}

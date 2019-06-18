@@ -4,8 +4,8 @@ from urllib.parse import urlencode
 
 from jobportal import details
 from jobportal.applicants import Applicants
-from jobportal.forms import SortByForm, LoginForm, FilterByForm, BranchForm
-from jobportal.sidebar import Sidebar, SortBy
+from jobportal.forms import SortByForm, LoginForm, FilterByForm, JobIDForm, BranchForm
+from jobportal.sidebar import Sidebar, SortBy, CompanySidebar
 from jobportal.filterquery import JobQuery
 from jobportal import savejob
 from jobportal.branch import Branch
@@ -14,10 +14,11 @@ from jobportal.salary_statistics import SalaryStatistics
 DEFAULT = 'date DESC'
 
 
-def get_context(sort_order=DEFAULT, filter_form=None, username=None, user_type=None):
+def get_context(sort_order=DEFAULT, filter_form=None, job_id_form=None, username=None, user_type=None):
     sidebar = Sidebar()
     sort_by = SortBy()
     applicants = Applicants()
+    company_sidebar = CompanySidebar()
     salary_statistics = SalaryStatistics()
     schema = ['job_id', 'title', 'company_name', 'sector', 'city', 'state_prov', 'deadline', 'description']
     context = {
@@ -29,7 +30,8 @@ def get_context(sort_order=DEFAULT, filter_form=None, username=None, user_type=N
         'cities': sidebar.cities(),
         'education': sidebar.education(),
         'types': sidebar.job_types(),
-        'distinct_applicants': applicants.get_distinct_applicants(username)
+        'distinct_applicants': applicants.get_distinct_applicants(username),
+        'applicants': 'empty'
     }
     if user_type == '/premium':
         context['salary_statistics'] = salary_statistics.get_salary_statistics()
@@ -44,6 +46,11 @@ def get_context(sort_order=DEFAULT, filter_form=None, username=None, user_type=N
             filter_form.cleaned_data['recent']
         )
         context['jobs'] = filter_by.get_jobs(schema)
+    elif job_id_form is not None and job_id_form.is_valid():
+        schema = ['first_name', 'last_name', 'contact_info', 'position', 'company', 'duration', 'description']
+        context['applicants'] = company_sidebar.get_applicants(schema, job_id_form.cleaned_data['job_id'], username)
+        job_schema = ['job_id', 'title', 'company_name', 'sector', 'city', 'state_prov', 'deadline', 'description']
+        context['jobs'] = sort_by.get_jobs(job_schema, sort_order)
     else:
         context['jobs'] = sort_by.get_jobs(schema, sort_order)
     return context
@@ -138,31 +145,43 @@ class HomeView(ListView):
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        sort_form = SortByForm(self.request.GET or None)
-        filter_form = FilterByForm(self.request.GET or None)
-
-        if sort_form.is_valid():
-            if sort_form.cleaned_data['sort_by'] == 'Company':
-                sort_form.sort_by = 'c.name'
-            elif sort_form.cleaned_data['sort_by'] == 'Title':
-                sort_form.sort_by = 'j.title'
-            elif sort_form.cleaned_data['sort_by'] == 'Sector':
-                sort_form.sort_by = 'j.sector, j.title'
-            elif sort_form.cleaned_data['sort_by'] == 'Deadline':
-                sort_form.sort_by = 'j.deadline'
-            elif sort_form.cleaned_data['sort_by'] == 'Location':
-                sort_form.sort_by = 'l.city'
+        url = self.request.get_full_path().split("?")
+        user_type = url[0].split("/")[1]
+        if 'company' in url[0]:
+            print("sldfdfaf")
+            job_id_form = JobIDForm(self.request.GET or None)
+            context = get_context(job_id_form=job_id_form,
+                                  username=self.request.GET.get('username'),
+                                  user_type=user_type)
+        elif 'sort' in url[0]:
+            sort_form = SortByForm(self.request.GET or None)
+            if sort_form.is_valid():
+                if sort_form.cleaned_data['sort_by'] == 'Company':
+                    sort_form.sort_by = 'c.name'
+                elif sort_form.cleaned_data['sort_by'] == 'Title':
+                    sort_form.sort_by = 'j.title'
+                elif sort_form.cleaned_data['sort_by'] == 'Sector':
+                    sort_form.sort_by = 'j.sector, j.title'
+                elif sort_form.cleaned_data['sort_by'] == 'Deadline':
+                    sort_form.sort_by = 'j.deadline'
+                elif sort_form.cleaned_data['sort_by'] == 'Location':
+                    sort_form.sort_by = 'l.city'
+                else:
+                    sort_form.sort_by = DEFAULT
             else:
                 sort_form.sort_by = DEFAULT
+
+            context = get_context(sort_order=sort_form.sort_by,
+                                  username=self.request.GET.get('username'),
+                                  user_type=user_type)
+        elif 'filter' in url[0]:
+            filter_form = FilterByForm(self.request.GET or None)
+            context = get_context(filter_form=filter_form,
+                                  username=self.request.GET.get('username'),
+                                  user_type=user_type)
         else:
-            sort_form.sort_by = DEFAULT
-
-        url = self.request.get_full_path().split("?")
-
-        context = get_context(sort_form.sort_by,
-                              filter_form,
-                              self.request.GET.get('username'),
-                              url[0])
+            context = get_context(username=self.request.GET.get('username'),
+                                  user_type=user_type)
         return context
 
 
