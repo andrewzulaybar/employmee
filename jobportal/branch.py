@@ -10,7 +10,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE',
 class Branch:
     def branch_info(self, username, form):
         var = ''
-        if len(form.cleaned_data['data']) == 2:
+        if len(form.cleaned_data['data']) >= 2:
             var = 'b.street_address, b.postal_zip, b.contact_email'
         elif form.cleaned_data['data'][0] == 'Address':
             var = 'b.street_address, b.postal_zip'
