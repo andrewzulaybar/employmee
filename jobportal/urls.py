@@ -21,4 +21,8 @@ urlpatterns = [
     path('premium/sort', views.HomeView.as_view(), name='sort-by-premium'),
     path('premium/saved-jobs/sort', views.SavedJobs.as_view(), name='sort-by-saved-jobs'),
     path('company/top-fans', views.TopFans.as_view(), name='top-fans'),
+    path('regular/filter', views.HomeView.as_view(), name='filter-by'),
+    path('premium/filter', views.HomeView.as_view(), name='filter-by-premium'),
+    path('save-job', views.SaveJob.as_view(), name='save-job'),
+    path('unsave-job', views.UnSaveJob.as_view(), name='unsave-job'),
 ]
