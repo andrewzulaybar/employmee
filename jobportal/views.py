@@ -143,6 +143,11 @@ class HomeView(ListView):
 
         url = self.request.get_full_path().split("?")
 
+        if job_id_form is None:
+            print('job_id_form is none')
+        else:
+            print('job_id_form is not none')
+
         context = get_context(sort_form.sort_by,
                               filter_form,
                               job_id_form,
