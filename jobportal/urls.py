@@ -9,7 +9,7 @@ urlpatterns = [
     path('company', views.HomeView.as_view(), name='company-home'),
     path('regular/settings', views.Settings.as_view(), name='settings'),
     path('premium/settings', views.Settings.as_view(), name='premium-settings'),
-    path('company/settings', views.Settings.as_view(), name='company-settings'),
+    path('company/settings', views.CompanySettings.as_view(), name='company-settings'),
     path('regular/details/<int:pk>', views.Detail.as_view(), name='details'),
     path('premium/details/<int:pk>', views.Detail.as_view(), name='premium-details'),
     path('company/details/<int:pk>', views.Detail.as_view(), name='company-details'),
@@ -25,4 +25,5 @@ urlpatterns = [
     path('premium/filter', views.HomeView.as_view(), name='filter-by-premium'),
     path('save-job', views.SaveJob.as_view(), name='save-job'),
     path('unsave-job', views.UnSaveJob.as_view(), name='unsave-job'),
+    path('project-branches', views.CompanySettings.as_view(), name='project-branches'),
 ]

@@ -7,6 +7,7 @@ from jobportal.applicants import Applicants
 from jobportal.forms import SortByForm, LoginForm, FilterByForm
 from jobportal.sidebar import Sidebar, SortBy
 from jobportal.filterquery import JobQuery
+from jobportal.branches import Branches
 from jobportal import savejob
 
 DEFAULT = 'date DESC'
@@ -41,6 +42,17 @@ def get_context(sort_order=DEFAULT, filter_form=None, username=None, user_type=N
         context['jobs'] = filter_by.get_jobs(schema)
     else:
         context['jobs'] = sort_by.get_jobs(schema, sort_order)
+    return context
+
+def get_branches_context(username=None, user_type=None):
+    branches = Branches().getBranchesProjection()
+    print(branches)
+    schema = ['branch_id', 'address', 'contact']
+    context = {
+        'username': username,
+        'user_type': user_type,
+        'title': 'Branches'
+    }
     return context
 
 
@@ -181,6 +193,21 @@ class Settings(DetailView):
     def get_object(self, queryset=None):
         url = self.request.get_full_path().split("/")
         obj = get_context(username=self.request.GET.get('username'), user_type=url[1])
+        print(obj)
+        return obj
+
+class CompanySettings(DetailView):
+    context_object_name = 'company'
+    def get(self, request, *args, **kwargs):
+        print('in Company Settings get')
+        self.template_name = 'jobportal/settings/settings-comp.html'
+        return super().get(request, *args, **kwargs)
+
+    def get_object(self, queryset=None):
+        print('in Company Settings get_object')
+        url = self.request.get_full_path().split("/")
+        obj = get_branches_context(username=self.request.GET.get('username'), user_type=url[1])
+        print(obj)
         return obj
 
 
