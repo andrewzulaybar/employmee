@@ -4,6 +4,7 @@
 <div class="row">
     {% block table %}
     <div class="col-sm-6 col-md-7 offset-md-1">
+        {% block table-data %}
         <table class="table table-bordered table-striped">
             {% block tablebody %}
             <tbody>
@@ -59,6 +60,7 @@
             </tbody>
             {% endblock tablebody %}
         </table>
+        {% endblock table-data %}
     </div>
     {% endblock table %}
 
