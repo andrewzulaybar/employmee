@@ -119,47 +119,40 @@
             <p style="font-size:200%;" align="center">{{ distinct_applicants }}</p>
             <p align="center">Total Number of Distinct Applicants</p>
             <hr>
-            <div class="text-center">
-                <div class="form-inline">
-                    <div class="float-right">
-                        <p>Search applicants for a particular job posting:</p>
-                        <form action="{% url 'search-for-applicants' %}" method="get">
-                            <input type="hidden" name="username" value="{{ username }}">
-                            <div class="form-group">
-                                <label>Enter JobID:</label>
-                                <input name="job_id" type="number" min="0" class="form-control">
-                            </div>
+            <div class="form-inline">
+                <div class="float-right">
+                    <p>Search applicants for a particular job posting:</p>
+                    <form action="{% url 'search-for-applicants' %}" method="get">
+                        <input type="hidden" name="username" value="{{ username }}">
+                        <div class="form-group">
+                            <label class="ml-2">Enter Job ID:&nbsp;&nbsp;</label>
+                            <input name="job_id" type="number" min="0" class="form-control col-4 mr-2">
                             <input type="submit" class="btn btn-success" id="see-applicants" value="See Applicants">
-                        </form>
-                    </div>
-                    <div>
-                        {% if applicants %}
-                            {% if applicants == 'empty' %}
-                            {% else %}
-                                <table class="table table-striped">
-                                    <tbody>
-                                    <tr>
-                                        <td colspan="3" class="applicationsheader">
-                                            <div class="text-md-left mt-2"><h4>Applicants</h4></div>
-                                        </td>
-                                    </tr>
-                                    {% for applicant in applicants %}
-                                        <tr>
-                                            <th scope="row" class="applicationsth">Applicant Name</th>
-                                            <th scope="row" class="applicationsth">Contact Information</th>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row" class="applicationstd">{{ applicant.first_name }} {{ applicant.last_name }}</td>
-                                            <td scope="row" class="applicationstd">{{ applicant.contact_info }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            {% endif %}
-                        {% else %}
-                            <h4>No applicants matching your search criteria were found! :(</h4>
-                        {% endif %}
-                    </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-12">
+                    {% if applicants %}
+                    {% if applicants == 'empty' %}
+                    {% else %}
+                    <table class="table table-striped mt-3 app-sidebar center">
+                        <tbody>
+                        <tr>
+                            <th scope="row" class="app-th">Applicant Name</th>
+                            <th scope="row" class="app-th">Contact Information</th>
+                        </tr>
+                        {% for applicant in applicants %}
+                        <tr>
+                            <td scope="row" class="app-td">{{ applicant.first_name }} {{ applicant.last_name }}</td>
+                            <td scope="row" class="app-td">{{ applicant.contact_info }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                    {% else %}
+                    <h4>No applicants matching your search criteria were found! :(</h4>
+                    {% endif %}
                 </div>
             </div>
         </div>
