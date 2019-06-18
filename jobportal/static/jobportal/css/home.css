@@ -14,3 +14,11 @@
 .card#salary-stats {
     border: 0px;
 }
+
+.app-sidebar {
+    border-collapse: collapse;
+}
+
+.app-sidebar, .app-th, .app-td {
+    border: 1px solid #DFE3E6;
+}
