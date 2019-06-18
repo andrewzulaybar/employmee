@@ -29,6 +29,24 @@ def get_context(sort_order=DEFAULT, username=None, user_type=None):
     }
     return context
 
+def get_saved_jobs_context(sort_order=DEFAULT, username=None, user_type=None):
+    print('in get_saved_jobs username=%s' % username)
+    sidebar = Sidebar()
+    sort_by = SortBy()
+    schema = ['job_id', 'title', 'company_name', 'sector', 'city', 'state_prov', 'deadline', 'description']
+    context = {
+        'username': username,
+        'user_type': user_type,
+        'title': 'Home Page',
+        'jobs': sort_by.get_saved_jobs(schema, sort_order, username),
+        'sectors': sidebar.sectors(),
+        'skills': sidebar.skills(),
+        'cities': sidebar.cities(),
+        'education': sidebar.education(),
+        'types': sidebar.job_types()
+    }
+    return context
+
 
 def get_filter_context(filter_form, username=None, user_type=None):
     sidebar = Sidebar()
@@ -195,6 +213,7 @@ class SavedJobs(ListView):
     queryset = context_object_name
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        print('in get context data for SavedJobs')
         form = SortByForm(self.request.GET or None)
 
         if form.is_valid():
@@ -214,7 +233,7 @@ class SavedJobs(ListView):
             form.sort_by = DEFAULT
 
         url = self.request.get_full_path().split("/")
-        context = get_context(form.sort_by,
+        context = get_saved_jobs_context(form.sort_by,
                               self.request.GET.get('username'),
                               url[1])
         return context
