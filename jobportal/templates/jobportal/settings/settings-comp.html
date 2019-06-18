@@ -1,17 +1,16 @@
 {% extends "jobportal/base.html" %}
 
-{% block employmee %}
-<form action="{% url 'company-home' %}" method="get">
-    {% if job.username is not None %}
-    <input type="hidden" name="username" value="{{ job.username }}">
-    {% else %}
-    <input type="hidden" name="username" value="{{ username }}">
-    {% endif %}
-    <input class="navbar-brand" type="submit" value="Employmee">
-</form>
-{% endblock employmee %}
-
 {% block navbar %}
+<li class="nav-item px-2">
+    <form action="{% url 'company-home' %}" method="get">
+        {% if job.username is not None %}
+        <input type="hidden" name="username" value="{{ job.username }}">
+        {% else %}
+        <input type="hidden" name="username" value="{{ username }}">
+        {% endif %}
+        <input class="nav-link" type="submit" value="Home">
+    </form>
+</li>
 <li class="nav-item px-2">
     <form action="{% url 'company-settings' %}" method="get">
         {% if job.username is not None %}
@@ -48,33 +47,47 @@
             <div class="text header-text">Your Branches</div>
         </div>
         <div class="card-body">
-            <form>
+            <form action="{% url 'company-settings' %}" method="get">
                 <div class="form-group">
                     <label>Enter a BranchID:</label>
-                    <input type="number" class="form-control">
+                    <input type="number" class="form-control" name="id">
                 </div>
                 <label>Select detail(s) to display:&nbsp;&nbsp;&nbsp;</label>
-                <label class="checkbox-inline"><input type="checkbox" value=""> Address&nbsp;&nbsp;&nbsp;&nbsp;
+                <label class="checkbox-inline"><input type="checkbox" value="Address" name="data"> Address&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;</label>
-                <label class="checkbox-inline"><input type="checkbox" value=""> Contact Email&nbsp;&nbsp;&nbsp;
+                <label class="checkbox-inline"><input type="checkbox" value="Contact Email" name="data"> Contact Email&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;</label>
-                <button class="btn btn-primary" type="submit">View Branches</button>
+                <input type="hidden" name="username" value="{{ username }}">
+                <input type="submit" value="View Branches" class="btn btn-primary">
             </form>
             <!-- will show the branch info in this table depending on details selected -->
             <table class="table table-striped mt-4">
                 <thead>
                 <tr>
                     <th>Branch ID</th>
-                    <th>Location</th>
+                    {% for branch in branches %}
+                    {% if "@" not in branch.1 %}
+                    <th>Address</th>
+                    {% endif %}
+                    {% if "@" in branch.3 or "@" in branch.1 %}
                     <th>Contact Email</th>
+                    {% endif %}
+                    {% endfor %}
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>Use street address, city, state/prov, country</td>
+                    {% if branches %}
+                    {% for branch in branches %}
+                    <td>{{ branch.0 }}</td>
+                    <td>{{ branch.1 }} {{ branch.2 }}</td>
+                    {% if "@" in branch.3 or "@" in branch.1 %}
+                    <td>{{ branch.3 }}</td>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
                 </tr>
+
                 </tbody>
             </table>
         </div>

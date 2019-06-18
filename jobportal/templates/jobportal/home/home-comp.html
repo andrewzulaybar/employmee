@@ -1,17 +1,16 @@
 {% extends "jobportal/home/home.html" %}
 
-{% block employmee %}
-<form action="{% url 'company-home' %}" method="get">
-    {% if job.username is not None %}
-    <input type="hidden" name="username" value="{{ job.username }}">
-    {% else %}
-    <input type="hidden" name="username" value="{{ username }}">
-    {% endif %}
-    <input class="navbar-brand" type="submit" value="Employmee">
-</form>
-{% endblock employmee %}
-
 {% block navbar %}
+<li class="nav-item px-2">
+    <form action="{% url 'company-home' %}" method="get">
+        {% if job.username is not None %}
+        <input type="hidden" name="username" value="{{ job.username }}">
+        {% else %}
+        <input type="hidden" name="username" value="{{ username }}">
+        {% endif %}
+        <input class="nav-link" type="submit" value="Home">
+    </form>
+</li>
 <li class="nav-item px-2">
     <form action="{% url 'company-settings' %}" method="get">
         {% if job.username is not None %}
@@ -50,10 +49,6 @@
 
 {% block detailsbutton %}
 <div class="text-right">
-    <form action="{% url 'edit-posting' %}" method="get">
-        <input type="hidden" name="username" value="{{ username }}">
-        <button type="submit" class="btn btn-primary">Edit</button>
-    </form>
     <form action="{% url 'company-details' job.job_id %}" method="get">
         <input type="hidden" name="username" value="{{ username }}">
         <button type="submit" class="btn btn-primary">See details >></button>
@@ -117,47 +112,57 @@
 {% block sidebar %}
 <div class="col-4">
     <div class="card">
-        <div class="card-header header-text">Applicant Information</div>
+        <div class="card-header header-text">
+            Applicant Information
+        </div>
         <div class="card-body">
             <p style="font-size:200%;" align="center">{{ distinct_applicants }}</p>
             <p align="center">Total Number of Distinct Applicants</p>
             <hr>
-        <div class="card-header header-text">
-            Search Applicants
-        </div>
-        <div class="card-body">
-            <p>Search applicants for a particular job posting:</p>
-            <form action="{% url 'search-for-applicants' %}" method="get">
-                <input type="hidden" name="username" value="{{ username }}">
-                <div class="form-group">
-                    <label>Enter JobID:</label>
-                    <input name="job_id" type="number" min="0" class="form-control">
-                </div>
-                <input type="submit" class="btn btn-success" id="see-applicants" value="See Applicants">
-            </form>
-        </div>
-        <div>
-            {% if applicants %}
-                {% for applicant in applicants %}
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row align-items-start">
-                                <div class="col">
-                                    First Name: {{ applicant.first_name }}
-                                </div>
-                                <div class="col">
-                                    Last Name: {{ applicant.last_name }}
-                                </div>
-                                <div class="col">
-                                    Contact Email: {{ applicant.contact_info }}
-                                </div>
+            <div class="text-center">
+                <div class="form-inline">
+                    <div class="float-right">
+                        <p>Search applicants for a particular job posting:</p>
+                        <form action="{% url 'search-for-applicants' %}" method="get">
+                            <input type="hidden" name="username" value="{{ username }}">
+                            <div class="form-group">
+                                <label>Enter JobID:</label>
+                                <input name="job_id" type="number" min="0" class="form-control">
                             </div>
-                        </div>
+                            <input type="submit" class="btn btn-success" id="see-applicants" value="See Applicants">
+                        </form>
                     </div>
-                {% endfor %}
-            {% else %}
-                <h4>No applicants matching your search criteria were found! :(</h4>
-            {% endif %}
+                    <div>
+                        {% if applicants %}
+                            {% if applicants == 'empty' %}
+                            {% else %}
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <td colspan="3" class="applicationsheader">
+                                            <div class="text-md-left mt-2"><h4>Applicants</h4></div>
+                                        </td>
+                                    </tr>
+                                    {% for applicant in applicants %}
+                                        <tr>
+                                            <th scope="row" class="applicationsth">Applicant Name</th>
+                                            <th scope="row" class="applicationsth">Contact Information</th>
+                                        </tr>
+                                        <tr>
+                                            <td scope="row" class="applicationstd">{{ applicant.first_name }} {{ applicant.last_name }}</td>
+                                            <td scope="row" class="applicationstd">{{ applicant.contact_info }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endif %}
+                        {% else %}
+                            <h4>No applicants matching your search criteria were found! :(</h4>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 {% endblock sidebar %}

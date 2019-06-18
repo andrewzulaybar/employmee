@@ -1,17 +1,16 @@
 {% extends "jobportal/base.html" %}
 
-{% block employmee %}
-<form action="{% url 'company-home' %}" method="get">
-    {% if job.username is not None %}
-    <input type="hidden" name="username" value="{{ job.username }}">
-    {% else %}
-    <input type="hidden" name="username" value="{{ username }}">
-    {% endif %}
-    <input class="navbar-brand" type="submit" value="Employmee">
-</form>
-{% endblock employmee %}
-
 {% block navbar %}
+<li class="nav-item px-2">
+    <form action="{% url 'company-home' %}" method="get">
+        {% if job.username is not None %}
+        <input type="hidden" name="username" value="{{ job.username }}">
+        {% else %}
+        <input type="hidden" name="username" value="{{ username }}">
+        {% endif %}
+        <input class="nav-link" type="submit" value="Home">
+    </form>
+</li>
 <li class="nav-item px-2">
     <form action="{% url 'company-settings' %}" method="get">
         {% if job.username is not None %}
@@ -84,7 +83,7 @@
                     <span style="float:left;"><input type="text" class="form-control"></span>
                     <span style="float:left;" class="text ml-2 mr-2"><input type="text" class="form-control"></span>
                     <span style="float:left;" class="text mt-2"><label>years of experience</label></span>
-                    <button type="submit" class="btn btn-link btn-sm mt ml-3" id="add-skill">+ Add another skill</button>
+                    <a href="#" class="btn btn-link btn-sm mt ml-3" id="add-skill">+ Add another skill</a>
                 </div>
                 <div class="form-group">
                     <label>Description</label>
@@ -93,7 +92,7 @@
                     </div>
                 </div>
                 {% block post-button %}
-                <button type="submit" class="btn btn-success">Post Job</button>
+                <a href="#" class="btn btn-success">Post Job</a>
                 {% endblock post-button %}
             </form>
         </div>

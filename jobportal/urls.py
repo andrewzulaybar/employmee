@@ -25,5 +25,6 @@ urlpatterns = [
     path('premium/filter', views.HomeView.as_view(), name='filter-by-premium'),
     path('save-job', views.SaveJob.as_view(), name='save-job'),
     path('unsave-job', views.UnSaveJob.as_view(), name='unsave-job'),
-    path('company/search-for-applicants', views.HomeView.as_view(), name='search-for-applicants')
+    path('company/search-for-applicants', views.HomeView.as_view(), name='search-for-applicants'),
+    path('branch', views.Settings.as_view(), name='branch')
 ]

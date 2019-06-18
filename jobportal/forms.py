@@ -33,3 +33,8 @@ class JobIDForm(forms.Form):
     job_id = forms.IntegerField()
 
 
+class BranchForm(forms.Form):
+    id = forms.IntegerField()
+    data = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, required=False,
+                                     choices=[('Address', 'Address'), ('Contact Email', 'Contact Email')])
+

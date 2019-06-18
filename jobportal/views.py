@@ -4,10 +4,11 @@ from urllib.parse import urlencode
 
 from jobportal import details
 from jobportal.applicants import Applicants
-from jobportal.forms import SortByForm, LoginForm, FilterByForm, JobIDForm
+from jobportal.forms import SortByForm, LoginForm, FilterByForm, JobIDForm, BranchForm
 from jobportal.sidebar import Sidebar, SortBy, CompanySidebar
 from jobportal.filterquery import JobQuery
 from jobportal import savejob
+from jobportal.branch import Branch
 
 DEFAULT = 'date DESC'
 
@@ -27,7 +28,8 @@ def get_context(sort_order=DEFAULT, filter_form=None, job_id_form=None, username
         'cities': sidebar.cities(),
         'education': sidebar.education(),
         'types': sidebar.job_types(),
-        'distinct_applicants': applicants.get_distinct_applicants(username)
+        'distinct_applicants': applicants.get_distinct_applicants(username),
+        'applicants': 'empty'
     }
     if filter_form is not None and filter_form.is_valid():
         filter_by = JobQuery(
@@ -65,6 +67,24 @@ def get_saved_jobs_context(sort_order=DEFAULT, username=None, user_type=None):
         'cities': sidebar.cities(),
         'education': sidebar.education(),
         'types': sidebar.job_types()
+    }
+    return context
+
+
+def get_branch_context(username=None, user_type=None, form=None):
+    branch = Branch()
+    context = {
+        'username': username,
+        'branches': branch.branch_info(username, form)
+    }
+    return context
+
+
+def get_fan_context(username=None, user_type=None):
+    applicants = Applicants()
+    context = {
+        'applicants': applicants.get_top_fans(username),
+        'username': username
     }
     return context
 
@@ -183,8 +203,9 @@ class Detail(DetailView):
         return obj
 
 
-class Settings(DetailView):
+class Settings(ListView):
     context_object_name = 'job'
+    queryset = context_object_name
 
     def get(self, request, *args, **kwargs):
         url = request.get_full_path().split("/")
@@ -196,9 +217,12 @@ class Settings(DetailView):
             self.template_name = 'jobportal/settings/settings-comp.html'
         return super().get(request, *args, **kwargs)
 
-    def get_object(self, queryset=None):
+    def get_context_data(self, **kwargs):
+        form = BranchForm(self.request.GET or None)
         url = self.request.get_full_path().split("/")
-        obj = get_context(username=self.request.GET.get('username'), user_type=url[1])
+        obj = {'username': self.request.GET.get('username')}
+        if form is not None and form.is_valid():
+            obj=get_branch_context(username=self.request.GET.get('username'), user_type=url[1], form=form)
         return obj
 
 
@@ -259,5 +283,5 @@ class TopFans(DetailView):
 
     def get_object(self, queryset=None):
         url = self.request.get_full_path().split("/")
-        obj = get_context(username=self.request.GET.get('username'), user_type=url[1])
+        obj = get_fan_context(username=self.request.GET.get('username'), user_type=url[1])
         return obj

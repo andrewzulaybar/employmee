@@ -6,7 +6,7 @@
         <div class="card">
             <div class="card-header header-text">✨🔥 Your Top Fans 🔥✨</div>
             <div class="card-body pb-0">
-                <p>Applicants have applied to every job posting at your company.</p>
+                <p>Your top fans are applicants who have applied to every job posting at your company.</p>
                 <table class="table table-striped mt-4">
                     <thead>
                     <tr>
@@ -16,11 +16,13 @@
                     </tr>
                     </thead>
                     <tbody>
+                    {% for app in job.applicants %}
                     <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>1@gmail.com</td>
+                        <td>{{ app.0 }}</td>
+                        <td>{{ app.1 }}</td>
+                        <td>{{ app.2 }}</td>
                     </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
                 <p style="font-size:300%;" align="center">🔥🔥🔥</p>
@@ -40,9 +42,12 @@
                             Pick a Sector
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">JobID1</a>
-                            <a class="dropdown-item" href="#">JobID2</a>
-                            <a class="dropdown-item" href="#">JobID3</a>
+                            <a class="dropdown-item" href="#">Technology</a>
+                            <a class="dropdown-item" href="#">Service</a>
+                            <a class="dropdown-item" href="#">Finance</a>
+                            <a class="dropdown-item" href="#">Textiles</a>
+                            <a class="dropdown-item" href="#">Accountancy</a>
+                            <a class="dropdown-item" href="#">Human Resources</a>
                         </div>
                         <a class="btn btn-success" href="#" role="button">See Applicants</a>
                     </div><br>
