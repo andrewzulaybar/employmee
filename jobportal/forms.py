@@ -28,3 +28,8 @@ class LoginForm(forms.Form):
     password = forms.CharField(max_length=20)
     user_type = forms.CharField(max_length=20)
 
+
+class BranchForm(forms.Form):
+    id = forms.IntegerField()
+    data = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, required=False,
+                                     choices=[('Address', 'Address'), ('Contact Email', 'Contact Email')])
