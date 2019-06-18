@@ -46,12 +46,9 @@
 
 {% block tableheader %}
 <div class="float-right row">
-    <form action="{% url 'edit-posting' %}" method="get">
-        <input type="hidden" name="username" value="{{ job.username }}">
-        <input class="btn btn-success" type="submit" value="Edit">
-    </form>
-    <form action="" method="post" class="px-3">
+    <form action="{% url 'company-details' job.job_id %}" class="px-3">
         {% csrf_token %}
+        <input type="hidden" name="username" value="{{ job.username }}">
         <input class="btn btn-danger" type="submit" value="Delete">
     </form>
 </div>
@@ -83,7 +80,8 @@
             {% endblock create-header %}
         </div>
         <div class="card-body">
-            <form>
+            <form action="{% url 'company-details' job.job_id %}">
+                <input type="hidden" name="username" value="{{ job.username }}">
                 {% block update-jobID %}
                 <div class="form-group">
                     <label>Job ID</label>
@@ -128,7 +126,7 @@
                     </div>
                 </div>
                 {% block post-button %}
-                <a href="#" class="btn btn-success">Update Job</a>
+                <input class="btn btn-success" type="submit" value="Update Job">
                 {% endblock post-button %}
             </form>
         </div>
