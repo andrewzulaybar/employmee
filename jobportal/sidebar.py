@@ -106,3 +106,29 @@ class SortBy:
                 list_jobs.append(job)
 
             return list_jobs
+
+
+class CompanySidebar:
+    def get_applicants(self, schema, job_id):
+        print('inside get applicants!!')
+        with connection.cursor() as cursor:
+            query = "SELECT a.first_name, a.last_name, a.contact_email\
+                    FROM Sends_Application s \
+                    INNER JOIN Creates_Resume c \
+                      ON s.resume_ID = c.resume_ID \
+                    INNER JOIN Applicant a \
+                        ON c.applicant_login_ID = a.applicant_login_ID \
+                    WHERE job_ID = %s;" % job_id
+
+            cursor.execute(query)
+            applicants = cursor.fetchall()
+
+            lst_applicants = []
+
+            for a in applicants:
+                applicant = {}
+                for key, value in zip(schema, a):
+                    applicant[key] = value
+                lst_applicants.append(applicant)
+
+            return lst_applicants

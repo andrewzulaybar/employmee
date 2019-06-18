@@ -61,8 +61,6 @@
 </div>
 {% endblock detailsbutton %}
 
-
-
 {% block job-card %}
 <div class="col-6 offset-1">
     {% block job-card-content %}
@@ -116,7 +114,7 @@
 </div>
 {% endblock top-fans %}
 
-{% block sort-filter %}
+{% block sidebar %}
 <div class="col-4">
     <div class="card">
         <div class="card-header header-text">Applicant Information</div>
@@ -124,26 +122,42 @@
             <p style="font-size:200%;" align="center">{{ distinct_applicants }}</p>
             <p align="center">Total Number of Distinct Applicants</p>
             <hr>
-            <p>See the number of distinct applicants for a particular posting:</p>
-            <div class="text-center">
-                <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-toggle="dropdown">
-                        Pick a JobID
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">JobID1</a>
-                        <a class="dropdown-item" href="#">JobID2</a>
-                        <a class="dropdown-item" href="#">JobID3</a>
+        <div class="card-header header-text">
+            Search Applicants
+        </div>
+        <div class="card-body">
+            <p>Search applicants for a particular job posting:</p>
+            <form action="{% url 'search-for-applicants' %}" method="get">
+                <input type="hidden" name="username" value="{{ username }}">
+                <div class="form-group">
+                    <label>Enter JobID:</label>
+                    <input name="job_id" type="number" min="0" class="form-control">
+                </div>
+                <input type="submit" class="btn btn-success" id="see-applicants" value="See Applicants">
+            </form>
+        </div>
+        <div>
+            {% if applicants %}
+                {% for applicant in applicants %}
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row align-items-start">
+                                <div class="col">
+                                    First Name: {{ applicant.first_name }}
+                                </div>
+                                <div class="col">
+                                    Last Name: {{ applicant.last_name }}
+                                </div>
+                                <div class="col">
+                                    Contact Email: {{ applicant.contact_info }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <a class="btn btn-success" href="#" role="button">See applicants</a>
-                </div> <br>
-                <p>For JobID _____:</p>
-                <p style="font-size:200%;" align="center">7</p>
-                <p>Distinct Applicants</p>
-            </div>
+                {% endfor %}
+            {% elif applicants.length == 0 %}
+                <h4>No applicants matching your search criteria were found! :(</h4>
+            {% endif %}
         </div>
     </div>
-</div>
-
-{% endblock sort-filter %}
+{% endblock sidebar %}

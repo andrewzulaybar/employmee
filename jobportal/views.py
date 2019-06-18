@@ -4,18 +4,19 @@ from urllib.parse import urlencode
 
 from jobportal import details
 from jobportal.applicants import Applicants
-from jobportal.forms import SortByForm, LoginForm, FilterByForm
-from jobportal.sidebar import Sidebar, SortBy
+from jobportal.forms import SortByForm, LoginForm, FilterByForm, JobIDForm
+from jobportal.sidebar import Sidebar, SortBy, CompanySidebar
 from jobportal.filterquery import JobQuery
 from jobportal import savejob
 
 DEFAULT = 'date DESC'
 
 
-def get_context(sort_order=DEFAULT, filter_form=None, username=None, user_type=None):
+def get_context(sort_order=DEFAULT, filter_form=None, job_id_form=None, username=None, user_type=None):
     sidebar = Sidebar()
     sort_by = SortBy()
     applicants = Applicants()
+    company_sidebar = CompanySidebar()
     schema = ['job_id', 'title', 'company_name', 'sector', 'city', 'state_prov', 'deadline', 'description']
     context = {
         'username': username,
@@ -39,7 +40,12 @@ def get_context(sort_order=DEFAULT, filter_form=None, username=None, user_type=N
             filter_form.cleaned_data['recent']
         )
         context['jobs'] = filter_by.get_jobs(schema)
+    elif job_id_form is not None and job_id_form.is_valid():
+        print('inside elif case')
+        schema = ['first_name', 'last_name', 'contact_info', 'position', 'company', 'duration', 'description']
+        context['applicants'] = company_sidebar.get_applicants(schema, job_id_form.cleaned_data['job_id'])
     else:
+        print('inside else case')
         context['jobs'] = sort_by.get_jobs(schema, sort_order)
     return context
 
@@ -117,6 +123,7 @@ class HomeView(ListView):
     def get_context_data(self, **kwargs):
         sort_form = SortByForm(self.request.GET or None)
         filter_form = FilterByForm(self.request.GET or None)
+        job_id_form = JobIDForm(self.request.GET or None)
 
         if sort_form.is_valid():
             if sort_form.cleaned_data['sort_by'] == 'Company':
@@ -138,6 +145,7 @@ class HomeView(ListView):
 
         context = get_context(sort_form.sort_by,
                               filter_form,
+                              job_id_form,
                               self.request.GET.get('username'),
                               url[0])
         return context
