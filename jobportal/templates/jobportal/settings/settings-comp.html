@@ -47,6 +47,12 @@
             <div class="text header-text">Your Branches</div>
         </div>
         <div class="card-body">
+            <div class="text-left">Branch IDs: </div>
+            <ul>
+            {% for id in branch_ID %}
+                <li>{{ id }}</li>
+            {% endfor %}
+            </ul>
             <form action="{% url 'company-settings' %}" method="get">
                 <div class="form-group">
                     <label>Enter a BranchID:</label>
@@ -61,6 +67,7 @@
                 <input type="submit" value="View Branches" class="btn btn-primary">
             </form>
             <!-- will show the branch info in this table depending on details selected -->
+            {% if branches %}
             <table class="table table-striped mt-4">
                 <thead>
                 <tr>
@@ -87,6 +94,7 @@
                 {% endfor %}
                 </tbody>
             </table>
+            {% endif %}
         </div>
     </div>
 </div>
