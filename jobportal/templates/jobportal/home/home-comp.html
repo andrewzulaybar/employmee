@@ -126,22 +126,37 @@
             <hr>
             <p>See the number of distinct applicants for a particular posting:</p>
             <div class="text-center">
-                <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-toggle="dropdown">
-                        Pick a JobID
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">JobID1</a>
-                        <a class="dropdown-item" href="#">JobID2</a>
-                        <a class="dropdown-item" href="#">JobID3</a>
+                <div class="form-inline">
+                    <input type="text" class="form-control col-6 ml-4">
+                    <div class="float-right">
+                    <a class="btn btn-success ml-2" href="#" role="button">See Applicants</a>
                     </div>
-                    <a class="btn btn-success" href="#" role="button">See Applicants</a>
-                </div> <br>
+                </div><br>
                 <p>For JobID _____:</p>
-                <p style="font-size:200%;" align="center">7</p>
-                <p>Distinct Applicants</p>
             </div>
+            <table class="table table-striped">
+        <tbody>
+        <tr>
+            <td colspan="3" class="applicationsheader">
+                <div class="text-md-left mt-2"><h4>Applications</h4></div>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row" class="applicationsth">Application ID</th>
+            <th scope="row" class="applicationsth">Contact Information</th>
+            <th scope="row" class="applicationsth">Resume</th>
+        </tr>
+        <!-- Would loop over all applicants that have applied and make a row for each -->
+        <tr>
+            <td scope="row" class="applicationstd">12345</td>
+            <td scope="row" class="applicationstd">602-123-4567</td>
+            <td scope="row" class="applicationstd">
+                <button type="button" class="btn btn-primary btn-block">View Resume</button>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
         </div>
     </div>
 </div>

@@ -32,7 +32,7 @@
                     {% else %}
                         <input type="hidden" name="username" value="{{ username }}">
                     {% endif %}
-                    <input class="navbar-brand" type="submit" value="Employmee">
+                    <a href="{% url 'home' %}"><img src="{% static 'jobportal/logo.jpg' %}" width="120px"></a>
                 </form>
                 {% endblock employmee %}
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
