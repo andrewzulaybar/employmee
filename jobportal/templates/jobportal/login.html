@@ -1,4 +1,5 @@
 {% extends "jobportal/base.html" %}
+{% load staticfiles%}
 
 {% block whole-navbar %}
 {% endblock whole-navbar %}
@@ -9,6 +10,7 @@
         <h1 class="loginmsg"><br><br><br><br><br>Welcome to Employmee! </h1>
         <h3 class="loginmsg ml-2">Login or register for full access.</h3>
         <h1 class="loginmsg loginmsgheart"><i class="fa fa-heart-o"></i></h1>
+        <div class="text-center"><img src="{% static 'jobportal/logo.jpg' %}" width="200px"></div>
     </div>
 
     <div class="col-sm-4 mt-5 pt-5">

@@ -38,6 +38,10 @@ html, body {
     color: white;
 }
 
-#logo {
-max-width: 250px;
+.heart {
+    color: #edcb95;
+}
+
+img {
+    border: 3px solid white !important;
 }
