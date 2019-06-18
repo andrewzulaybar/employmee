@@ -77,10 +77,21 @@ def get_saved_jobs_context(sort_order=DEFAULT, username=None, user_type=None):
 
 def get_branch_context(username=None, user_type=None, form=None):
     branch = Branch()
-    context = {
-        'username': username,
-        'branches': branch.branch_info(username, form)
-    }
+    if form is not None:
+        context = {
+            'username': username,
+            'user_type': user_type,
+            'title': 'Settings',
+            'branches': branch.branch_info(username, form),
+            'branch_ID': branch.branch_id(username)
+        }
+    else:
+        context = {
+            'username': username,
+            'user_type': user_type,
+            'title': 'Settings',
+            'branch_ID': branch.branch_id(username)
+        }
     return context
 
 
@@ -227,6 +238,8 @@ class Settings(ListView):
         obj = {'username': self.request.GET.get('username')}
         if form is not None and form.is_valid():
             obj=get_branch_context(username=self.request.GET.get('username'), user_type=url[1], form=form)
+        else:
+            obj=get_branch_context(username=self.request.GET.get('username'), user_type=url[1])
         return obj
 
 
