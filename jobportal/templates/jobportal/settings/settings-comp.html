@@ -67,7 +67,7 @@
                     <th>Branch ID</th>
                     {% for branch in branches %}
                     {% if "@" not in branch.1 %}
-                    <th>Location</th>
+                    <th>Address</th>
                     {% endif %}
                     {% if "@" in branch.3 or "@" in branch.1 %}
                     <th>Contact Email</th>
@@ -77,14 +77,17 @@
                 </thead>
                 <tbody>
                 <tr>
+                    {% if branches %}
                     {% for branch in branches %}
                     <td>{{ branch.0 }}</td>
                     <td>{{ branch.1 }} {{ branch.2 }}</td>
                     {% if "@" in branch.3 or "@" in branch.1 %}
                     <td>{{ branch.3 }}</td>
                     {% endif %}
+                    {% endfor %}
+                    {% endif %}
                 </tr>
-                {% endfor %}
+
                 </tbody>
             </table>
         </div>
