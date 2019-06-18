@@ -26,14 +26,7 @@
         <nav class="navbar navbar-fixed-top navbar-expand-lg">
             <div class="container">
                 {% block employmee %}
-                <form action="{% url 'home' %}" method="get">
-                    {% if job.username is not None %}
-                        <input type="hidden" name="username" value="{{ job.username }}">
-                    {% else %}
-                        <input type="hidden" name="username" value="{{ username }}">
-                    {% endif %}
-                    <input type="submit" value=""><img src="{% static 'jobportal/logo.jpg' %}" width="120px"></input>
-                </form>
+                    <img src="{% static 'jobportal/logo.jpg' %}" width="120px">
                 {% endblock employmee %}
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                     <span class="navbar-toggler-icon"></span>
@@ -42,6 +35,16 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         {% block navbar %}
+                        <li class="nav-item px-2">
+                            <form action="{% url 'home' %}" method="get">
+                                {% if job.username is not None %}
+                                <input type="hidden" name="username" value="{{ job.username }}">
+                                {% else %}
+                                <input type="hidden" name="username" value="{{ username }}">
+                                {% endif %}
+                                <input class="nav-link" type="submit" value="Home">
+                            </form>
+                        </li>
                         <li class="nav-item px-2">
                             <form action="{% url 'settings' %}" method="get">
                                 {% if job.username is not None %}

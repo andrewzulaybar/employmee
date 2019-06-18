@@ -1,22 +1,33 @@
 {% extends "jobportal/settings/settings.html" %}
 
-{% block employmee %}
-<form action="{% url 'premium-home' %}" method="get">
-    <input type="hidden" name="username" value="{{ job.username }}">
-    <input class="navbar-brand" type="submit" value="Employmee">
-</form>
-{% endblock employmee %}
-
 {% block navbar %}
 <li class="nav-item px-2">
-    <form action="{% url 'premium-settings' %}" method="get">
+    <form action="{% url 'premium-home' %}" method="get">
+        {% if job.username is not None %}
         <input type="hidden" name="username" value="{{ job.username }}">
+        {% else %}
+        <input type="hidden" name="username" value="{{ username }}">
+        {% endif %}
+        <input class="nav-link" type="submit" value="Home">
+    </form>
+</li>
+<li class="nav-item px-2">
+    <form action="{% url 'premium-settings' %}" method="get">
+        {% if job.username is not None %}
+        <input type="hidden" name="username" value="{{ job.username }}">
+        {% else %}
+        <input type="hidden" name="username" value="{{ username }}">
+        {% endif %}
         <input class="nav-link" type="submit" value="Settings">
     </form>
 </li>
 <li class="nav-item px-2">
     <form action="{% url 'saved-jobs' %}" method="get">
+        {% if job.username is not None %}
         <input type="hidden" name="username" value="{{ job.username }}">
+        {% else %}
+        <input type="hidden" name="username" value="{{ username }}">
+        {% endif %}
         <input class="nav-link" type="submit" value="Saved Jobs">
     </form>
 </li>
