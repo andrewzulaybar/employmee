@@ -43,6 +43,8 @@ def get_context(sort_order=DEFAULT, filter_form=None, job_id_form=None, username
     elif job_id_form is not None and job_id_form.is_valid():
         schema = ['first_name', 'last_name', 'contact_info', 'position', 'company', 'duration', 'description']
         context['applicants'] = company_sidebar.get_applicants(schema, job_id_form.cleaned_data['job_id'], username)
+        job_schema = ['job_id', 'title', 'company_name', 'sector', 'city', 'state_prov', 'deadline', 'description']
+        context['jobs'] = sort_by.get_jobs(job_schema, sort_order)
     else:
         context['jobs'] = sort_by.get_jobs(schema, sort_order)
     return context
@@ -122,6 +124,7 @@ class HomeView(ListView):
         url = self.request.get_full_path().split("?")
         user_type = url[0].split("/")[1]
         if 'company' in url[0]:
+            print("sldfdfaf")
             job_id_form = JobIDForm(self.request.GET or None)
             context = get_context(job_id_form=job_id_form,
                                   username=self.request.GET.get('username'),
