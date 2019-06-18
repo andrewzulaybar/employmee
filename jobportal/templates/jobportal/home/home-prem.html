@@ -94,25 +94,54 @@
     <div class="card">
         <div class="card-header header-text">Salary Statistics</div>
     </div>
-    <div class="card-group mb-4">
+    <div class="card-group">
         <div class="card stats-card">
             <div class="card-body pt-0 pb-0">
-                <h6 class="card-title" align="center">Min. Salary</h6>
-                <p style="font-size:200%;" align="center">20000</p>
+                <h4 class="card-title" align="center">Sector</h4>
             </div>
         </div>
         <div class="card stats-card">
             <div class="card-body pt-0 pb-0">
-                <h6 class="card-title" align="center">Average Salary</h6>
-                <p style="font-size:200%;" align="center">60000</p>
+                <h4 class="card-title" align="center">Min. Salary</h4>
             </div>
         </div>
         <div class="card stats-card">
             <div class="card-body pt-0 pb-0">
-                <h6 class="card-title" align="center">Max. Salary</h6>
-                <p style="font-size:200%;" align="center">120000</p>
+                <h4 class="card-title" align="center">Average Salary</h4>
             </div>
         </div>
+        <div class="card stats-card">
+            <div class="card-body pt-0 pb-0">
+                <h4 class="card-title" align="center">Max. Salary</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4" id="salary-stats">
+    {% for stat in salary_statistics %}
+        <div class="card-group">
+            <div class="card stats-card">
+                <div class="card-body pt-0 pb-0">
+                    <h6 class="card-title" align="center">{{ stat.0 }}</h6>
+                </div>
+            </div>
+            <div class="card stats-card">
+                <div class="card-body pt-0 pb-0">
+                    <h6 class="card-title" align="center">{{ stat.1 }}</h6>
+                </div>
+            </div>
+            <div class="card stats-card">
+                <div class="card-body pt-0 pb-0">
+                    <h6 class="card-title" align="center">{{ stat.2 }}</h6>
+                </div>
+            </div>
+            <div class="card stats-card">
+                <div class="card-body pt-0 pb-0">
+                    <h6 class="card-title" align="center">{{ stat.3 }}</h6>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
     </div>
 </div>
 {% endblock salary-stats %}
