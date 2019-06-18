@@ -9,6 +9,7 @@ from jobportal.sidebar import Sidebar, SortBy
 from jobportal.filterquery import JobQuery
 from jobportal import savejob
 from jobportal.branch import Branch
+from jobportal.salary_statistics import SalaryStatistics
 
 DEFAULT = 'date DESC'
 
@@ -17,6 +18,7 @@ def get_context(sort_order=DEFAULT, filter_form=None, username=None, user_type=N
     sidebar = Sidebar()
     sort_by = SortBy()
     applicants = Applicants()
+    salary_statistics = SalaryStatistics()
     schema = ['job_id', 'title', 'company_name', 'sector', 'city', 'state_prov', 'deadline', 'description']
     context = {
         'username': username,
@@ -29,6 +31,8 @@ def get_context(sort_order=DEFAULT, filter_form=None, username=None, user_type=N
         'types': sidebar.job_types(),
         'distinct_applicants': applicants.get_distinct_applicants(username)
     }
+    if user_type == '/premium':
+        context['salary_statistics'] = salary_statistics.get_salary_statistics()
     if filter_form is not None and filter_form.is_valid():
         filter_by = JobQuery(
             filter_form.cleaned_data['sector_choices'],

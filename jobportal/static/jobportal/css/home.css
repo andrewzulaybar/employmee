@@ -10,3 +10,7 @@
 .stats-card {
     border-top: 0px;
 }
+
+.card#salary-stats {
+    border: 0px;
+}
