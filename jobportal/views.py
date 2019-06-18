@@ -7,6 +7,7 @@ from jobportal.applicants import Applicants
 from jobportal.forms import SortByForm, LoginForm, FilterByForm
 from jobportal.sidebar import Sidebar, SortBy
 from jobportal.filterquery import JobQuery
+from jobportal import savejob
 
 DEFAULT = 'date DESC'
 
@@ -43,6 +44,25 @@ def get_context(sort_order=DEFAULT, filter_form=None, username=None, user_type=N
     return context
 
 
+def get_saved_jobs_context(sort_order=DEFAULT, username=None, user_type=None):
+    print('in get_saved_jobs username=%s' % username)
+    sidebar = Sidebar()
+    sort_by = SortBy()
+    schema = ['job_id', 'title', 'company_name', 'sector', 'city', 'state_prov', 'deadline', 'description']
+    context = {
+        'username': username,
+        'user_type': user_type,
+        'title': 'Home Page',
+        'jobs': sort_by.get_saved_jobs(schema, sort_order, username),
+        'sectors': sidebar.sectors(),
+        'skills': sidebar.skills(),
+        'cities': sidebar.cities(),
+        'education': sidebar.education(),
+        'types': sidebar.job_types()
+    }
+    return context
+
+
 def login(request):
     return render(request, 'jobportal/login.html', get_context())
 
@@ -59,6 +79,24 @@ class Login(View):
                 url = '{}?{}'.format('/premium', urlencode(credentials))
             if form.cleaned_data.get('user_type') == 'company':
                 url = '{}?{}'.format('/company', urlencode(credentials))
+        return redirect(url)
+
+
+class SaveJob(View):
+    def get(self, request):
+        print('in saveJob redirect')
+        credentials = {'username': request.GET.get('username')}
+        savejob.save_prem_job(request.GET.get('username'), request.GET.get('job_id'))
+        url = '{}?{}'.format('/premium', urlencode(credentials))
+        return redirect(url)
+
+
+class UnSaveJob(View):
+    def get(self, request):
+        print('in unsaveJob redirect')
+        credentials = {'username': request.GET.get('username')}
+        savejob.un_save_prem_job(request.GET.get('username'), request.GET.get('job_id'))
+        url = '{}?{}'.format('/premium/saved-jobs', urlencode(credentials))
         return redirect(url)
 
 
@@ -161,6 +199,7 @@ class SavedJobs(ListView):
     queryset = context_object_name
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        print('in get context data for SavedJobs')
         form = SortByForm(self.request.GET or None)
 
         if form.is_valid():
@@ -180,7 +219,7 @@ class SavedJobs(ListView):
             form.sort_by = DEFAULT
 
         url = self.request.get_full_path().split("/")
-        context = get_context(form.sort_by,
+        context = get_saved_jobs_context(form.sort_by,
                               self.request.GET.get('username'),
                               url[1])
         return context

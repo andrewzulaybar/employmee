@@ -78,3 +78,31 @@ class SortBy:
                 list_jobs.append(job)
 
             return list_jobs
+
+    def get_saved_jobs(self, schema, sort_by, username):
+        print('in get_saved_jobs')
+        with connection.cursor() as cursor:
+            query = "SELECT j.job_ID, j.title, c.name, j.sector, l.city, l.state_prov, j.deadline, j.description  \
+                     FROM Job j \
+                     INNER JOIN Saves_Job sj \
+                         ON j.job_ID = sj.job_ID \
+                     INNER JOIN Job_Location jl \
+                         ON j.job_ID = jl.job_ID \
+                     INNER JOIN Location l \
+                         ON jl.postal_zip = l.postal_zip \
+                     INNER JOIN Company c \
+                         ON j.company_login_ID = c.company_login_ID \
+                     WHERE sj.premium_login_id = '%s' \
+                     ORDER BY %s;" % (username, sort_by)
+            cursor.execute(query)
+            jobs = cursor.fetchall()
+
+            list_jobs = []
+
+            for info in jobs:
+                job = {}
+                for key, value in zip(schema, info):
+                    job[key] = value
+                list_jobs.append(job)
+
+            return list_jobs
