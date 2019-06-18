@@ -16,11 +16,13 @@
                     </tr>
                     </thead>
                     <tbody>
+                    {% for app in job.applicants %}
                     <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>1@gmail.com</td>
+                        <td>{{ app.0 }}</td>
+                        <td>{{ app.1 }}</td>
+                        <td>{{ app.2 }}</td>
                     </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
                 <p style="font-size:300%;" align="center">🔥🔥🔥</p>

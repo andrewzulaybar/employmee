@@ -73,6 +73,15 @@ def get_branch_context(username=None, user_type=None, form=None):
     return context
 
 
+def get_fan_context(username=None, user_type=None):
+    applicants = Applicants()
+    context = {
+        'applicants': applicants.get_top_fans(username),
+        'username': username
+    }
+    return context
+
+
 def login(request):
     return render(request, 'jobportal/login.html', get_context())
 
@@ -255,5 +264,5 @@ class TopFans(DetailView):
 
     def get_object(self, queryset=None):
         url = self.request.get_full_path().split("/")
-        obj = get_context(username=self.request.GET.get('username'), user_type=url[1])
+        obj = get_fan_context(username=self.request.GET.get('username'), user_type=url[1])
         return obj
