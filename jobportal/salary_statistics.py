@@ -6,6 +6,7 @@ sys.path.append('..')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE',
                       'cpsc304.settings')
 
+
 class SalaryStatistics:
     def get_salary_statistics(self):
         with connection.cursor() as cursor:
@@ -18,5 +19,5 @@ class SalaryStatistics:
             stats = cursor.fetchall()
 
             statistics = [stat for stat in stats]
-            print(statistics)
+
             return statistics

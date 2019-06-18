@@ -40,10 +40,13 @@
 
 {% block columns %}
 <div class="col">
-    Applications: {{ job.job1.applications }}
+    Applications: {{ job.applications }}
 </div>
 <div class="col">
-    Salary: {{ job.job1.salary }}
+    Salary: {{ job.salary }}
+</div>
+<div class="col">
+    Job ID: {{ job.job_id }}
 </div>
 {% endblock columns %}
 
@@ -64,37 +67,10 @@
 </div>
 {% endblock job-card %}
 
-{% block salary-stats %}
-<div class="col-6 offset-1">
-    <div class="card">
-        <div class="card-header header-text">Salary Statistics</div>
-    </div>
-    <div class="card-group mb-4">
-        <div class="card stats-card">
-            <div class="card-body pt-0 pb-0">
-                <h6 class="card-title" align="center">Min. Salary</h6>
-                <p style="font-size:200%;" align="center">20000</p>
-            </div>
-        </div>
-        <div class="card stats-card">
-            <div class="card-body pt-0 pb-0">
-                <h6 class="card-title" align="center">Average Salary</h6>
-                <p style="font-size:200%;" align="center">60000</p>
-            </div>
-        </div>
-        <div class="card stats-card">
-            <div class="card-body pt-0 pb-0">
-                <h6 class="card-title" align="center">Max. Salary</h6>
-                <p style="font-size:200%;" align="center">120000</p>
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock salary-stats %}
 
-{% block top-fans %}
+{% block sidebar %}
 <div class="col-4">
-    <div class="card">
+    <div class="card mb-4">
         <div class="card-body mb-2 pb-1">
             <p style="font-size:100%;" align="center"><br>Want to see which applicant has applied to the most
                 postings in your company?</p>
@@ -106,11 +82,6 @@
             </form>
         </div>
     </div>
-</div>
-{% endblock top-fans %}
-
-{% block sidebar %}
-<div class="col-4">
     <div class="card">
         <div class="card-header header-text">
             Applicant Information
@@ -134,30 +105,30 @@
                     </div>
                     <div>
                         {% if applicants %}
-                            {% if applicants == 'empty' %}
-                            {% else %}
-                                <table class="table table-striped">
-                                    <tbody>
-                                    <tr>
-                                        <td colspan="3" class="applicationsheader">
-                                            <div class="text-md-left mt-2"><h4>Applicants</h4></div>
-                                        </td>
-                                    </tr>
-                                    {% for applicant in applicants %}
-                                        <tr>
-                                            <th scope="row" class="applicationsth">Applicant Name</th>
-                                            <th scope="row" class="applicationsth">Contact Information</th>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row" class="applicationstd">{{ applicant.first_name }} {{ applicant.last_name }}</td>
-                                            <td scope="row" class="applicationstd">{{ applicant.contact_info }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            {% endif %}
+                        {% if applicants == 'empty' %}
                         {% else %}
-                            <h4>No applicants matching your search criteria were found! :(</h4>
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <td colspan="3" class="applicationsheader">
+                                    <div class="text-md-left mt-2"><h4>Applicants</h4></div>
+                                </td>
+                            </tr>
+                            {% for applicant in applicants %}
+                            <tr>
+                                <th scope="row" class="applicationsth">Applicant Name</th>
+                                <th scope="row" class="applicationsth">Contact Information</th>
+                            </tr>
+                            <tr>
+                                <td scope="row" class="applicationstd">{{ applicant.first_name }} {{ applicant.last_name }}</td>
+                                <td scope="row" class="applicationstd">{{ applicant.contact_info }}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endif %}
+                        {% else %}
+                        <h4>No applicants matching your search criteria were found! :(</h4>
                         {% endif %}
                     </div>
                 </div>

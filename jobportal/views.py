@@ -11,7 +11,7 @@ from jobportal import savejob
 from jobportal.branch import Branch
 from jobportal.salary_statistics import SalaryStatistics
 
-DEFAULT = 'date DESC'
+DEFAULT = 'j.date DESC'
 
 
 def get_context(sort_order=DEFAULT, filter_form=None, job_id_form=None, username=None, user_type=None):
@@ -33,8 +33,6 @@ def get_context(sort_order=DEFAULT, filter_form=None, job_id_form=None, username
         'distinct_applicants': applicants.get_distinct_applicants(username),
         'applicants': 'empty'
     }
-    if user_type == '/premium':
-        context['salary_statistics'] = salary_statistics.get_salary_statistics()
     if filter_form is not None and filter_form.is_valid():
         filter_by = JobQuery(
             filter_form.cleaned_data['sector_choices'],
@@ -53,6 +51,11 @@ def get_context(sort_order=DEFAULT, filter_form=None, job_id_form=None, username
         context['jobs'] = sort_by.get_jobs(job_schema, sort_order)
     else:
         context['jobs'] = sort_by.get_jobs(schema, sort_order)
+    if user_type == 'premium' or user_type == 'company':
+        schema.extend(['applications', 'salary'])
+        context['jobs'] = sort_by.get_additional_info(schema, sort_order)
+    if user_type == 'premium':
+        context['salary_statistics'] = salary_statistics.get_salary_statistics()
     return context
 
 
@@ -159,7 +162,6 @@ class HomeView(ListView):
         url = self.request.get_full_path().split("?")
         user_type = url[0].split("/")[1]
         if 'company' in url[0]:
-            print("sldfdfaf")
             job_id_form = JobIDForm(self.request.GET or None)
             context = get_context(job_id_form=job_id_form,
                                   username=self.request.GET.get('username'),
@@ -214,7 +216,12 @@ class Detail(DetailView):
         url = self.request.get_full_path().split("/")
         schema = ['job_id', 'title', 'company_name', 'sector', 'min_education', 'employment_type',
                   'city', 'state_prov', 'deadline', 'description', 'skills']
-        obj = details.get_job(schema, self.kwargs['pk'], self.request.GET.get('username'), url[1])
+        if 'premium' in url[1] or 'company' in url[1]:
+            schema.insert(10, 'applications')
+            schema.insert(11, 'salary')
+            obj = details.get_job_prem_comp(schema, self.kwargs['pk'], self.request.GET.get('username'), url[1])
+        else:
+            obj = details.get_job(schema, self.kwargs['pk'], self.request.GET.get('username'), url[1])
         return obj
 
 

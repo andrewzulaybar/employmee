@@ -66,18 +66,29 @@ class SortBy:
                      INNER JOIN Company c \
                          ON j.company_login_ID = c.company_login_ID \
                      ORDER BY %s;" % sort_by
-            cursor.execute(query)
-            jobs = cursor.fetchall()
+            return self.execute_and_format(cursor, query, schema)
 
-            list_jobs = []
-
-            for info in jobs:
-                job = {}
-                for key, value in zip(schema, info):
-                    job[key] = value
-                list_jobs.append(job)
-
-            return list_jobs
+    def get_additional_info(self,  schema, sort_by):
+        with connection.cursor() as cursor:
+            query = "SELECT j.job_ID, j.title, c.name, j.sector, l.city, \
+                            l.state_prov, j.deadline, j.description, a.app_no, s.salary \
+                     FROM Job j \
+                     INNER JOIN Job_Location jl \
+                         ON j.job_ID = jl.job_ID \
+                     INNER JOIN Location l \
+                         ON jl.postal_zip = l.postal_zip \
+                     INNER JOIN Company c \
+                         ON j.company_login_ID = c.company_login_ID \
+                     INNER JOIN Job_Types jt \
+                         ON j.company_login_id = jt.company_login_id \
+                         AND j.title = jt.title \
+                         AND j.employment_type = jt.employment_type \
+                    LEFT OUTER JOIN applications a \
+                        on j.job_ID = a.id \
+                    INNER JOIN salary s \
+                    on j.job_ID = s.id \
+                     ORDER BY %s" % sort_by
+            return self.execute_and_format(cursor, query, schema)
 
     def get_saved_jobs(self, schema, sort_by, username):
         print('in get_saved_jobs')
@@ -94,18 +105,21 @@ class SortBy:
                          ON j.company_login_ID = c.company_login_ID \
                      WHERE sj.premium_login_id = '%s' \
                      ORDER BY %s;" % (username, sort_by)
-            cursor.execute(query)
-            jobs = cursor.fetchall()
+            return self.execute_and_format(cursor, query, schema)
 
-            list_jobs = []
+    def execute_and_format(self, cursor, query, schema):
+        cursor.execute(query)
+        jobs = cursor.fetchall()
 
-            for info in jobs:
-                job = {}
-                for key, value in zip(schema, info):
-                    job[key] = value
-                list_jobs.append(job)
+        list_jobs = []
 
-            return list_jobs
+        for info in jobs:
+            job = {}
+            for key, value in zip(schema, info):
+                job[key] = value
+            list_jobs.append(job)
+
+        return list_jobs
 
 
 class CompanySidebar:
