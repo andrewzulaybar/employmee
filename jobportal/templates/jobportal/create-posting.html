@@ -47,12 +47,17 @@
             {% endblock create-header %}
         </div>
         <div class="card-body">
-            <form>
+            <form action="{% url 'create-posting'}" method="get" id="createJobform">
+                {% if job.username is not None %}
+                <input type="hidden" name="username" value="{{ job.username }}">
+                {% else %}
+                <input type="hidden" name="username" value="{{ username }}">
+                {% endif %}
                 {% block update-jobID %}
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label>Job ID</label>
                     <input type="text" class="form-control" value="">
-                </div>
+                </div> -->
                 {% endblock update-jobID %}
                 <div class="form-group">
                     <label>Title</label>
