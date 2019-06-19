@@ -46,9 +46,10 @@
 
 {% block tableheader %}
 <div class="float-right row">
-    <form action="{% url 'company-details' job.job_id %}" class="px-3">
+    <form action="{% url 'company-details' job.job_id %}" class="px-3" method="get">
         {% csrf_token %}
         <input type="hidden" name="username" value="{{ job.username }}">
+        <input type="hidden" name="job_id" value="{{ job.job_id }}">
         <input class="btn btn-danger" type="submit" value="Delete">
     </form>
 </div>
@@ -76,54 +77,64 @@
     <div class="card p-0">
         <div class="card-header">
             {% block create-header %}
-            <div class="text header-text">Edit Posting</div>
+            <div class="text header-text">Edit Posting </div>
             {% endblock create-header %}
         </div>
         <div class="card-body">
-            <form action="{% url 'company-details' job.job_id %}">
+            <form action="{% url 'update-posting' job.job_id %}" method="get" id="updateJobform">
+                <!--<input type="hidden" name="job" value="{{ job }}">-->
+                <input type="hidden" name="job_id" value="{{ job.job_id }}">
                 <input type="hidden" name="username" value="{{ job.username }}">
+                <input type="hidden" name="old_title" value="{{ job.title }}">
+                <input type="hidden" name="old_sector" value="{{ job.sector }}">
+                <input type="hidden" name="old_education" value="{{ job.min_education }}">
+                <input type="hidden" name="old_type" value="{{ job.employment_type }}">
+                <input type="hidden" name="old_description" value="{{ job.description }}">
+                <input type="hidden" name="old_salary" value="{{ job.salary }}">
                 {% block update-jobID %}
                 <div class="form-group">
-                    <label>Job ID</label>
-                    <input type="text" class="form-control" value="">
+                    <label>Job ID: {{ job.job_id }}</label>
                 </div>
                 {% endblock update-jobID %}
                 <div class="form-group">
                     <label>Title</label>
-                    <input type="text" class="form-control" maxlength="100">
+                    <input type="text" name="new_title" class="form-control" maxlength="100">
+
                 </div>
                 <div class="form-group">
                     <label>Employment Type</label>
-                    <input type="text" class="form-control" maxlength="100">
+                    <input type="text" name="new_type" class="form-control" maxlength="100">
                 </div>
                 <div class="form-group">
                     <label>Sector</label>
-                    <input type="text" class="form-control" maxlength="20">
+                    <input type="text" name="new_sector" class="form-control" maxlength="20">
                 </div>
                 <div class="form-group">
                     <label>Minimum Education</label>
-                    <input type="text" class="form-control" maxlength="50">
+                    <input type="text" name="new_education" class="form-control" maxlength="50">
                 </div>
+                <!--
                 <div class="form-group">
                     <label>Deadline</label>
-                    <input type="date" class="form-control">
+                    <input name="new_deadline" class="form-control">
                 </div>
+                -->
                 <div class="form-group">
                     <label>Salary</label>
-                    <input type="number" class="form-control" step="500">
+                    <input type="number" name="new_salary" class="form-control" step="500">
                 </div>
+                <!--
                 <div class="form-group mt-4">
                     <span style="float:left;" class="text mt-2"><label>Skill&nbsp;&nbsp;&nbsp;&nbsp;</label></span>
-                    <span style="float:left;"><input type="text" class="form-control"></span>
-                    <span style="float:left;" class="text ml-2 mr-2"><input type="text" class="form-control"></span>
+                    <span style="float:left;"><input type="text" name="new_skill" class="form-control"></span>
+                    <span style="float:left;" class="text ml-2 mr-2"><input type="text" name="new_experience" class="form-control"></span>
                     <span style="float:left;" class="text mt-2"><label>years of experience</label></span>
                     <a href="#" class="btn btn-link btn-sm mt ml-3" id="add-skill">+ Add another skill</a>
                 </div>
+                -->
                 <div class="form-group">
-                    <label>Description</label>
-                    <div class="form-group">
-                        <textarea class="form-control" rows="5" maxlength="2500"></textarea>
-                    </div>
+                    <label for="description1"> Description</label>
+                    <textarea class="form-control" id="description1" name="new_description" rows="5" maxlength="2500"></textarea>
                 </div>
                 {% block post-button %}
                 <input class="btn btn-success" type="submit" value="Update Job">
