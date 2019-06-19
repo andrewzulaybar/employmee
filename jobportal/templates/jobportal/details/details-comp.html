@@ -103,9 +103,13 @@
                 </div>
                 <div class="form-group">
                     <label>Employment Type</label>
-                    <input type="text" name="new_type" class="form-control" maxlength="100">
+                    <select name="new_type" class="form-control">
+                        <option value="Part-time">Part-time</option>
+                        <option value="Full-time">Full-time</option>
+                    </select>
                 </div>
                 <div class="form-group">
+                    <label>Sector</label>
                     <select name="new_sector" class="form-control">
                         {% for element in job.sectors %}
                         <option value="{{ element }}">{{ element }}</option>
@@ -142,10 +146,11 @@
                     <input name="new_deadline" class="form-control">
                 </div>
                 -->
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label>Salary</label>
                     <input type="number" name="new_salary" class="form-control" step="500">
                 </div>
+                -->
                 <!--
                 <div class="form-group mt-4">
                     <span style="float:left;" class="text mt-2"><label>Skill&nbsp;&nbsp;&nbsp;&nbsp;</label></span>
@@ -155,10 +160,12 @@
                     <a href="#" class="btn btn-link btn-sm mt ml-3" id="add-skill">+ Add another skill</a>
                 </div>
                 -->
+                <!--
                 <div class="form-group">
                     <label for="description1"> Description</label>
                     <textarea class="form-control" id="description1" name="new_description" rows="5" maxlength="2500"></textarea>
                 </div>
+                -->
                 {% block post-button %}
                 <input class="btn btn-success" type="submit" value="Update Job">
                 {% endblock post-button %}

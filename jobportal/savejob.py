@@ -29,13 +29,11 @@ def un_save_prem_job(username, job_id):
             print('problem deleting %s, %s from saves_job' % (username, job_id))
 
 
-def job_type_change(old_job, new_job):
-    if new_job['employment_type'] is not old_job['employment_type'] or new_job['employment_type'] is not None:
+def job_type_change(old_job, merged_job):
+    if merged_job['employment_type'] != old_job['employment_type']:
         return True
-    if new_job['title'] is not old_job['title'] or new_job['title'] is not None:
+    if merged_job['title'] != old_job['title']:
         return True
-    if new_job['salary'] is not old_job['salary'] or new_job['salary'] is not None:
-       return True
     return False
 
 
@@ -49,6 +47,8 @@ def merge_jobs(old_job, new_job):
             merge[key] = old_job[key]
         else:
             merge[key] = new_job[key]
+    if merge['salary'] is None:
+        merge['salary'] = 'null'
     return merge
 
 
@@ -58,29 +58,30 @@ def update_job(username, job_id, old_job, new_job):
         merged_job = merge_jobs(old_job, new_job)
         print(merged_job)
         execute_update = True
-        if job_type_change(old_job, new_job):
+        if job_type_change(old_job, merged_job):
             print('need to update job_types')
             try:
-                query1 = """INSERT INTO job_types(company_login_ID, title, employment_type, salary) VALUES ('%s', '%s', '%s', '%s')""" \
+                query1 = """INSERT INTO job_types(company_login_ID, title, employment_type, salary) VALUES ('%s', '%s', '%s', %s)""" \
                          % (merged_job['company_name'], merged_job['title'], merged_job['employment_type'], merged_job['salary'])
                 print(query1)
-                #cursor.execute(query1)
+                cursor.execute(query1)
                 print('inserted new job_type')
             except Exception as error:
-                execute_update = False
-                print("unable to insert a new job type {{ error }}")
+                #execute_update = False
+                print("unable to insert a new job type")
+                print(error)
 
         if execute_update:
-            query2 = """UPDATE job set title='%s', sector='%s', description='%s', min_education='%s', employment_type='%s' \
-                         WHERE job_ID='%s'""" % (merged_job['title'], merged_job['sector'],
-                                                 merged_job['description'], merged_job['min_education'],
-                                                 merged_job['employment_type'], merged_job['job_id'])
+            query2 = """UPDATE job set title='%s', sector='%s', min_education='%s', employment_type='%s' WHERE job_ID='%s'""" \
+                     % (merged_job['title'], merged_job['sector'],
+                        merged_job['min_education'], merged_job['employment_type'], merged_job['job_id'])
             print(query2)
             try:
-                #cursor.execute(query2)
+                cursor.execute(query2)
                 print('Job successfuly updated')
-            except:
+            except Exception as error:
                 print('problem updating job')
+                print(error)
 
 
 def getNewJob(job_id, username, request):
