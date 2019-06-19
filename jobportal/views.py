@@ -224,7 +224,8 @@ class Detail(DetailView):
 
             if apply_form is not None and apply_form.is_valid():
                 print('im in the second if')
-                apply.apply_to_job(apply_form.cleaned_data['resume_id'], request.GET.get('job_id'))
+                url = request.get_full_path().split("/")
+                apply.apply_to_job(apply_form.cleaned_data['resume_select'], url[0])
 
         return super().get(request, *args, **kwargs)
 

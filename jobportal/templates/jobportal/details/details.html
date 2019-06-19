@@ -73,6 +73,7 @@
             <div class="card-body p-2 text-center">
                 <form action="{% url 'apply' job.job_id %}" class="form-inline" method="get">
                         <div class="btn-group align-middle">
+                            <input type="hidden" name="username" value="{{ job.username }}">
                             <select name="resume_select" class="custom-select my-1 mr-sm-2" aria-labelledby="dropdownMenu1">
                                 <option selected>Choose...</option>
                                 <option name="resume_id" class="dropdown-item" value="Resume 1">Resume 1</option>
@@ -82,7 +83,7 @@
                             </select>
                         </div>
                     <div class="card-footer p-0">
-                        <button type="button" class="btn btn-success btn-block" id="apply" value="Apply Now">Apply now!</button>
+                        <button type="submit" class="btn btn-success btn-block" id="apply" value="Apply Now">Apply now!</button>
                     </div>
                 </form>
             </div>
