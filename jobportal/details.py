@@ -2,6 +2,8 @@ import sys
 import os
 from django.db import connection
 
+from jobportal.sidebar import Sidebar
+
 sys.path.append('..')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE',
                       'cpsc304.settings')
@@ -23,6 +25,7 @@ def get_job(schema, job_id, username, user_type):
 
 
 def get_job_prem_comp(schema, job_id, username, user_type):
+    sidebar = Sidebar()
     with connection.cursor() as cursor:
         query = """SELECT j.job_ID, j.title, c.name, j.sector, j.min_education, j.employment_type,
                         l.city, l.state_prov, j.deadline, j.description, a.app_no, s.salary
@@ -38,7 +41,9 @@ def get_job_prem_comp(schema, job_id, username, user_type):
                  INNER JOIN salary s
                      ON j.job_ID = s.id
                  WHERE j.job_ID = %s""" % job_id
-        return execute_and_format(cursor, query, schema, username, user_type, job_id)
+        obj = execute_and_format(cursor, query, schema, username, user_type, job_id)
+        obj['sectors'] = sidebar.sectors()
+        return obj
 
 
 def execute_and_format(cursor, query, schema, username, user_type, job_id):
@@ -53,7 +58,6 @@ def execute_and_format(cursor, query, schema, username, user_type, job_id):
     get_skills(job_id, job)
     job['username'] = username
     job['user_type'] = user_type
-
     return job
 
 

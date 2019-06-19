@@ -219,13 +219,16 @@ class Detail(DetailView):
         return super().get(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
+        sidebar = Sidebar()
         url = self.request.get_full_path().split("/")
         schema = ['job_id', 'title', 'company_name', 'sector', 'min_education', 'employment_type',
                   'city', 'state_prov', 'deadline', 'description', 'skills']
         if 'premium' in url[1] or 'company' in url[1]:
             schema.insert(10, 'applications')
             schema.insert(11, 'salary')
+            schema.insert(12, 'sectors')
             obj = details.get_job_prem_comp(schema, self.kwargs['pk'], self.request.GET.get('username'), url[1])
+            #obj['sectors'] = sidebar.sectors()
         else:
             obj = details.get_job(schema, self.kwargs['pk'], self.request.GET.get('username'), url[1])
 
@@ -253,31 +256,23 @@ class UpdateJobDetail(DetailView):
 
     def get(self, request, *args, **kwargs):
         job_id = request.GET.get('job_id')
-        #print(job_id)
         username = request.GET.get('username')
-        #print(request.GET.get('old_title'))
-        #print(request.GET.get('old_sector'))
-        #print(request.GET.get('old_education'))
-        #print(request.GET.get('old_type'))
-        #print(request.GET.get('old_description'))
-        #print(request.GET.get('old_salary'))
-        #print(username)
         old_job = savejob.getOldJob(job_id, username, request)
         new_job = savejob.getNewJob(job_id, username, request)
-        #print(new_job['employment_type'])
-        #print(old_job['employment_type'])
-        #print(new_job)
-        #url = request.get_full_path().split("/")
         savejob.update_job(username, job_id, old_job, new_job)
         self.template_name = 'jobportal/details/details-comp.html'
         return super().get(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
+        sidebar = Sidebar()
         url = self.request.get_full_path().split("/")
-        print('in update get_object')
         schema = ['job_id', 'title', 'company_name', 'sector', 'min_education', 'employment_type',
                   'city', 'state_prov', 'deadline', 'description', 'skills']
-        obj = details.get_job(schema, self.kwargs['pk'], self.request.GET.get('username'), url[1])
+        schema.insert(10, 'applications')
+        schema.insert(11, 'salary')
+        schema.insert(12, 'sectors')
+        obj = details.get_job_prem_comp(schema, self.kwargs['pk'], self.request.GET.get('username'), url[1])
+        #obj['sectors'] = sidebar.sectors()
         return obj
 
 
