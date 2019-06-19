@@ -127,7 +127,7 @@ class CompanySidebar:
         username_str = "'{}'".format(company_username)
 
         with connection.cursor() as cursor:
-            query = "SELECT a.first_name, a.last_name, a.contact_email\
+            query = "SELECT DISTINCT a.first_name, a.last_name, a.contact_email\
                     FROM Sends_Application s \
                     INNER JOIN Creates_Resume c \
                         ON s.resume_ID = c.resume_ID \
