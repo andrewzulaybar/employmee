@@ -69,5 +69,3 @@ class JobQuery:
             return ""
         else:
             return "WHERE " + " AND ".join(processed_lst)
-
-

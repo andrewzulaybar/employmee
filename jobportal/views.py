@@ -15,6 +15,14 @@ from jobportal import apply
 DEFAULT = 'j.date DESC'
 
 
+def filter_company_jobs(jobs, username):
+    filtered_jobs = []
+    for job in jobs:
+        if job['company_name'].casefold() == username.casefold():
+            filtered_jobs.append(job)
+    return filtered_jobs
+
+
 def get_context(sort_order=DEFAULT, filter_form=None, job_id_form=None, username=None, user_type=None):
     sidebar = Sidebar()
     sort_by = SortBy()
@@ -53,7 +61,7 @@ def get_context(sort_order=DEFAULT, filter_form=None, job_id_form=None, username
                 filter_form.cleaned_data['recent']
             )
             context['jobs'] = filter_by.get_jobs(schema)
-    else:
+    else: #case company
         schema.extend(['applications', 'salary'])
         context['jobs'] = sort_by.get_additional_info(schema, sort_order)
         if job_id_form is not None and job_id_form.is_valid():
@@ -61,6 +69,7 @@ def get_context(sort_order=DEFAULT, filter_form=None, job_id_form=None, username
             context['applicants'] = company_sidebar.get_applicants(app_schema, job_id_form.cleaned_data['job_id'], username)
             schema.extend(['applications', 'salary'])
             context['jobs'] = sort_by.get_additional_info(schema, sort_order)
+        context['jobs'] = filter_company_jobs(context['jobs'], context['username']);
     return context
 
 
