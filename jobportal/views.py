@@ -33,29 +33,36 @@ def get_context(sort_order=DEFAULT, filter_form=None, job_id_form=None, username
         'distinct_applicants': applicants.get_distinct_applicants(username),
         'applicants': 'empty'
     }
-    if filter_form is not None and filter_form.is_valid():
-        filter_by = JobQuery(
-            filter_form.cleaned_data['sector_choices'],
-            filter_form.cleaned_data['edu_choices'],
-            filter_form.cleaned_data['type_choices'],
-            filter_form.cleaned_data['skill_choices'],
-            filter_form.cleaned_data['city_choices'],
-            filter_form.cleaned_data['deadline'],
-            filter_form.cleaned_data['recent']
-        )
-        context['jobs'] = filter_by.get_jobs(schema)
-    elif job_id_form is not None and job_id_form.is_valid():
-        schema = ['first_name', 'last_name', 'contact_info', 'position', 'company', 'duration', 'description']
-        context['applicants'] = company_sidebar.get_applicants(schema, job_id_form.cleaned_data['job_id'], username)
-        job_schema = ['job_id', 'title', 'company_name', 'sector', 'city', 'state_prov', 'deadline', 'description']
-        context['jobs'] = sort_by.get_jobs(job_schema, sort_order)
+    if user_type == 'regular' or user_type == 'premium':
+        if user_type == 'regular':
+            context['jobs'] = sort_by.get_jobs(schema, sort_order)
+        else:
+            schema.extend(['applications', 'salary'])
+            context['jobs'] = sort_by.get_additional_info(schema, sort_order)
+            context['salary_statistics'] = salary_statistics.get_salary_statistics()
+
+        if filter_form is not None and filter_form.is_valid():
+            filter_by = JobQuery(
+                filter_form.cleaned_data['sector_choices'],
+                filter_form.cleaned_data['edu_choices'],
+                filter_form.cleaned_data['type_choices'],
+                filter_form.cleaned_data['skill_choices'],
+                filter_form.cleaned_data['city_choices'],
+                filter_form.cleaned_data['deadline'],
+                filter_form.cleaned_data['recent']
+            )
+            context['jobs'] = filter_by.get_jobs(schema)
     else:
-        context['jobs'] = sort_by.get_jobs(schema, sort_order)
-    if user_type == 'premium' or user_type == 'company':
         schema.extend(['applications', 'salary'])
         context['jobs'] = sort_by.get_additional_info(schema, sort_order)
-    if user_type == 'premium':
-        context['salary_statistics'] = salary_statistics.get_salary_statistics()
+        if job_id_form is not None and job_id_form.is_valid():
+            app_schema = ['first_name', 'last_name', 'contact_info', 'position', 'company', 'duration', 'description']
+            context['applicants'] = company_sidebar.get_applicants(app_schema, job_id_form.cleaned_data['job_id'], username)
+            schema.extend(['applications', 'salary'])
+            context['jobs'] = sort_by.get_additional_info(schema, sort_order)
+            return context
+        else:
+            context['jobs'] = sort_by.get_jobs(schema, sort_order)
     return context
 
 
