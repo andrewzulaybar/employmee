@@ -56,31 +56,31 @@ def merge_jobs(old_job, new_job):
 def update_job(username, job_id, old_job, new_job):
     with connection.cursor() as cursor:
         merged_job = merge_jobs(old_job, new_job)
-        print('in update_job')
-        print('old job:')
-        print(old_job)
-        print('new job:')
-        print(new_job)
-        print('merged')
         print(merged_job)
-
+        execute_update = True
         if job_type_change(old_job, new_job):
             print('need to update job_types')
-            #stubb
             try:
-                query1 = """INSERT INTO job_types(company_login_ID, title, employment_type, salary) VALUES ('%s', '%s', '%s', '%s')""" % ()
-                # cursor.execute(query1)
+                query1 = """INSERT INTO job_types(company_login_ID, title, employment_type, salary) VALUES ('%s', '%s', '%s', '%s')""" \
+                         % (merged_job['company_name'], merged_job['title'], merged_job['employment_type'], merged_job['salary'])
                 print(query1)
-            except:
-                print('unable to insert new job_type')
+                #cursor.execute(query1)
+                print('inserted new job_type')
+            except Exception as error:
+                execute_update = False
+                print("unable to insert a new job type {{ error }}")
 
-        query2 = """UPDATE table job set description='%s' WHERE job_ID='%s'""" % (new_job['description'], job_id)
-        print(query2)
-        try:
-            #cursor.execute(query)
-            print('Job successfuly updated')
-        except:
-            print('problem updating job')
+        if execute_update:
+            query2 = """UPDATE job set title='%s', sector='%s', description='%s', min_education='%s', employment_type='%s' \
+                         WHERE job_ID='%s'""" % (merged_job['title'], merged_job['sector'],
+                                                 merged_job['description'], merged_job['min_education'],
+                                                 merged_job['employment_type'], merged_job['job_id'])
+            print(query2)
+            try:
+                #cursor.execute(query2)
+                print('Job successfuly updated')
+            except:
+                print('problem updating job')
 
 
 def getNewJob(job_id, username, request):
