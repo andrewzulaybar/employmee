@@ -42,10 +42,13 @@ def job_type_change(old_job, new_job):
 def merge_jobs(old_job, new_job):
     merge = {}
     for key in old_job:
-        if old_job[key] != new_job[key]:
-            merge[key] = new_job[key]
-        else:
+        #print(old_job[key])
+        #print(new_job[key])
+        #print(new_job[key] == '')
+        if new_job[key] == '' or old_job[key] == new_job[key]:
             merge[key] = old_job[key]
+        else:
+            merge[key] = new_job[key]
     return merge
 
 
