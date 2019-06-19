@@ -29,4 +29,6 @@ urlpatterns = [
     path('branch', views.Settings.as_view(), name='branch'),
     path('regular/details/<int:pk>', views.Detail.as_view(), name='apply'),
     path('premium/details/<int:pk>', views.Detail.as_view(), name='premium-apply'),
+    path('branch', views.Settings.as_view(), name='branch'),
+    path('company/update/<int:pk>', views.UpdateJobDetail.as_view(), name='update-posting'),
 ]
