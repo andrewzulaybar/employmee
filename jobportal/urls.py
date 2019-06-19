@@ -31,4 +31,5 @@ urlpatterns = [
     path('premium/details/<int:pk>', views.Detail.as_view(), name='premium-apply'),
     path('branch', views.Settings.as_view(), name='branch'),
     path('company/update/<int:pk>', views.UpdateJobDetail.as_view(), name='update-posting'),
+    path('company/details/company-delete', views.DeleteJob.as_view(), name='company-delete'),
 ]

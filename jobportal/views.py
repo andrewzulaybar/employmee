@@ -61,7 +61,7 @@ def get_context(sort_order=DEFAULT, filter_form=None, job_id_form=None, username
                 filter_form.cleaned_data['recent']
             )
             context['jobs'] = filter_by.get_jobs(schema)
-    else: #case company
+    else: #case company or None
         schema.extend(['applications', 'salary'])
         context['jobs'] = sort_by.get_additional_info(schema, sort_order)
         if job_id_form is not None and job_id_form.is_valid():
@@ -138,6 +138,15 @@ class Login(View):
                 url = '{}?{}'.format('/premium', urlencode(credentials))
             if form.cleaned_data.get('user_type') == 'company':
                 url = '{}?{}'.format('/company', urlencode(credentials))
+        return redirect(url)
+
+class DeleteJob(View):
+    def get(self, request):
+        credentials = {'username': request.GET.get('username')}
+        username = request.GET.get('username')
+        job_id = request.GET.get('job_id')
+        savejob.delete_job(username, job_id)
+        url = '{}?{}'.format('/company', urlencode(credentials))
         return redirect(url)
 
 
@@ -259,6 +268,7 @@ class Detail(DetailView):
 
         return obj
 
+
 class UpdateJobDetail(DetailView):
     template_name = 'jobportal/details/details-prem.html'
     context_object_name = 'job'
@@ -282,7 +292,6 @@ class UpdateJobDetail(DetailView):
         schema.insert(11, 'salary')
         schema.insert(12, 'sectors')
         obj = details.get_job_prem_comp(schema, self.kwargs['pk'], self.request.GET.get('username'), url[1])
-        #obj['sectors'] = sidebar.sectors()
         return obj
 
 
