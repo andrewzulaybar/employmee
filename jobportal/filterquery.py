@@ -22,8 +22,12 @@ class JobQuery:
 
     def get_jobs(self, schema):
         with connection.cursor() as cursor:
-            select_str = "j.job_ID, j.title, c.name, j.sector, l.city, l.state_prov, j.deadline, j.description"
-            from_str = "Job j INNER JOIN Company c ON j.company_login_ID = c.company_login_ID INNER JOIN Job_Location jl ON j.job_ID = jl.job_ID INNER JOIN Location l ON jl.postal_zip = l.postal_zip"
+            select_str = "j.job_ID, j.title, c.name, j.sector, l.city, l.state_prov, j.deadline, j.description, a.app_no, s.salary"
+            from_str = """Job j INNER JOIN Company c ON j.company_login_ID = c.company_login_ID
+                        INNER JOIN Job_Location jl ON j.job_ID = jl.job_ID 
+                        INNER JOIN Location l ON jl.postal_zip = l.postal_zip
+                        LEFT OUTER JOIN applications a ON j.job_ID = a.id
+                        INNER JOIN salary s ON j.job_ID = s.id"""
 
             if self.skill_list:
                 from_str += " INNER JOIN Requires r ON j.job_ID = r.job_ID"

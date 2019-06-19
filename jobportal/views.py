@@ -60,9 +60,6 @@ def get_context(sort_order=DEFAULT, filter_form=None, job_id_form=None, username
             context['applicants'] = company_sidebar.get_applicants(app_schema, job_id_form.cleaned_data['job_id'], username)
             schema.extend(['applications', 'salary'])
             context['jobs'] = sort_by.get_additional_info(schema, sort_order)
-            return context
-        else:
-            context['jobs'] = sort_by.get_jobs(schema, sort_order)
     return context
 
 
