@@ -33,7 +33,7 @@ def get_context(sort_order=DEFAULT, filter_form=None, job_id_form=None, username
     context = {
         'username': username,
         'user_type': user_type,
-        'title': 'Home Page',
+        'title': 'Employmee | Home',
         'sectors': sidebar.sectors(),
         'skills': sidebar.skills(),
         'cities': sidebar.cities(),
@@ -82,7 +82,7 @@ def get_saved_jobs_context(sort_order=DEFAULT, username=None, user_type=None):
     context = {
         'username': username,
         'user_type': user_type,
-        'title': 'Home Page',
+        'title': 'Employmee | Saved Jobs',
         'jobs': sort_by.get_saved_jobs(schema, sort_order, username),
         'sectors': sidebar.sectors(),
         'skills': sidebar.skills(),
@@ -99,7 +99,7 @@ def get_branch_context(username=None, user_type=None, form=None):
         context = {
             'username': username,
             'user_type': user_type,
-            'title': 'Settings',
+            'title': 'Employmee | Settings',
             'branches': branch.branch_info(username, form),
             'branch_ID': branch.branch_id(username)
         }
@@ -107,7 +107,7 @@ def get_branch_context(username=None, user_type=None, form=None):
         context = {
             'username': username,
             'user_type': user_type,
-            'title': 'Settings',
+            'title': 'Employmee | Settings',
             'branch_ID': branch.branch_id(username)
         }
     return context
@@ -123,7 +123,9 @@ def get_fan_context(username=None, user_type=None):
 
 
 def login(request):
-    return render(request, 'jobportal/login.html', get_context())
+    context = get_context()
+    context['title'] = 'Employmee | Login'
+    return render(request, 'jobportal/login.html', context)
 
 
 class Login(View):
@@ -378,4 +380,5 @@ class TopFans(DetailView):
     def get_object(self, queryset=None):
         url = self.request.get_full_path().split("/")
         obj = get_fan_context(username=self.request.GET.get('username'), user_type=url[1])
+        obj['title'] = "Employmee | Top Fans"
         return obj

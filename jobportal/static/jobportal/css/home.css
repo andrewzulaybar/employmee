@@ -22,3 +22,9 @@
 .app-sidebar, .app-th, .app-td {
     border: 1px solid #DFE3E6;
 }
+
+#description {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

@@ -1,0 +1,624 @@
+USE jobProject;
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP table Applicant;
+DROP table Branch;
+DROP table Company;
+DROP table Creates_Resume;
+DROP table Job;
+DROP table Job_Location;
+DROP table Job_Types;
+DROP table Location;
+DROP table Premium_Applicant;
+DROP table Requires;
+DROP table Resume_Describes_WorkExperience;
+DROP table Saves_Job;
+DROP table Sends_Application;
+DROP table Skill;
+DROP view applications;
+DROP view salary;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+CREATE TABLE Applicant(
+	applicant_login_ID varchar(20) PRIMARY KEY,
+	first_name varchar(20),
+	last_name varchar(20),
+	password varchar(20),
+	contact_email varchar(50) UNIQUE NOT NULL
+);
+CREATE TABLE Company(
+	company_login_ID varchar(20) PRIMARY KEY,
+	name varchar(20),
+	password varchar(20),
+	contact_email varchar(50) UNIQUE NOT NULL
+);
+CREATE TABLE Premium_Applicant(
+	applicant_login_ID varchar(20) PRIMARY KEY,
+	credit_card char(16),
+	FOREIGN KEY(applicant_login_ID) REFERENCES Applicant (applicant_login_ID)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+);
+CREATE TABLE Location(
+	postal_zip char(6) PRIMARY KEY,
+	city varchar(20),
+	state_prov char(2),
+	country varchar(20)
+);
+CREATE TABLE Creates_Resume(
+	resume_ID Integer PRIMARY KEY,
+	contact_information varchar(50),
+	applicant_login_ID varchar(20) NOT NULL,
+	FOREIGN KEY (applicant_login_ID) REFERENCES Applicant (applicant_login_ID)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+);
+CREATE TABLE Resume_Describes_WorkExperience(
+	resume_ID Integer,
+	position_title varchar(100),
+	company_name varchar(50),
+	duration Integer,
+	description varchar(500),
+	PRIMARY KEY (resume_ID, position_title, company_name),
+	FOREIGN KEY (resume_ID) REFERENCES Creates_Resume(resume_ID)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+);
+CREATE TABLE Job_Types(
+	company_login_ID varchar(20),
+	title varchar(100),
+	employment_type varchar(100),
+	salary Integer,
+	PRIMARY KEY(company_login_ID, title, employment_type),
+	FOREIGN KEY (company_login_ID) references Company(company_login_ID)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+);
+CREATE TABLE Job(
+	job_ID Integer PRIMARY KEY,
+	title varchar(100),
+	sector varchar(20),
+	description varchar(2500),
+	deadline Date,
+	min_education varchar(50),
+	employment_type varchar(100),
+	company_login_ID varchar(20) NOT NULL,
+	date Date,
+  	FOREIGN KEY(company_login_ID, title, employment_type) REFERENCES Job_Types(company_login_ID, title, employment_type),
+	FOREIGN KEY (company_login_ID) REFERENCES Company(company_login_ID)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+);
+CREATE TABLE Sends_Application(
+	application_number Integer PRIMARY KEY,
+	date Date,
+	status varchar(20),
+	cover_letter varchar(2500),
+	resume_ID Integer NOT NULL,
+	job_ID Integer NOT NULL,
+	UNIQUE (resume_ID, job_ID),
+	FOREIGN KEY (resume_ID) references Creates_Resume(resume_ID)
+		ON UPDATE CASCADE,
+	FOREIGN KEY (job_ID) references Job (job_ID)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+);
+CREATE TABLE Job_Location(
+	job_ID integer,
+	postal_zip char(6),
+	PRIMARY KEY (job_ID, postal_zip),
+	FOREIGN KEY (job_ID) REFERENCES Job(job_ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+	FOREIGN KEY (postal_zip) REFERENCES Location(postal_zip)
+        ON UPDATE CASCADE
+);
+CREATE TABLE Saves_Job(
+	premium_login_ID varchar(20),
+	job_ID Integer,
+	PRIMARY KEY(premium_login_ID, job_ID),
+	FOREIGN KEY (premium_login_ID) references Premium_Applicant(applicant_login_ID)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (job_ID) references Job(job_ID)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+);
+CREATE TABLE Branch(
+	branch_ID Integer,
+	company_login_ID varchar(20),
+	contact_email varchar(50),
+	street_address varchar(50),
+	postal_zip char(6),
+	PRIMARY KEY (branch_ID, company_login_ID),
+	UNIQUE (branch_ID, contact_email),
+	FOREIGN KEY (company_login_ID) references Company(company_login_ID)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (postal_zip) references Location(postal_zip)
+		ON DELETE NO ACTION
+		ON UPDATE CASCADE
+);
+CREATE TABLE Skill(
+	name varchar(30) PRIMARY KEY,
+	level varchar(30)
+);
+CREATE TABLE Requires(
+	job_ID Integer,
+	skill_name varchar(30),
+	years_experience Integer,
+	PRIMARY KEY (job_ID, skill_name),
+	FOREIGN KEY (job_ID) REFERENCES Job(job_ID)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (skill_name) REFERENCES Skill(name)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+);
+
+CREATE VIEW applications(id, app_no) AS
+SELECT j.job_ID, COUNT(sa.application_number)
+	FROM Job j
+	 INNER JOIN Sends_Application sa
+		 ON j.job_ID = sa.job_ID
+	 GROUP BY j.job_ID
+	 ORDER BY j.date DESC;
+
+CREATE VIEW salary(id, salary) AS
+SELECT j.job_ID, jt.salary
+	FROM Job j
+	INNER JOIN Job_Types jt
+		 ON j.company_login_id = jt.company_login_id
+		 AND j.title = jt.title
+		 AND j.employment_type = jt.employment_type
+	ORDER BY j.date DESC;
+
+INSERT into Applicant
+values ('zulaybar', 'Andrew', 'Zulaybar', '123', '123@gmail.com');
+
+INSERT into Applicant
+values('chung', 'Chantal', 'Chung', '234', '234@gmail.com');
+
+INSERT into Applicant
+values('mecke', 'Emily', 'Mecke', '345', '345@gmail.com');
+
+INSERT into Applicant
+values('arcilla', 'Regina', 'Arcilla', '456', '456@gmail.com');
+
+INSERT into Applicant
+values('smith', 'Bob', 'Smith', '567', '567@gmail.com');
+
+INSERT into Company
+values('amazon', 'Amazon', '123', '123@amazon.ca');
+
+INSERT into Company
+values('apple', 'Apple', '456', '456@apple.ca');
+
+INSERT into Company
+values('lululemon', 'Lululemon', '789', '789@lululemon.ca');
+
+INSERT into Company
+values('sap', 'SAP', '432', '432@sap.ca');
+
+INSERT into Company
+values('google', 'Google', '888', '888@google.ca');
+
+INSERT into Premium_Applicant
+values ('zulaybar', '8123184920475829');
+
+INSERT into Premium_Applicant
+values ('chung', '8492049574892043');
+
+INSERT into Premium_Applicant
+values ('mecke', '9018284920394759');
+
+INSERT into Premium_Applicant
+values ('arcilla', '9385784930298567');
+
+INSERT into Premium_Applicant
+values('smith', '3028495068938475');
+
+INSERT into Location
+values ('V5W4R8', 'Vancouver', 'BC', 'Canada');
+
+INSERT into Location
+values ('M4B2K2', 'Toronto', 'ON', 'Canada');
+
+INSERT into Location
+values ('90001', 'Los Angeles', 'CA', 'USA');
+
+INSERT into Location
+values('10001', 'New York', 'NY', 'USA');
+
+INSERT into Location
+values ('60007', 'Chicago', 'IL', 'USA');
+
+INSERT into Creates_Resume
+values(1, '1@gmail.com', 'zulaybar');
+
+INSERT into Creates_Resume
+values(2, '2@gmail.ca', 'chung');
+
+INSERT into Creates_Resume
+values(3, '2@gmail.ca', 'chung');
+
+INSERT into Creates_Resume
+values(4, '604-123-4567', 'arcilla');
+
+INSERT into Creates_Resume
+values(5, '123 Main St', 'mecke');
+
+INSERT into Resume_Describes_WorkExperience
+values(1, 'Janitor', 'ABC', 10, 'mopped the floors');
+
+INSERT into Resume_Describes_WorkExperience
+values(2, 'Teacher', 'VSB', 24, 'taught pre-calculus');
+
+INSERT into Resume_Describes_WorkExperience
+values(3, 'Tutor', 'Alpha', 2, 'graded homework');
+
+INSERT into Resume_Describes_WorkExperience
+values(4, 'Baker', '123 Bread', 6, 'baked bread');
+
+INSERT into Resume_Describes_WorkExperience
+values(5, 'Lifeguard', 'UBC Aquatic Centre', 16, 'monitored pool safety');
+
+INSERT into Job_Types
+values('sap', 'Data Scientist', 'Full-time', 100000);
+
+INSERT into Job_Types
+values('amazon', 'Software Developer', 'Full-time', 90000);
+
+INSERT into Job_Types
+values('lululemon', 'Sales Associate', 'Part-time', 35000);
+
+INSERT into Job_Types
+values('google', 'Janitor', 'Part-time', 50000);
+
+INSERT into Job_Types
+values('apple', 'Software Developer', 'Full-time', 150000);
+
+INSERT into Job
+values(1, 'Software Developer', 'Technology', "Are you passionate about the latest technology? Then here's your chance…", STR_TO_DATE('20-MAY-2019', '%d-%M-%Y'), 'Bachelors', 'Full-time', 'amazon', STR_TO_DATE('30-MAY-2019', '%d-%M-%Y'));
+
+INSERT into Job
+values(2, 'Data Scientist', 'Technology', 'Learn how to gain insight from the data around us everyday…', STR_TO_DATE('15-MAY-2019', '%d-%M-%Y'), 'Masters', 'Full-time', 'sap', STR_TO_DATE('20-JUN-2019', '%d-%M-%Y'));
+
+INSERT into Job
+values(3, 'Janitor', 'Service', 'Need to gain some extra cash?...', STR_TO_DATE('01-JUL-2019', '%d-%M-%Y'), 'None', 'Part-time', 'google', STR_TO_DATE('29-MAY-2019', '%d-%M-%Y'));
+
+INSERT into Job
+values(4, 'Software Developer', 'Technology', 'Explore your passion for coding...', STR_TO_DATE('30-JUN-2019','%d-%M-%Y'), 'Bachelors', 'Full-time', 'apple', STR_TO_DATE('01-MAY-2019','%d-%M-%Y'));
+
+INSERT into Job
+values(5, 'Sales Associate', 'Service', 'We are looking for enthusiastic people who love yoga!...', STR_TO_DATE('02-JUL-2019','%d-%M-%Y'), 'Diploma', 'Part-time', 'lululemon', STR_TO_DATE('01-MAY-2019','%d-%M-%Y'));
+
+INSERT into Sends_Application
+values(1, STR_TO_DATE('09-MAY-2019','%d-%M-%Y'), 'Rejected', 'Dear Mr. Rogers...', 1, 1);
+
+INSERT into Sends_Application
+values(2, STR_TO_DATE('21-MAY-2019','%d-%M-%Y'), 'In Review', 'Dear Ms. Durnham...', 2, 2);
+
+INSERT into Sends_Application
+values(3, STR_TO_DATE('20-MAY-2019','%d-%M-%Y'), 'Accepted', 'Dear Mrs. Nguyen...', 3, 3);
+
+INSERT into Sends_Application
+values(4, STR_TO_DATE('15-MAY-2019','%d-%M-%Y'), 'Offer Pending', 'Dear Mr. Indigo...', 4, 4);
+
+INSERT into Sends_Application
+values(5, STR_TO_DATE('24-MAY-2019','%d-%M-%Y'), 'Rejected', 'Dear Hiring Manager...', 5, 5);
+
+INSERT into Job_Location
+values(1, 'V5W4R8');
+
+INSERT into Job_Location
+values(2, 'M4B2K2');
+
+INSERT into Job_Location
+values(3, '90001');
+
+INSERT into Job_Location
+values(4, '10001');
+
+INSERT into Job_Location
+values(5, '60007');
+
+INSERT into Saves_Job
+values('mecke', 1);
+
+INSERT into Saves_Job
+values('arcilla', 2);
+
+INSERT into Saves_Job
+values('chung', 3);
+
+INSERT into Saves_Job
+values('zulaybar', 4);
+
+INSERT into Saves_Job
+values('smith', 5);
+
+INSERT into Branch
+values(1, 'apple', 'branch1@apple.ca', '123 Apple St', '10001');
+
+INSERT into Branch
+values(1, 'google', 'branch1@google.ca', '890 Google St', '90001');
+
+INSERT into Branch
+values(3, 'lululemon', 'branch1@lululemon.ca', '192 Lululemon St', '60007');
+
+INSERT into Branch
+values(1, 'amazon', 'branch1@amazon.ca', '102 Amazon St', 'V5W4R8');
+
+INSERT into Branch
+values(2, 'sap', 'branch2@sap.ca', '901 Mainlang St', 'M4B2K2');
+
+INSERT into Skill
+values('Java', 'Beginner');
+
+INSERT into Skill
+values('Python', 'Advanced');
+
+INSERT into Skill
+values('Customer Experience', 'Intermediate');
+
+INSERT into Skill
+values('Leadership', 'Intermediate');
+
+INSERT into Skill
+values('C++', 'Beginner');
+INSERT into Requires
+values(1, 'Java', 1);
+
+INSERT into Requires
+values(2, 'Python', 10);
+
+INSERT into Requires
+values(3, 'Leadership', 4);
+
+INSERT into Requires
+values(4, 'C++',  2);
+
+INSERT into Requires
+values(5, 'Customer Experience', 7);
+
+INSERT into Applicant
+values ('regular', 'john', 'doe', 'password', 'regular@gmail.com');
+
+INSERT into Job_Types
+values ('amazon', 'Finance Manager', 'Full-time', 120000);
+
+INSERT into Job_Types
+values ('lululemon', 'Designer', 'Full-time', 85000);
+
+INSERT into Job_Types
+values('lululemon', 'Junior Accountant', 'Part-time', 65000);
+
+INSERT into Job_Types
+values('google', 'Recruiter', 'Full-time', 55000);
+
+INSERT into Job_Types
+values('apple', 'Genius', 'Part-time', 40000);
+
+INSERT into Job_Types
+values('google', 'Software Engineer', 'Full-time', 120000);
+
+INSERT into Job
+values(6, 'Finance Manager', 'Finance', 'Amazon Web Services (AWS) is a highly reliable, scalable, low-cost infrastructure platform in the cloud that powers hundreds of thousands of enterprise, government and start-up business and organizations in over 190 countries around the world. Launched in 2006, Amazon Web Services officially began offering developer customers access to web services – now widely known as cloud computing – based on Amazon’s own back-end technology platform.
+
+AWS Finance seeks a world class Finance Manager to collaborate with AWS Services team responsible for products like AWS Step Functions, Amazon Simple Queue Service (SQS), Amazon Simple Notification Service (SNS), and Amazon MQ.
+
+This position will work closely with finance management as well as key business partners across the AWS Organization, including Product Managers and Engineers, to drive thoughtful analysis and controllership. He/she will implement and drive the core financial processes for the business including Annual Operating Plans, Service P&L, Monthly/Quarterly Business Reviews, identify and quantify financial/operational Risks and Opportunities (R&O) to the business, and drive ad-hoc business projects. Additional responsibilities include helping refine the capacity planning process and modeling improvements to help drive positive Free Cash Flow.
+
+This role requires a self-starter with a strong financial modeling background, problem solving skills, a keen attention to detail, ability to work in a fast-paced environment with ambiguous situations, and solid skills in project management. This role has regular interaction with various business units across Amazon and requires strong people skills.', STR_TO_DATE('29-JUN-2019','%d-%M-%Y'),
+'Masters', 'Full-time', 'amazon', STR_TO_DATE('01-JUN-2019','%d-%M-%Y'));
+
+INSERT into Job
+values(7, 'Designer', 'Textiles', 'Who We Are
+
+lululemon is a yoga-inspired technical apparel company up to big things. The practice and philosophy of yoga informs our overall purpose to elevate the world through the power of practice. We are proud to be a growing global company with locations all around the world, from Vancouver to Shanghai, and places in between. We owe our success to our innovative product, our emphasis on our stores, our commitment to our people, and the incredible connections we get to make in every community we are in.
+
+About This Team
+
+The Jacquard, Textile Designer role sits within the Concept Design Org. Our goal is to elevate the Lululemon product by creating unique and original artworks by hand. Our team will drive excellence in print and texture through the connection of design, development and merchandising.', STR_TO_DATE('30-JUN-2019','%d-%M-%Y'),'Bachelors', 'Full-time', 'lululemon', STR_TO_DATE('05-JUN-2019','%d-%M-%Y'));
+
+INSERT into Job
+values(8, 'Junior Accountant', 'Accountancy', 'Inventory Control
+As part of the Finance team, we’re responsible for the accurate reporting of lululemon’s global inventory and product costs and operation of related internal controls. With over $375M in inventory spread across 350+ stores and 6 distribution centers, we take pride in providing the business and our investors with accurate information.
+
+Job Summary
+
+Reporting to the Sales Audit team lead, this person will play a pivotal role in the company’s inventory control process. You will audit global sales and complete all necessary financial entry processing, which includes reconciling transactions between point-of-sale systems and the inventory subledger. You’ll play a key role in quickly resolving issues, including proactive facilitation of communication between a variety of other teams. You will also assist in the preparation of internal reports and documentation for auditors.
+
+This position requires weekend work at least once per month to support our period-end close process.', STR_TO_DATE('27-JUN-2019','%d-%M-%Y'),
+'Bachelors', 'Part-time', 'lululemon', STR_TO_DATE('31-MAY-2019','%d-%M-%Y'));
+
+INSERT into Job
+values(9, 'Recruiter', 'Human Resources', "Google's known for our innovative technologies, products and services -- and for the people behind them. As part of our recruiting team, you're charged with finding the most interesting candidates who bring an entrepreneurial spirit and a diversity of thought to all they do. You're responsible for guiding candidates through our hiring process and connecting them to the magic of working at Google. You are creative and driven, which allows you to develop lasting relationships with both candidates and hiring managers. You're also comfortable with numbers and drawing insights from analytics to make our hiring process smarter and more efficient.
+
+As a Recruiter on the Cloud Senior Hiring team at Google, you will act as trusted advisor to Cloud leadership. You'll be relied on for advice about the outside talent market, as well as how it compares to the talented Googlers we already have in the organization. You will develop search strategies and lead engagements to position Google Cloud for success today and well into the future. As a recruiter your role includes understanding external trends in the talent market, engaging top talent for Google opportunities, actively managing the client and candidate throughout the process, expertly assessing and evaluating talent for roles in Google, and leading candidate negotiations through to close.
+
+Great just isn't good enough for our People Operations team. Made up of equal parts HR professionals, former consultants, and analysts, we're the advocates of Google's colorful culture. In People Ops, we 'find them, grow them, and keep them'. We bring the world's most innovative people to Google and provide the programs that help them thrive. Whether recruiting the next Googler, refining our core programs, developing talent, or simply looking for ways to inject some more fun into the lives of our Googlers, we bring a data-driven approach that is reinventing the human resources field.", STR_TO_DATE('27-JUN-2019','%d-%M-%Y'),
+'Bachelors', 'Full-time', 'google', STR_TO_DATE('10-JUN-2019','%d-%M-%Y'));
+
+INSERT into Job
+values(10, 'Genius', 'Service', "As a Genius, you provide insightful advice and friendly, hands-on technical support to Apple customers in need. You quickly diagnose product issues on the spot, explaining situations with patience and empathy. After determining whether repairs can be done or a replacement is needed, you offer solutions to quickly get users up and running again. Even if you're juggling more than one customer, you stay conscious of their time demands as well as your own. You fulfill Apple's service commitment with style, speed, and skill. And you earn the trust of customers and coworkers alike as you offer guidance, knowledge, and even tips and training.", STR_TO_DATE('26-JUN-2019','%d-%M-%Y'),
+'Diploma', 'Part-time', 'apple', STR_TO_DATE('15-JUN-2019','%d-%M-%Y'));
+
+INSERT into Job
+values(11, 'Software Engineer', 'Technology', "Google aspires to be an organization that reflects the globally diverse audience that our products and technology serve. We believe that in addition to hiring the best talent, a diversity of perspectives, ideas and cultures leads to the creation of better products and services.
+
+Google's software engineers develop the next-generation technologies that change how billions of users connect, explore, and interact with information and one another. Our products need to handle information at massive scale, and extend well beyond web search. We're looking for engineers who bring fresh ideas from all areas, including information retrieval, distributed computing, large-scale system design, networking and data storage, security, artificial intelligence, natural language processing, UI design and mobile; the list goes on and is growing every day. As a software engineer, you will work on a specific project critical to Google’s needs with opportunities to switch teams and projects as you and our fast-paced business grow and evolve. We need our engineers to be versatile, display leadership qualities and be enthusiastic to take on new problems across the full-stack as we continue to push technology forward.
+
+Google is and always will be an engineering company. We hire people with a broad set of technical skills who are ready to take on some of technology's greatest challenges and make an impact on millions, if not billions, of users. At Google, engineers not only revolutionize search, they routinely work on massive scalability and storage solutions, large-scale applications and entirely new platforms for developers around the world. From Google Ads to Chrome, Android to YouTube, Social to Local, Google engineers are changing the world one technological achievement after another.", STR_TO_DATE('26-JUN-2019','%d-%M-%Y'),
+'Bachelors', 'Full-time', 'google', STR_TO_DATE('15-JUN-2019','%d-%M-%Y'));
+
+INSERT into Job_Location
+values(6, 'V5W4R8');
+
+INSERT into Job_Location
+values(7, '60007');
+
+INSERT into Job_Location
+values(8, '60007');
+
+INSERT into Job_Location
+values(9, '90001');
+
+INSERT into Job_Location
+values(10, '10001');
+
+INSERT into Location
+values('V5I1V8', 'Vancouver', 'BC', 'Canada');
+
+INSERT into Job_Location
+values(11, 'V5I1V8');
+
+INSERT into Branch
+values(2, 'google', 'branch2@google.ca', '135 Google Drive', 'V5I1V8');
+
+INSERT into Skill
+values('Photoshop', 'Advanced');
+
+INSERT into Skill
+values('Simply Accounting', 'Intermediate');
+
+INSERT into Requires
+values(6, 'Leadership', 5);
+
+INSERT into Requires
+values(7, 'Photoshop', 5);
+
+INSERT into Requires
+values(8, 'Leadership', 1);
+
+INSERT into Requires
+values(8, 'Simply Accounting', 1);
+
+INSERT into Requires
+values(9, 'Customer Experience', 3);
+
+INSERT into Requires
+values(10, 'Customer Experience', 1);
+
+INSERT into Requires
+values(11, 'Java', 1);
+
+INSERT into Requires
+values(11, 'C++', 1);
+
+INSERT into Creates_Resume
+values(6, '1@gmail.com', 'zulaybar');
+
+INSERT into Creates_Resume
+values(7, '1@gmail.com', 'zulaybar');
+
+INSERT into Creates_Resume
+values(8, '1@gmail.com', 'zulaybar');
+
+INSERT into Creates_Resume
+values(9, '9@gmail.com', 'regular');
+
+INSERT into Creates_Resume
+values(10, '10@gmail.com', 'smith');
+
+INSERT into Resume_Describes_WorkExperience
+values(1, 'Teacher', 'VSB', 24, 'taught pre-calculus');
+
+INSERT into Resume_Describes_WorkExperience
+values(6, 'Tutor', 'Alpha', 2, 'graded homework');
+
+INSERT into Resume_Describes_WorkExperience
+values(7, 'Baker', '123 Bread', 6, 'baked bread');
+
+INSERT into Resume_Describes_WorkExperience
+values(8, 'Lifeguard', 'UBC Aquatic Centre', 16, 'monitored pool safety');
+
+INSERT into Saves_Job
+values('zulaybar', 10);
+
+INSERT into Saves_Job
+values('zulaybar', 6);
+
+INSERT into Saves_Job
+values('zulaybar', 9);
+
+INSERT into Saves_Job
+values('zulaybar', 11);
+
+INSERT into Sends_Application
+values(6, STR_TO_DATE('09-MAY-2019','%d-%M-%Y'), 'Rejected', 'Dear Mr. Peters...', 1, 2);
+
+INSERT into Sends_Application
+values(7, STR_TO_DATE('21-MAY-2019','%d-%M-%Y'), 'In Review', 'Dear Ms. Durnham...', 6, 7);
+
+INSERT into Sends_Application
+values(9, STR_TO_DATE('15-MAY-2019','%d-%M-%Y'), 'Offer Pending', 'Dear Mr. Indigo...', 8, 4);
+
+INSERT into Sends_Application
+values(10, STR_TO_DATE('24-MAY-2019','%d-%M-%Y'), 'Rejected', 'Dear Hiring Manager...', 8, 5);
+
+UPDATE Job
+SET date = STR_TO_DATE('10-MAY-2019','%d-%M-%Y'), deadline = STR_TO_DATE('30-JUN-2019','%d-%M-%Y')
+WHERE job_ID = 1;
+
+UPDATE Job
+SET date = STR_TO_DATE('08-MAY-2019','%d-%M-%Y'), deadline = STR_TO_DATE('30-JUN-2019','%d-%M-%Y')
+WHERE job_ID = 2;
+
+
+INSERT into Branch
+values (3, 'google', 'branch3@google.ca', '888 Google Ave', '10001');
+
+INSERT into Branch
+values(4, 'google', 'branch2@google.ca', '135 Google Drive', 'M4B2K2');
+
+INSERT into sends_Application
+values(13, STR_TO_DATE('10-JUN-2019','%d-%M-%Y'), 'Rejected', 'Dear...', 1, 6);
+
+INSERT into sends_Application
+values(14, STR_TO_DATE('10-JUN-2019','%d-%M-%Y'), 'Accepted', 'Dear...', 1, 8);
+
+INSERT into sends_Application
+values(15, STR_TO_DATE('10-JUN-2019','%d-%M-%Y'), 'In Review', 'Dear...', 1, 10);
+
+INSERT into sends_Application
+values(16, STR_TO_DATE('16-JUN-2019','%d-%M-%Y'), 'In Review', 'Dear...', 2, 1);
+
+INSERT into sends_Application
+values(17, STR_TO_DATE('16-JUN-2019','%d-%M-%Y'), 'In Review', 'Dear...', 5, 1);
+
+INSERT into sends_Application
+values(18, STR_TO_DATE('16-JUN-2019','%d-%M-%Y'), 'In Review', 'Dear...', 5, 7);
+
+INSERT into sends_Application
+values(19, STR_TO_DATE('16-JUN-2019','%d-%M-%Y'), 'In Review', 'Dear...', 4, 2);
+
+INSERT into sends_Application
+values(20, STR_TO_DATE('16-JUN-2019','%d-%M-%Y'), 'In Review', 'Dear...', 4, 6);
+
+INSERT into sends_Application
+values(21, STR_TO_DATE('16-JUN-2019','%d-%M-%Y'), 'In Review', 'Dear...', 4, 7);
+
+INSERT into sends_Application
+values(22, STR_TO_DATE('16-JUN-2019','%d-%M-%Y'), 'In Review', 'Dear...', 4, 8);
+
+INSERT into sends_Application
+values(23, STR_TO_DATE('16-JUN-2019','%d-%M-%Y'), 'In Review', 'Dear...', 4, 9);
+
+INSERT into sends_Application
+values(24, STR_TO_DATE('16-JUN-2019','%d-%M-%Y'), 'In Review', 'Dear...', 4, 10);
+
+INSERT into sends_Application
+values(25, STR_TO_DATE('16-JUN-2019','%d-%M-%Y'), 'In Review', 'Dear...', 4, 11);
+
+INSERT into sends_Application
+values(26, STR_TO_DATE('16-JUN-2019','%d-%M-%Y'), 'In Review', 'Dear...', 2, 11);
+
+INSERT into sends_Application
+values(27, STR_TO_DATE('16-JUN-2019','%d-%M-%Y'), 'In Review', 'Dear...', 5, 11);
+
+INSERT INTO job_types(company_login_ID, title, employment_type, salary)
+VALUES ('google', 'Senior Software Engineer', 'Full-time', 180000);
