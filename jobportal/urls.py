@@ -26,5 +26,7 @@ urlpatterns = [
     path('save-job', views.SaveJob.as_view(), name='save-job'),
     path('unsave-job', views.UnSaveJob.as_view(), name='unsave-job'),
     path('company/search-for-applicants', views.HomeView.as_view(), name='search-for-applicants'),
-    path('branch', views.Settings.as_view(), name='branch')
+    path('branch', views.Settings.as_view(), name='branch'),
+    path('regular/details/<int:pk>', views.Detail.as_view(), name='apply'),
+    path('premium/details/<int:pk>', views.Detail.as_view(), name='premium-apply'),
 ]

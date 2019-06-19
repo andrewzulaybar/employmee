@@ -38,3 +38,10 @@ class BranchForm(forms.Form):
     data = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, required=False,
                                      choices=[('Address', 'Address'), ('Contact Email', 'Contact Email')])
 
+
+class ApplyForm(forms.Form):
+    CHOICES = (("Resume 1", "Resume 1"), ("Resume 6", "Resume 6"), ("Resume 7", "Resume 7"), ("Resume 8", "Resume 8"))
+    resume_select = forms.ChoiceField(choices=CHOICES)
+
+
+

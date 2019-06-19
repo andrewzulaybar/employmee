@@ -4,12 +4,13 @@ from urllib.parse import urlencode
 
 from jobportal import details
 from jobportal.applicants import Applicants
-from jobportal.forms import SortByForm, LoginForm, FilterByForm, JobIDForm, BranchForm
+from jobportal.forms import SortByForm, LoginForm, FilterByForm, JobIDForm, BranchForm, ApplyForm
 from jobportal.sidebar import Sidebar, SortBy, CompanySidebar
 from jobportal.filterquery import JobQuery
 from jobportal import savejob
 from jobportal.branch import Branch
 from jobportal.salary_statistics import SalaryStatistics
+from jobportal import apply
 
 DEFAULT = 'j.date DESC'
 
@@ -214,6 +215,17 @@ class Detail(DetailView):
             self.template_name = 'jobportal/details/details-prem.html'
         if 'company' in url[1]:
             self.template_name = 'jobportal/details/details-comp.html'
+
+        if 'regular' in url[1] or 'premium' in url[1]:
+            apply_form = ApplyForm(self.request.GET or None)
+
+            print('im in the first if')
+            print(apply_form.is_valid())
+
+            if apply_form is not None and apply_form.is_valid():
+                print('im in the second if')
+                apply.apply_to_job(apply_form.cleaned_data['resume_id'], request.GET.get('job_id'))
+
         return super().get(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
