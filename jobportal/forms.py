@@ -40,8 +40,8 @@ class BranchForm(forms.Form):
 
 
 class ApplyForm(forms.Form):
-    CHOICES = (("Resume 1", "Resume 1"), ("Resume 6", "Resume 6"), ("Resume 7", "Resume 7"), ("Resume 8", "Resume 8"))
-    resume_select = forms.ChoiceField(choices=CHOICES)
+    CHOICES = (("1", "1"), ("6", "6"), ("7", "7"), ("8", "8"))
+    resume_id = forms.ChoiceField(choices=CHOICES)
 
 
 

@@ -216,17 +216,6 @@ class Detail(DetailView):
         if 'company' in url[1]:
             self.template_name = 'jobportal/details/details-comp.html'
 
-        if 'regular' in url[1] or 'premium' in url[1]:
-            apply_form = ApplyForm(self.request.GET or None)
-
-            print('im in the first if')
-            print(apply_form.is_valid())
-
-            if apply_form is not None and apply_form.is_valid():
-                print('im in the second if')
-                url = request.get_full_path().split("/")
-                apply.apply_to_job(apply_form.cleaned_data['resume_select'], url[0])
-
         return super().get(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
@@ -239,6 +228,22 @@ class Detail(DetailView):
             obj = details.get_job_prem_comp(schema, self.kwargs['pk'], self.request.GET.get('username'), url[1])
         else:
             obj = details.get_job(schema, self.kwargs['pk'], self.request.GET.get('username'), url[1])
+
+        if 'regular' in url[1] or 'premium' in url[1]:
+            apply_form = ApplyForm(self.request.GET or None)
+
+            if apply_form is not None and apply_form.is_valid():
+                url = self.request.get_full_path().split("/")
+                job_id = url[3].split("?")[0]
+
+                try:
+                    apply.apply_to_job(apply_form.cleaned_data['resume_id'], job_id)
+                    obj['form_success'] = 'submitted'
+                except:
+                    obj['form_success'] = 'already submitted'
+            else:
+                obj['form_success'] = 'not submitted'
+
         return obj
 
 class UpdateJobDetail(DetailView):
