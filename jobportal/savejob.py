@@ -24,6 +24,7 @@ def un_save_prem_job(username, job_id):
         query = """DELETE FROM saves_job WHERE premium_login_id='%s' AND job_id='%s'""" % (username, job_id)
         try:
             cursor.execute(query)
+            print(query)
             print ("Record deleted successfully from saves_job table")
         except:
             print('problem deleting %s, %s from saves_job' % (username, job_id))
@@ -38,17 +39,15 @@ def job_type_change(old_job, merged_job):
 
 
 def merge_jobs(old_job, new_job):
+    #print(old_job['salary'])
+    #print(new_job['salary'])
     merge = {}
     for key in old_job:
-        #print(old_job[key])
-        #print(new_job[key])
-        #print(new_job[key] == '')
         if new_job[key] == '' or old_job[key] == new_job[key]:
             merge[key] = old_job[key]
         else:
             merge[key] = new_job[key]
-    if merge['salary'] is None:
-        merge['salary'] = 'null'
+    merge['salary'] = old_job['salary'] #no salary change possible at this time
     return merge
 
 
@@ -108,3 +107,17 @@ def getOldJob(job_id, username, request):
               'description': request.GET.get('old_description'),
               }
     return old_job
+
+
+def delete_job(username, job_id):
+    with connection.cursor() as cursor:
+        print(username)
+        print(job_id)
+        query = """delete from job where job_id=%s""" % (job_id)
+        print(query)
+        try:
+            cursor.execute(query)
+            print ("record successfully deleted")
+        except:
+            print('problem deleting %s from job' % (job_id))
+    return None

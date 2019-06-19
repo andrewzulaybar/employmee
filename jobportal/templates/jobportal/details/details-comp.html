@@ -46,7 +46,7 @@
 
 {% block tableheader %}
 <div class="float-right row">
-    <form action="{% url 'company-details' job.job_id %}" class="px-3" method="get">
+    <form action="company-delete" class="px-3" method="get">
         {% csrf_token %}
         <input type="hidden" name="username" value="{{ job.username }}">
         <input type="hidden" name="job_id" value="{{ job.job_id }}">
