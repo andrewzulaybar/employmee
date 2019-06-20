@@ -1,4 +1,4 @@
-USE jobProject;
+USE job_portal;
 
 SET FOREIGN_KEY_CHECKS = 0;
 

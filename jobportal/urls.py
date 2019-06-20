@@ -32,4 +32,6 @@ urlpatterns = [
     path('branch', views.Settings.as_view(), name='branch'),
     path('company/update/<int:pk>', views.UpdateJobDetail.as_view(), name='update-posting'),
     path('company/details/company-delete', views.DeleteJob.as_view(), name='company-delete'),
+    path('company/insert-posting', views.InsertPosting.as_view(), name='insert-posting'),
+
 ]

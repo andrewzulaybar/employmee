@@ -43,5 +43,12 @@ class ApplyForm(forms.Form):
     CHOICES = (("1", "1"), ("6", "6"), ("7", "7"), ("8", "8"))
     resume_id = forms.ChoiceField(choices=CHOICES)
 
-
+class CreateJobForm(forms.Form):
+    title = forms.CharField(max_length=100)
+    sector = forms.CharField(max_length=20)
+    description = forms.CharField(max_length=2500)
+    deadline = forms.DateField()
+    min_education = forms.CharField(max_length=50)
+    employment_type = forms.CharField(max_length=100)
+    salary = forms.IntegerField()
 

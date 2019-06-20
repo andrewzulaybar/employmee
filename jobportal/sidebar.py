@@ -111,6 +111,7 @@ class SortBy:
         cursor.execute(query)
         jobs = cursor.fetchall()
 
+
         list_jobs = []
 
         for info in jobs:

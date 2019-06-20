@@ -4,7 +4,7 @@ from urllib.parse import urlencode
 
 from jobportal import details
 from jobportal.applicants import Applicants
-from jobportal.forms import SortByForm, LoginForm, FilterByForm, JobIDForm, BranchForm, ApplyForm
+from jobportal.forms import SortByForm, LoginForm, FilterByForm, JobIDForm, BranchForm, ApplyForm, CreateJobForm
 from jobportal.sidebar import Sidebar, SortBy, CompanySidebar
 from jobportal.filterquery import JobQuery
 from jobportal import savejob
@@ -141,6 +141,19 @@ class Login(View):
             if form.cleaned_data.get('user_type') == 'company':
                 url = '{}?{}'.format('/company', urlencode(credentials))
         return redirect(url)
+
+class InsertPosting(View):
+    def get(self, request):
+        form = CreateJobForm(self.request.GET or None)
+        credentials = {'username': request.GET.get('username')}
+        job_id = savejob.get_next_job_id();
+        print(form)
+        if form.is_valid():
+            print('form is valid')
+            savejob.create_job(job_id, request.GET.get('username'), form);
+        url = '{}?{}'.format('/company', urlencode(credentials))
+        return redirect(url)
+
 
 class DeleteJob(View):
     def get(self, request):

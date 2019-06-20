@@ -47,7 +47,7 @@
             {% endblock create-header %}
         </div>
         <div class="card-body">
-            <form action="{% url 'create-posting'}" method="get" id="createJobform">
+            <form action="insert-posting" method="get" id="createJobform">
                 {% if job.username is not None %}
                 <input type="hidden" name="username" value="{{ job.username }}">
                 {% else %}
@@ -61,43 +61,36 @@
                 {% endblock update-jobID %}
                 <div class="form-group">
                     <label>Title</label>
-                    <input type="text" class="form-control" maxlength="100">
+                    <input type="text" name="title" class="form-control" maxlength="100">
                 </div>
                 <div class="form-group">
                     <label>Employment Type</label>
-                    <input type="text" class="form-control" maxlength="100">
+                    <input type="text" name="employment_type" class="form-control" maxlength="100">
                 </div>
                 <div class="form-group">
                     <label>Sector</label>
-                    <input type="text" class="form-control" maxlength="20">
+                    <input type="text" name="sector" class="form-control" maxlength="20">
                 </div>
                 <div class="form-group">
                     <label>Minimum Education</label>
-                    <input type="text" class="form-control" maxlength="50">
+                    <input type="text" name="min_education" class="form-control" maxlength="50">
                 </div>
                 <div class="form-group">
                     <label>Deadline</label>
-                    <input type="date" class="form-control">
+                    <input type="date" name="deadline" class="form-control">
                 </div>
                 <div class="form-group">
                     <label>Salary</label>
-                    <input type="number" class="form-control" step="500">
-                </div>
-                <div class="form-group mt-4">
-                    <span style="float:left;" class="text mt-2"><label>Skill&nbsp;&nbsp;&nbsp;&nbsp;</label></span>
-                    <span style="float:left;"><input type="text" class="form-control"></span>
-                    <span style="float:left;" class="text ml-2 mr-2"><input type="text" class="form-control"></span>
-                    <span style="float:left;" class="text mt-2"><label>years of experience</label></span>
-                    <a href="#" class="btn btn-link btn-sm mt ml-3" id="add-skill">+ Add another skill</a>
+                    <input type="number" name="salary" class="form-control" step="500">
                 </div>
                 <div class="form-group">
-                    <label>Description</label>
+                    <label for="d1">Description</label>
                     <div class="form-group">
-                        <textarea class="form-control" rows="5" maxlength="2500"></textarea>
+                        <textarea id="d1" class="form-control" name="description" rows="5" maxlength="2500"></textarea>
                     </div>
                 </div>
                 {% block post-button %}
-                <a href="#" class="btn btn-success">Post Job</a>
+                <input class="btn btn-success" type="submit" value="Update Job"></input>
                 {% endblock post-button %}
             </form>
         </div>

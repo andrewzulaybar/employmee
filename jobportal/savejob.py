@@ -2,6 +2,7 @@ import sys
 import os
 from django.db import connection
 import json
+import time
 
 sys.path.append('..')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE',
@@ -121,3 +122,52 @@ def delete_job(username, job_id):
         except:
             print('problem deleting %s from job' % (job_id))
     return None
+
+def create_job(job_id, username, form):
+    current_date = time.strftime('%Y-%m-%d')
+    title = form.cleaned_data.get('title')
+    emp_type = form.cleaned_data.get('employment_type')
+    salary = form.cleaned_data.get('salary')
+    sector = form.cleaned_data.get('sector')
+    description = form.cleaned_data.get('description')
+    min_education = form.cleaned_data.get('min_education')
+    deadline = form.cleaned_data.get('deadline')
+    print(title)
+    queryType = """INSERT into Job_Types values('%s', '%s', '%s', %s);""" % (username, title, emp_type, salary)
+    print(queryType)
+    with connection.cursor() as cursor:
+        try:
+            cursor.execute(queryType)
+            print('successfully created job type')
+        except Exception as error:
+            print('problem creating job type')
+            print(error)
+
+        queryJob = """INSERT into Job values('%s', '%s', '%s','%s', '%s', '%s', '%s', '%s', '%s');""" \
+               % (job_id, title, sector, description, deadline, min_education, emp_type, username, current_date)
+        print(queryJob)
+        try:
+            cursor.execute(queryJob)
+            print('successfully created job')
+        except Exception as error:
+            print('problem creating job')
+            print(error)
+        queryJobLoc = """INSERT into Job_Location values(%s, 'M4B2K2');""" \
+                   % (job_id)
+        print(queryJobLoc)
+        try:
+            cursor.execute(queryJobLoc)
+            print('successfully added job_location')
+        except Exception as error:
+            print('problem creating job_location')
+            print(error)
+
+    return None
+
+
+def get_next_job_id():
+    with connection.cursor() as cursor:
+        query = """select max(job_id) + 1 from job;"""
+        cursor.execute(query)
+        result = cursor.fetchall()
+    return result[0][0]
